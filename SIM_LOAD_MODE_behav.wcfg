@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="SIM_LOAD_MODE_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="SIM_LOAD_MODE" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="406,848,538.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="406,849,512.001 ns"></ZoomEndTime>
+      <Cursor1Time time="406,849,206.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="230"></NameColumnWidth>
+      <ValueColumnWidth column_width="111"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject fp_name="/SIM_LOAD_MODE/user_pc/i_buff_trama" type="array">
+      <obj_property name="ElementShortName">i_buff_trama[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_buff_trama[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/user_pc/i_tx_start" type="logic">
+      <obj_property name="ElementShortName">i_tx_start</obj_property>
+      <obj_property name="ObjectShortName">i_tx_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/user_pc/o_tx" type="logic">
+      <obj_property name="ElementShortName">o_tx</obj_property>
+      <obj_property name="ObjectShortName">o_tx</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/user_pc/o_flag_tx_done" type="logic">
+      <obj_property name="ElementShortName">o_flag_tx_done</obj_property>
+      <obj_property name="ObjectShortName">o_flag_tx_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/i_command" type="array">
+      <obj_property name="ElementShortName">i_command[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_command[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/state_next" type="array">
+      <obj_property name="ElementShortName">state_next[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state_next[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/state" type="array">
+      <obj_property name="ElementShortName">state[3:0]</obj_property>
+      <obj_property name="ObjectShortName">state[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/buffer_inst" type="array">
+      <obj_property name="ElementShortName">buffer_inst[31:0]</obj_property>
+      <obj_property name="ObjectShortName">buffer_inst[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/i_flag_rx_done" type="logic">
+      <obj_property name="ElementShortName">i_flag_rx_done</obj_property>
+      <obj_property name="ObjectShortName">i_flag_rx_done</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/buffer_inst_next" type="array">
+      <obj_property name="ElementShortName">buffer_inst_next[31:0]</obj_property>
+      <obj_property name="ObjectShortName">buffer_inst_next[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/bytes_counter" type="array">
+      <obj_property name="ElementShortName">bytes_counter[1:0]</obj_property>
+      <obj_property name="ObjectShortName">bytes_counter[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/i_clock" type="logic">
+      <obj_property name="ElementShortName">i_clock</obj_property>
+      <obj_property name="ObjectShortName">i_clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/SIM_LOAD_MODE/debuguer/buffer_inst" type="array">
+      <obj_property name="ElementShortName">buffer_inst[31:0]</obj_property>
+      <obj_property name="ObjectShortName">buffer_inst[31:0]</obj_property>
+   </wvobject>
+</wave_config>

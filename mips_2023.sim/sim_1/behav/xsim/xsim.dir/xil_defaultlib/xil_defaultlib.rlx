@@ -1,0 +1,11 @@
+0.7
+2020.2
+Oct 14 2022
+05:20:55
+C:/Users/july_/mips_2023/mips_2023.sim/sim_1/behav/xsim/glbl.v,1665704903,verilog,,,,glbl,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sim_1/new/tb.v,1675881132,verilog,,,,SIM_LOAD_MODE,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/Debug.v,1675880990,verilog,,C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART.v,,Debuguer,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART.v,1675712520,verilog,,C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_rx.v,,UART,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_rx.v,1675712427,verilog,,C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_tiks.v,,UART_rx,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_tiks.v,1675783176,verilog,,C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_tx.v,,UART_ticks,,,,,,,,
+C:/Users/july_/mips_2023/mips_2023.srcs/sources_1/new/UART_tx.v,1675783177,verilog,,C:/Users/july_/mips_2023/mips_2023.srcs/sim_1/new/tb.v,,UART_tx,,,,,,,,
