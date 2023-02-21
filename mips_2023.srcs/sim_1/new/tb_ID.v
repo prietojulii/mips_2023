@@ -50,7 +50,7 @@ wire [4:0] o_rt; //register source 2
 wire [4:0] o_rd; //register destination
 wire [PC_SIZE-1:0] o_pc_next; //program counter next value
 wire [31:0] o_shamt_extend; //shift amount 
-wire [5:0] o_funct; //opcode in ALU 
+wire [5:0] o_funct,o_op; //opcode in ALU 
 
 
 //ID MODULE
@@ -73,7 +73,8 @@ ID ID_instace (
     .o_rd(o_rd), //register destination
     .o_pc_next(o_pc_next), //program counter next value
     .o_shamt_extend(o_shamt_extend), //shift amount 
-    .o_funct(o_funct) //opcode in ALU
+    .o_funct(o_funct), //opcode in ALU
+    .o_op(o_op)
 );
 
 
@@ -91,9 +92,9 @@ begin
     ctrl_condition_flag=0;
     ctrl_jump_flag=0;
     
-    write_wb_flag=0;
-    addr_wr=0;
-    data_wb=0;
+    write_wb_flag=1;
+    addr_wr=1;//R1
+    data_wb=32'b1010101010;
     
     instruction = 32'b0;
     pc = 32'b10000000000000000000000000000000;
@@ -102,10 +103,15 @@ begin
     #2000 
     i_reset = 0;
     #1000
+    #1000
+    #1000
     
     //SEND MODE*****************************
-    instruction = 32'b00001000000000000000000000001000; // jump 8 
-    ctrl_jump_flag = 1;
+    
+  instruction = 32'b10001100001000000000000000000000;
+///instruction = 32'b00001000000000000000000000001000; // jump 8 
+//    ctrl_jump_flag = 1;
+    
    
 
     

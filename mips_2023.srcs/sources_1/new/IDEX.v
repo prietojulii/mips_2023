@@ -1,6 +1,6 @@
 module IDEX 
 #(
-    parameter REG_SIZE= 32
+    parameter REG_SIZE= 32,
    parameter PC_SIZE= 32
 )
 (
@@ -29,7 +29,7 @@ module IDEX
     output wire [PC_SIZE-1:0] o_pc4,
     output wire [PC_SIZE-1:0] o_pc_next,
     output wire [5:0] o_funct,
-    output wire [5:0] o_op
+    output wire [5:0] o_op,
 
     //* Signals from Unit Control
     //to EX
@@ -58,37 +58,37 @@ module IDEX
     input  wire i_ctrl_WB_memToReg_flag,
     input  wire i_ctrl_WB_wr_flag,
     output  wire o_ctrl_WB_memToReg_flag,
-    output  wire o_ctrl_WB_wr_flag,
+    output  wire o_ctrl_WB_wr_flag
 
     
 );
 
 //SIGNALS ********************************************************
-reg [4:0] rs,                    
-reg [4:0] rt,                    
-reg [4:0] rd,                    
-reg [REG_SIZE-1:0] shamt_extend, 
-reg [REG_SIZE-1:0] imm_extend,   
-reg [REG_SIZE-1:0] data_A,       
-reg [REG_SIZE-1:0] data_B,       
-reg [PC_SIZE-1:0] pc4,           
-reg [PC_SIZE-1:0] pc_next,       
-reg [5:0] funct,                 
-reg [5:0] op,                
+reg [4:0] rs;                   
+reg [4:0] rt;                    
+reg [4:0] rd;                    
+reg [REG_SIZE-1:0] shamt_extend; 
+reg [REG_SIZE-1:0] imm_extend; 
+reg [REG_SIZE-1:0] data_A;   
+reg [REG_SIZE-1:0] data_B;       
+reg [PC_SIZE-1:0] pc4;         
+reg [PC_SIZE-1:0] pc_next;       
+reg [5:0] funct;         
+reg [5:0] op;             
 //to EX
-reg [1:0] ctrl_EX_regDEST_flag,     
-reg [1:0] ctrl_EX_ALU_source_B_flag,
-reg       ctrl_EX_ALU_source_A_flag,
-reg [5:0] ctrl_EX_ALUop_flag,       
-reg       ctrl_EX_Branch_flag,      
+reg [1:0] ctrl_EX_regDEST_flag;   
+reg [1:0] ctrl_EX_ALU_source_B_flag;
+reg       ctrl_EX_ALU_source_A_flag;
+reg [5:0] ctrl_EX_ALUop_flag;
+reg       ctrl_EX_Branch_flag;      
 //to MEM
-reg        ctrl_MEM_memWrite_flag,
-reg        ctrl_MEM_memRead_flag,
-reg [1:0]  ctrl_MEM_byte_half_or_word_flag,
-reg [1:0]  ctrl_MEM_wr_reg_flag, 
+reg        ctrl_MEM_memWrite_flag;
+reg        ctrl_MEM_memRead_flag;
+reg [1:0]  ctrl_MEM_byte_half_or_word_flag;
+reg [1:0]  ctrl_MEM_wr_reg_flag;
 //to WB
-reg ctrl_WB_memToReg_flag,
-reg ctrl_WB_wr_flag,
+reg ctrl_WB_memToReg_flag;
+reg ctrl_WB_wr_flag;
 
 //SECUENTIAL LOGIC ************************************************
 always @(posedge i_clock )
