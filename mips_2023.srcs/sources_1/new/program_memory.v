@@ -30,13 +30,14 @@ module program_memory
         input wire i_clk,                                   //CLOCK
         input wire  i_reset,                                //RESET
         input wire [7:0] i_pc,                                    //PC
-        //input wire[(SIZE_REG-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
-        input wire[(SIZE_COMMAND-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
+        input wire[(SIZE_REG-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
+        
+        //input wire[(SIZE_COMMAND-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
         input wire i_flag_new_inst_ready,                   //Flag de que hay una instruccion nueva para leer, viene del debuger
         input wire i_flag_start_program, 
-        //output wire [(SIZE_REG-1):0] o_instruction_data,     //El output con la instruccion que corresponda
-        output wire [(SIZE_COMMAND-1):0] o_instruction_data    //El output con la instruccion que corresponda
-        
+        output wire [(SIZE_REG-1):0] o_instruction_data     //El output con la instruccion que corresponda
+        //output wire [(SIZE_COMMAND-1):0] o_instruction_data    //El output con la instruccion que corresponda
+ 
     );
 
 
@@ -67,10 +68,10 @@ module program_memory
     reg [(SIZE_REG-1):0] instruction_data,instruction_data_next;
     reg flag_new_inst_ready,flag_new_inst_ready_next;
     reg flag_start_program,flag_start_program_next;
-    //reg [(SIZE_REG-1):0] instruction_data_output,instruction_data_output_next;
-    reg [(SIZE_COMMAND-1):0] instruction_data_output,instruction_data_output_next;
+    reg [(SIZE_REG-1):0] instruction_data_output,instruction_data_output_next;
+    //reg [(SIZE_COMMAND-1):0] instruction_data_output,instruction_data_output_next;
     //reg [(SIZE_MEMORY-1):0] instruction_buffer, instruction_buffer_next;
-    reg [(SIZE_REG-1):0] instruction_buffer, instruction_buffer_next;
+    reg [(SIZE_MEMORY-1):0] instruction_buffer, instruction_buffer_next;
     reg [5:0] total_instructions, total_instructions_next;
     //reg [8:0]instruction_LSB,instruction_MSB;
     
@@ -95,8 +96,8 @@ module program_memory
         inst_counter_next<=0;
         inst_decrease<=0;
         inst_decrease_next<=0;
-        total_instructions<=SIZE_REG/8;
-        total_instructions_next<=SIZE_REG/8;
+        total_instructions<=SIZE_MEMORY/SIZE_REG;
+        total_instructions_next<=SIZE_MEMORY/SIZE_REG;
     end
     else begin
         state <= state_next;
@@ -131,17 +132,19 @@ always @ (*) begin
         end
 
     ST_RECEIVE_INSTRUCTION: begin
-            if(i_instruction_data==8'b0) begin     //Si la instruccion que vino es halt
+            if(i_instruction_data==32'b0) begin     //Si la instruccion que vino es halt
                 //ALMACENAR INSTRUCCIÓN HALT
-                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
-                instruction_buffer_next=instruction_buffer_next>>(SIZE_COMMAND*(total_instructions-1));
+//                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
+                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]};
+                instruction_buffer_next=instruction_buffer_next>>(SIZE_REG*(total_instructions-1));
                 inst_counter_next = inst_counter+1;
                 //inst_decrease_next = inst_decrease+1;
                state_next = ST_READY_TO_EXECUTE;    //Si ya llegó la instruccion halt, ya estamos listos para empezar a ejecutar
             end 
             else begin
                 //ALMACENAR INSTRUCCCION
-                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
+               // instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
+                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]};
                total_instructions_next=total_instructions-1;
                 //inst_decrease_next = inst_decrease+1;
                 state_next = ST_IDLE;    //Cargo la instrucción y vuelvo al estado IDLE 
@@ -156,34 +159,36 @@ always @ (*) begin
     end
     
     ST_SEND_INSTRUCTION:begin
-         case(i_pc)
-            first_instruction:begin
-                instruction_data_output_next=instruction_buffer[(SIZE_COMMAND):first_instruction];
-                if(instruction_data_output_next==8'b0)begin
-                    state_next=ST_PROGRAM_FINISHED;
-                end
+           instruction_data_output_next=instruction_buffer[(i_pc)+:SIZE_REG];
+//         case(i_pc)
+//            first_instruction:begin
+//                instruction_data_output_next=instruction_buffer[(SIZE_COMMAND):first_instruction];
                 
-            end
-              second_instruction:begin
-                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*2)-1):second_instruction];
-                if(instruction_data_output_next==8'b0)begin
-                    state_next=ST_PROGRAM_FINISHED;
-                end
-            end
-              third_instruction:begin
-                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*3)-1):third_instruction];
-                if(instruction_data_output_next==8'b0)begin
-                    state_next=ST_PROGRAM_FINISHED;
-                end
-            end
-            fourth_instruction:begin
-                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*4)-1):fourth_instruction];
-                if(instruction_data_output_next==8'b0)begin
-                    state_next=ST_PROGRAM_FINISHED;
-                end
-            end
+//                if(instruction_data_output_next==8'b0)begin
+//                    state_next=ST_PROGRAM_FINISHED;
+//                end
+                
+//            end
+//              second_instruction:begin
+//                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*2)-1):second_instruction];
+//                if(instruction_data_output_next==8'b0)begin
+//                    state_next=ST_PROGRAM_FINISHED;
+//                end
+//            end
+//              third_instruction:begin
+//                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*3)-1):third_instruction];
+//                if(instruction_data_output_next==8'b0)begin
+//                    state_next=ST_PROGRAM_FINISHED;
+//                end
+//            end
+//            fourth_instruction:begin
+//                instruction_data_output_next=instruction_buffer[((SIZE_COMMAND*4)-1):fourth_instruction];
+//                if(instruction_data_output_next==8'b0)begin
+//                    state_next=ST_PROGRAM_FINISHED;
+//                end
+//            end
                       
-         endcase     
+//         endcase     
     end
 
     endcase
