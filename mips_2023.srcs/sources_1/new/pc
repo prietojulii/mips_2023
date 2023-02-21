@@ -20,12 +20,15 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module pc(
+module pc
+     #(
+     parameter SIZE_PC = 32)
+     (
     input wire i_clk,i_reset,
-    input wire [7:0] i_next_pc,                 //El pc por si hay una burbuja y no hay que hacer PC+4
+    input wire [SIZE_PC-1:0] i_next_pc,                 //El pc por si hay una burbuja y no hay que hacer PC+4
     input wire i_is_halt, i_no_load,            //Flags de control; de instrucción Halt y de No Cargar PC respectivamente
     input wire i_flag_start_program,                  //Flag para comenzar a incrementar el PC
-    output wire [7:0] o_pc,o_next_pc
+    output wire [SIZE_PC-1:0] o_pc,o_next_pc
     
     );
     
@@ -36,7 +39,8 @@ module pc(
     
     //Registers
     reg [3:0] state, state_next; 
-    reg [8:0] pc, pc_next; 
+    reg [SIZE_PC-1:0] pc, pc_next;
+     
     
     
     
@@ -73,7 +77,7 @@ end
                     end
                 else 
                     begin
-                    pc_next=pc_next+4;
+                    pc_next=pc+SIZE_PC;
                     end
              end
              
@@ -91,5 +95,5 @@ end
 *************************************************************************************/
 
 assign o_pc = pc;
-assign o_next_pc=pc+4;
+assign o_next_pc=pc+SIZE_PC;
 endmodule
