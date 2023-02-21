@@ -29,13 +29,13 @@ module tb_program_memory(
     
     reg [31:0] i_instruction_data;
     reg i_flag_new_inst_ready,i_flag_start_program;
-    reg [7:0] o_pc;
+    wire [7:0] o_pc;
 
 
 program_memory my_memory(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_pc(i_pc),
+    .i_pc(o_pc),
     .i_instruction_data(i_instruction_data),
     .i_flag_new_inst_ready(i_flag_new_inst_ready),
     .i_flag_start_program(i_flag_start_program)
@@ -45,7 +45,7 @@ pc my_pc(
     .i_clk(i_clock),
     .i_reset(i_reset),
     .i_flag_start_program(i_flag_start_program),
-    o_pc
+    .o_pc(o_pc)
 );
 
 
@@ -69,7 +69,7 @@ initial begin
                               A LA SALIDA DE LA MEMORIA DE INSTRUCCIONES SE VEN
                               LAS INSTRUCCIONES CORRESPONDIENTES. 
 *************************************************************************************/
-//    //MANDO TRES INSTRUCCIONES Y EL HALT
+    //MANDO TRES INSTRUCCIONES Y EL HALT
 //    i_flag_new_inst_ready=1;
 //    #1000
 //    i_flag_new_inst_ready=0;
@@ -124,6 +124,13 @@ initial begin
     i_flag_new_inst_ready=0;
    // #2000
     i_instruction_data=8'b00001111;
+    
+    #2000
+    i_flag_new_inst_ready=1;
+    #1000
+    i_flag_new_inst_ready=0;
+   // #2000
+    i_instruction_data=8'b10101010;
     
     #2000
     i_flag_new_inst_ready=1;
