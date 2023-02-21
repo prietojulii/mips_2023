@@ -47,7 +47,7 @@ module ID
     output wire [REG_SIZE-1:0] o_data_A,
     output wire [REG_SIZE-1:0] o_data_B, 
     output wire [PC_SIZE-1:0] o_pc_next, //program counter next value
-    output wire [5:0] o_funct //opcode in ALU
+    output wire [5:0] o_funct, //opcode in ALU
     output wire [5:0] o_op //opcode in ALU
     );
     //***************** Declaration of signals ******************************************************
@@ -77,7 +77,7 @@ module ID
     (
         .i_clock(i_clock),
         .i_reset(i_reset),
-        .i_wr_flag(i_wr_wb), // 1 for write, 0 for read
+        .i_wr_flag(i_write_wb_flag ), // 1 for write, 0 for read
         .i_addr_A(rs),
         .i_addr_B(rt),
         .i_addr_wr(i_addr_wr),
