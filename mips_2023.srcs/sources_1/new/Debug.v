@@ -21,8 +21,8 @@ module Debuguer #(
     // input wire i_flag_mem_write;
 
     output wire o_flag_instruction_write,  
-    output wire [(SIZE_REG-1):0] o_instruction_data
-
+    output wire [(SIZE_REG-1):0] o_instruction_data,
+    output wire o_flag_start_program
 );  
 
 
@@ -31,7 +31,7 @@ localparam L=1;
 localparam C=2;
 localparam S=3;
 localparam BYTES_PER_INSTRUCTION=4;
-localparam HALT = 32'h0;
+localparam HALT = 32'b0;
 
 //States Codes
 localparam ST_IDLE  = 4'b0001; 
@@ -54,6 +54,7 @@ reg [SIZE_REG-1:0] data_wb, data_wb_next;
 reg flag_instruction_write, flag_instruction_write_next;
 reg [SIZE_REG-1:0] buffer_inst, buffer_inst_next; //buffer de instruccion
 reg [1:0] bytes_counter, bytes_counter_next;
+reg flag_start_program;
 
 /************************************************************************************
                               DEBUGUER STATE MACHINE.
@@ -79,6 +80,7 @@ always @ (posedge i_clk) begin
         bytes_counter_next <= 0;
         buffer_inst <= 32'b0;
         buffer_inst_next <= 32'b0;
+        flag_start_program <=0;
 
     end
     else begin
@@ -122,7 +124,7 @@ always @ (*) begin
         ST_RECEIVE_INSTRUCTION: begin
             flag_instruction_write_next = 0;
             if(i_flag_rx_done) begin
-                //Acá ya nos aseguramos que en i_command hay un byte de instrucción
+                //Acï¿½ ya nos aseguramos que en i_command hay un byte de instrucciï¿½n
                 buffer_inst_next = {i_command, buffer_inst[(SIZE_REG-1):SIZE_COMMAND]};
                 if(bytes_counter == BYTES_PER_INSTRUCTION-1) 
                 begin
@@ -160,7 +162,10 @@ always @ (*) begin
             end
         end
         //ST_STEP_TO_STEP:
-        //ST_CONTINUE:
+        ST_CONTINUE:
+        begin
+            flag_start_program=1;
+        end
         default: begin
             state_next = ST_IDLE; 
         end
@@ -174,6 +179,7 @@ end
 assign o_flag_instruction_write = flag_instruction_write;
 assign o_instruccion_data = buffer_inst;
 assign o_flag_instruction_write = flag_instruction_write;
+assign o_flag_start_program=flag_start_program;
 
 
 

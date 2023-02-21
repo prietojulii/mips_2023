@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module program_memory
+module PROGRAM_MEMORY
     #(
        parameter SIZE_REG = 32,
        parameter SIZE_MEMORY= 320,                           //320 bits correspondientes a 10 instrucciones de 32 bits.
