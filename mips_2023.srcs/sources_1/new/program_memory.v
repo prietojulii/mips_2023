@@ -29,7 +29,7 @@ module program_memory
     (
         input wire i_clk,                                   //CLOCK
         input wire  i_reset,                                //RESET
-        input wire [8:0] i_pc,                                    //PC
+        input wire [7:0] i_pc,                                    //PC
         //input wire[(SIZE_REG-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
         input wire[(SIZE_COMMAND-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
         input wire i_flag_new_inst_ready,                   //Flag de que hay una instruccion nueva para leer, viene del debuger
