@@ -25,11 +25,11 @@ module tb_program_memory(
     );
     
     reg  i_clock, i_reset;
-    reg [8:0] i_pc;
+    reg [31:0] i_pc;
     
     reg [31:0] i_instruction_data;
     reg i_flag_new_inst_ready,i_flag_start_program;
-    wire [7:0] o_pc;
+    wire [31:0] o_pc;
 
 
 program_memory my_memory(
@@ -117,26 +117,26 @@ initial begin
     #1000
     i_flag_new_inst_ready=0;
     //#2000
-    i_instruction_data=8'b00000001;
+    i_instruction_data=32'b00000001000000010000000100000001;
     #2000
     i_flag_new_inst_ready=1;
     #1000
     i_flag_new_inst_ready=0;
    // #2000
-    i_instruction_data=8'b00001111;
+    i_instruction_data=32'b00001111;
     
     #2000
     i_flag_new_inst_ready=1;
     #1000
     i_flag_new_inst_ready=0;
    // #2000
-    i_instruction_data=8'b10101010;
+    i_instruction_data=32'b10101010;
     
     #2000
     i_flag_new_inst_ready=1;
     #1000
     i_flag_new_inst_ready=0;
-    i_instruction_data=8'b00000000;
+    i_instruction_data=32'b00000000;
     
 //        //ARRANCO EL PROGRAMA
     #2000
