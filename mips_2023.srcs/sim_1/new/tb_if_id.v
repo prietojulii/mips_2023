@@ -39,7 +39,7 @@ reg i_clock,
 reg [REG_SIZE-1:0] wire_debuguer_instruction_data_prueba;
 
 //clock
-always #1000 i_clock = ~i_clock;
+always #500 i_clock = ~i_clock;
 
 
 Main main_instance (
