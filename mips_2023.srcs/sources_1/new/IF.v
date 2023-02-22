@@ -26,8 +26,9 @@ module IF #
    parameter SIZE_PC= 32
 )
 (
-    input wire i_clk,                                   //CLOCK
-    input wire  i_reset,                                //RESET
+    //IF INPUTS
+    input wire i_clk,                                   
+    input wire  i_reset,                                
     input wire i_flag_start_program,
     input wire i_flag_new_inst_ready,
     input wire [(SIZE_REG-1):0] i_instruction_data,
@@ -35,7 +36,7 @@ module IF #
     input wire i_no_load,
     input wire [(SIZE_PC-1):0] i_next_pc,
     
-
+    //IF OUTPUTS
     output wire [(SIZE_REG-1):0] o_instruction_data,
     output wire  [(SIZE_PC-1):0] o_pc,
     output wire  [(SIZE_PC-1):0] o_next_pc
@@ -63,8 +64,8 @@ module IF #
         .i_is_halt(i_is_halt),
         .i_no_load(i_no_load),
         .i_flag_start_program(i_flag_start_program),
-        .o_pc(wire_pc_to_memory)
-
+        .o_pc(wire_pc_to_memory),
+        .o_next_pc(o_next_pc)
     );
 
     assign o_pc=wire_pc_to_memory;
