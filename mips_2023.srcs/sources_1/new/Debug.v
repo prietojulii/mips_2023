@@ -124,7 +124,7 @@ always @ (*) begin
         ST_RECEIVE_INSTRUCTION: begin
             flag_instruction_write_next = 0;
             if(i_flag_rx_done) begin
-                //Ac� ya nos aseguramos que en i_command hay un byte de instrucci�n
+                //Ac? ya nos aseguramos que en i_command hay un byte de instrucci?n
                 buffer_inst_next = {i_command, buffer_inst[(SIZE_REG-1):SIZE_COMMAND]};
                 if(bytes_counter == BYTES_PER_INSTRUCTION-1) 
                 begin
