@@ -145,7 +145,7 @@ always @ (*) begin
                 //ALMACENAR INSTRUCCCION
                // instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
                 instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]};
-               total_instructions_next=total_instructions-1;
+                total_instructions_next=total_instructions-1;
                 //inst_decrease_next = inst_decrease+1;
                 state_next = ST_IDLE;    //Cargo la instrucción y vuelvo al estado IDLE 
             end
