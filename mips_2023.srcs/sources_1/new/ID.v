@@ -30,8 +30,7 @@ module ID
 (
     input wire i_clock,
     input wire i_reset,
-    input wire i_ctrl_condition_flag, //condition flag (control unit)  
-    input wire i_ctrl_jump_flag, //branch(I-type)->DIRECTION=1 signal or branch(J-type)->RA=0 signal (control unit)
+    input wire [1:0] i_ctrl_next_pc_sel,  //01-> pc4, 00-> jump(direction), 11 jump(A), 10-> branch
     input wire i_write_wb_flag, //write back signal
     input wire [4:0] i_addr_wr, //register to write from writeback
     input wire [REG_SIZE-1:0] i_data_wb, //write back data
@@ -48,10 +47,11 @@ module ID
     output wire [REG_SIZE-1:0] o_data_B, 
     output wire [PC_SIZE-1:0] o_pc_next, //program counter next value
     output wire [5:0] o_funct, //opcode in ALU
-    output wire [5:0] o_op //opcode in ALU
+    output wire [5:0] o_op, //opcode in ALU
+    output wire o_is_A_B_equal_flag
     );
     //***************** Declaration of signals ******************************************************
-    reg [31:0] imm_extend, shamt_extend, addr_offset_jump, out_mux1, pc_next;
+    reg [31:0] imm_extend, shamt_extend, jump_direction, branch_address, pc_next;
 
     reg [15:0] inm;
     reg [25:0] offset;
@@ -87,16 +87,20 @@ module ID
     );
     
     //o_pc_next logic 
-    always @(*)
+    always @(*) 
     begin
-        addr_offset_jump = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
-        out_mux1 = ( i_ctrl_jump_flag ) ? addr_offset_jump : data_A;        
-        pc_next = (i_ctrl_condition_flag) ? i_pc :out_mux1 ;
+        imm_extend = ( { { 16{inm[15] } } , inm } ) << 2;; //immediate with extended sign
+        jump_direction = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
+        branch_address = imm_extend + i_pc4; //branch address
+        case (i_ctrl_next_pc_sel)
+            00: begin pc_next = jump_direction; end //jump
+            01: begin pc_next = i_pc4;          end //pc4
+            10: begin pc_next = branch_address; end //branch
+            11: begin pc_next = data_A;         end //jump register
+            default: begin pc_next = i_pc4; end
+        endcase
+
     end
-    
-    //o_imm_extend logic
-    always @(*) imm_extend = ( { { 16{inm[15] } } , inm } ) << 2;; //immediate with extended sign
-    
     //o_shamt_extend logic
     always @(*) shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
     
@@ -111,7 +115,7 @@ module ID
     assign o_pc_next = pc_next;
     assign o_funct = funct;
     assign o_op = op;
-
+    assign o_is_A_B_equal_flag = data_A == data_B;
 endmodule
 
 

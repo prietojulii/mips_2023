@@ -65,7 +65,7 @@ module Main
 //    .o_flag_start_program(wire_flag_start_program),
 // );
 
-wire [PC_SIZE-1:0] wire_id_pc,wire_if_pc,wire_id_pc4, wire_if_pc4;
+wire [PC_SIZE-1:0] wire_id_pc4, wire_if_pc4;
 wire [REG_SIZE -1:0] wire_id_instruction,wire_if_instruction;
 IF if_instance(
     .i_clk(i_clock),
@@ -77,7 +77,6 @@ IF if_instance(
     // .i_no_load(),
     // .i_next_pc(), //TODO: conectar
     .o_instruction_data(wire_if_instruction),
-    .o_pc(wire_if_pc),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
 
@@ -86,10 +85,8 @@ IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_instruction_data(wire_if_instruction),
-    .i_pc(wire_if_pc),
     .i_next_pc(wire_if_pc4),
     .o_instruction_data(wire_id_instruction),
-    .o_pc(wire_id_pc),
     .o_next_pc(wire_id_pc4) //!todo: CAMBIAR A PC4
 );
 
@@ -102,8 +99,7 @@ ID id_instace (
     .i_clock(i_clock),
     .i_reset(i_reset),
     
-    // .i_ctrl_condition_flag(),
-    // .i_ctrl_jump_flag(),
+    // .i_ctrl_next_pc_sel
     
     // .i_write_wb_flag(),
     // .i_addr_wr(),
@@ -111,7 +107,6 @@ ID id_instace (
 
     .i_instruction(wire_id_instruction),
     .i_pc4(wire_id_pc4),
-    .i_pc(wire_id_pc),
 
     .o_rs(wire_id_rs),
     .o_rt(wire_id_rt),
@@ -123,6 +118,7 @@ ID id_instace (
     .o_pc_next(wire_id_pc_next),
     .o_funct(wire_id_function),
     .o_op(wire_id_opcode)
+//    .o_is_A_B_equal_flag()
 
 );
 

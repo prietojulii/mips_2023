@@ -44,17 +44,16 @@ module REG_MEMORY
 reg [DATA_SIZE-1:0] buffer [BUFFER_SIZE-1:0]; //buffer of the memory 
 
 always @(posedge i_clock) begin
-    if (i_reset) begin //write 
+    if (i_reset) begin 
          buffer[0] = {DATA_SIZE{1'b0}}; //R0 
   end
 end
-always @(*) begin   
+always@(*) begin   
     if (i_wr_flag & i_clock) begin //write in the first cicle-time
-        begin
-          if(i_addr_wr != 0) //R0, always is 0
-               buffer[ i_addr_wr] = i_data_in; //dynamic index (ADDR POSITION) 
-         end
-    end
+       //R0, always is 0
+       buffer[ i_addr_wr] = (i_addr_wr != 0) ? i_data_in : {DATA_SIZE{0}};  //dynamic index (ADDR POSITION) 
+    end 
+    else    buffer[ i_addr_wr] =  buffer[ i_addr_wr]; //read   
 end
 
 
