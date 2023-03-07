@@ -601,16 +601,16 @@ end
 ** --------------------------------------------------------------------------------------------------------------------------
 ** --------------------------------------------------------------------------------------------------------------------------
 */
-assign [1:0]    o_next_pc_select = next_pc_select;
-assign          o_ex_alu_src_a = ex_alu_src_a;
-assign [1:0]    o_ex_alu_src_b = ex_alu_src_b;
-assign [1:0]    o_ex_reg_dest_flag = ex_reg_dest_flag;
-assign          o_mem_write_register_flag, = mem_write_register_flag,;
-assign          o_mem_write_flag = mem_write_flag;
-assign [2:0]    o_mem_load_mask = mem_load_mask;
-assign          o_mem_store_mask = mem_store_mask;
-assign          o_wb_mem_to_reg_flag = wb_mem_to_reg_flag;
-assign          o_wb_reg_write_flag = wb_reg_write_flag;
+assign  o_next_pc_select = next_pc_select;
+assign  o_ex_alu_src_a = ex_alu_src_a;
+assign  o_ex_alu_src_b = ex_alu_src_b;
+assign  o_ex_reg_dest_sel = ex_reg_dest_sel;
+assign  o_mem_write_to_register_flag = mem_write_to_register_flag;
+assign  o_mem_write_read_flag = mem_write_read_flag;
+assign  o_mem_load_mask = mem_load_mask;
+assign  o_mem_store_mask = mem_store_mask;
+assign  o_wb_mem_to_reg_sel = wb_mem_to_reg_sel;
+assign  o_wb_write_back_flag = wb_write_back_flag;
 
 
 endmodule
