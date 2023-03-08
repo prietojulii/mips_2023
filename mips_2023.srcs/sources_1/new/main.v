@@ -75,7 +75,7 @@ IF if_instance(
     .i_instruction_data(wire_debuguer_instruction_data_prueba),
     // .i_is_halt(),
     // .i_no_load(),
-    // .i_next_pc(), //TODO: conectar
+    .i_next_pc(wire_id_pc_next), //TODO: conectar
     .o_instruction_data(wire_if_instruction),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
