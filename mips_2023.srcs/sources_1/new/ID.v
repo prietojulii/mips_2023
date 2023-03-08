@@ -31,12 +31,12 @@ module ID
     input wire i_clock,
     input wire i_reset,
     input wire [1:0] i_ctrl_next_pc_sel,  //01-> pc4, 00-> jump(direction), 11 jump(A), 10-> branch
+    input wire [INSTR_SIZE-1:0]  i_instruction,
     input wire i_write_wb_flag, //write back signal
     input wire [4:0] i_addr_wr, //register to write from writeback
     input wire [REG_SIZE-1:0] i_data_wb, //write back data
-    input wire [INSTR_SIZE-1:0]  i_instruction,
     input wire [PC_SIZE-1:0] i_pc4, //PC + 4
-    input wire [PC_SIZE-1:0] i_pc, //PC 
+
     
     output wire [4:0] o_rs, //register source 1
     output wire [4:0] o_rt, //register source 2

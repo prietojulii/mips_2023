@@ -31,7 +31,7 @@ module ControlMain
     output wire [1:0] o_next_pc_select, // 01 - offset, 00 - PC+4, 10 - branch, 11 - jump data A
     output wire o_ex_alu_src_a,
     output wire [1:0] o_ex_alu_src_b, // 00 - B , 01 - inmediate, 10 - return address, 11 - not used
-    output wire [1:0] o_ex_reg_dest_sel, // 00 - rd, 01 - rt, 10 - GPR 31, 11 - not used
+    output wire [1:0] o_ex_reg_dest_sel, // 01 - rd, 00 - rt, 10 - GPR 31, 11 - not used
     
     output wire o_mem_write_to_register_flag, //write in the register memory 
     
@@ -299,8 +299,6 @@ begin
         OPCODE_XORI : ex_alu_src_b = SELECT_IMMEDIATE;
         OPCODE_LUI  : ex_alu_src_b = SELECT_IMMEDIATE;
         OPCODE_SLTI : ex_alu_src_b = SELECT_IMMEDIATE;
-        OPCODE_BEQ  : ex_alu_src_b = SELECT_IMMEDIATE;
-        OPCODE_BNE  : ex_alu_src_b = SELECT_IMMEDIATE;
 
         //B=return address
         OPCODE_JAL : ex_alu_src_b = SELECT_RETURN_ADDRESS;
@@ -371,8 +369,8 @@ The following instructions not use register destiny flag:
 
 */
 
-localparam SELECT_RD = 2'b00;
-localparam SELECT_RT = 2'b01;
+localparam SELECT_RD = 2'b01;
+localparam SELECT_RT = 2'b00;
 localparam SELECT_GPR31 = 2'b10;
 
 always @(*)
@@ -416,19 +414,19 @@ localparam MEM_NO_WRITE_BACK = 1'b0;
 always @(*)
 begin 
     case(i_instruction[MSB_OPCODE:LSB_OPCODE])
-        OPCODE_ARITMETIC_OR_SPECIAL : mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_ADDI : mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_ORI :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_XORI :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LUI :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_SLTI : mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LB : mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LH :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LW :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LWU :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LBU :  mem_write_read_flag = MEM_WRITE_BACK;
-        OPCODE_LHU : mem_write_read_flag = MEM_WRITE_BACK;
-        default : mem_write_read_flag = MEM_NO_WRITE_BACK;
+        OPCODE_ARITMETIC_OR_SPECIAL : mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_ADDI : mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_ORI :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_XORI :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LUI :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_SLTI : mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LB : mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LH :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LW :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LWU :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LBU :  mem_write_to_register_flag = MEM_WRITE_BACK;
+        OPCODE_LHU : mem_write_to_register_flag = MEM_WRITE_BACK;
+        default : mem_write_to_register_flag = MEM_NO_WRITE_BACK;
     endcase
 end
 /**-----------------------------------------------------------------------------------------------------------------------
