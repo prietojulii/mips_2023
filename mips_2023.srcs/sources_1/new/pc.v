@@ -77,13 +77,13 @@ end
                     end
                 else 
                     begin
-                    pc_next=pc+SIZE_PC;
+                    pc_next=i_next_pc<<3; // i_next_pc with byte-to-bit mapping 
                     end
              end
              
              ST_PROGRAM_FINISHED: 
              begin
-                
+                //stay here forever
              end
                   
         endcase
@@ -95,5 +95,5 @@ end
 *************************************************************************************/
 
 assign o_pc = pc;
-assign o_next_pc=pc+SIZE_PC;
+assign o_next_pc=pc_next;
 endmodule
