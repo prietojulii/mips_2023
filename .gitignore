@@ -1,0 +1,10 @@
+mips_2023.sim/sim_1/behav/xsim/
+*.sdb
+*.wdb
+*.xml
+*.log
+*.xpr
+*.wcfg
+mips_2023.sim/sim_1/synth/
+mips_2023.cache/
+mips_2023.runs/
