@@ -65,7 +65,7 @@ module Main
 //    .o_flag_start_program(wire_flag_start_program),
 // );
 
-wire [PC_SIZE-1:0] wire_id_pc,wire_if_pc,wire_id_pc4, wire_if_pc4;
+wire [PC_SIZE-1:0] wire_id_pc4, wire_if_pc4;
 wire [REG_SIZE -1:0] wire_id_instruction,wire_if_instruction;
 IF if_instance(
     .i_clk(i_clock),
@@ -75,9 +75,8 @@ IF if_instance(
     .i_instruction_data(wire_debuguer_instruction_data_prueba),
     // .i_is_halt(),
     // .i_no_load(),
-    // .i_next_pc(), //TODO: conectar
+    .i_next_pc(wire_id_pc_next), //TODO: conectar
     .o_instruction_data(wire_if_instruction),
-    .o_pc(wire_if_pc),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
 
@@ -86,24 +85,56 @@ IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_instruction_data(wire_if_instruction),
-    .i_pc(wire_if_pc),
     .i_next_pc(wire_if_pc4),
     .o_instruction_data(wire_id_instruction),
-    .o_pc(wire_id_pc),
     .o_next_pc(wire_id_pc4) //!todo: CAMBIAR A PC4
 );
 
+/**
+* ControlMain module
+*/
+wire wire_ctrl_ex_alu_src_a,
+    wire_ctrl_mem_write_to_register_flag,
+    wire_ctrl_mem_write_read_flag,
+    wire_ctrl_mem_store_mask,
+    wire_ctrl_wb_mem_to_reg_sel,
+    wire_ctrl_wb_write_back_flag;
+wire [1:0] wire_ctrl_next_pc_select,
+            wire_ctrl_ex_alu_src_b,
+            wire_ctrl_ex_reg_dest_sel;
+wire  [2:0] wire_ctrl_mem_load_mask;
 
+ControlMain control_main_instance( 
+    .i_clock(i_clock),
+    .i_reset(i_reset),
+    .i_instruction(wire_id_instruction),
+    .i_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),
+    .o_next_pc_select(wire_ctrl_next_pc_select),
+    .o_ex_alu_src_a(wire_ctrl_ex_alu_src_a),
+    .o_ex_alu_src_b(wire_ctrl_ex_alu_src_b),
+    .o_ex_reg_dest_sel(wire_ctrl_ex_reg_dest_sel),
+    .o_mem_write_to_register_flag(wire_ctrl_mem_write_to_register_flag),
+    .o_mem_write_read_flag(wire_ctrl_mem_write_read_flag),
+    .o_mem_load_mask(wire_ctrl_mem_load_mask),
+    .o_mem_store_mask(wire_ctrl_mem_store_mask),
+    .o_wb_mem_to_reg_sel(wire_ctrl_wb_mem_to_reg_sel),
+    .o_wb_write_back_flag(wire_ctrl_wb_write_back_flag)
+);
+
+/**
+* ID stage
+*/
+wire wire_id_is_A_B_equal_flag;
 wire [4:0] wire_id_rs, wire_id_rt, wire_id_rd;
 wire [REG_SIZE-1:0] wire_id_shamt, wire_id_indmediate, wire_id_dataA, wire_id_dataB;
 wire [PC_SIZE-1:0] wire_id_pc_next;
 wire [5:0] wire_id_function, wire_id_opcode;
+
 ID id_instace (
     .i_clock(i_clock),
     .i_reset(i_reset),
     
-    // .i_ctrl_condition_flag(),
-    // .i_ctrl_jump_flag(),
+    .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),
     
     // .i_write_wb_flag(),
     // .i_addr_wr(),
@@ -111,7 +142,6 @@ ID id_instace (
 
     .i_instruction(wire_id_instruction),
     .i_pc4(wire_id_pc4),
-    .i_pc(wire_id_pc),
 
     .o_rs(wire_id_rs),
     .o_rt(wire_id_rt),
@@ -122,7 +152,8 @@ ID id_instace (
     .o_data_B(wire_id_dataB),
     .o_pc_next(wire_id_pc_next),
     .o_funct(wire_id_function),
-    .o_op(wire_id_opcode)
+    .o_op(wire_id_opcode),
+    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag)
 
 );
 
