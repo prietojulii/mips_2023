@@ -108,7 +108,7 @@ ControlMain control_main_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_instruction(wire_id_instruction),
-    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),
+    .i_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),
     .o_next_pc_select(wire_ctrl_next_pc_select),
     .o_ex_alu_src_a(wire_ctrl_ex_alu_src_a),
     .o_ex_alu_src_b(wire_ctrl_ex_alu_src_b),

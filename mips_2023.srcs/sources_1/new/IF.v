@@ -68,5 +68,6 @@ module IF #
     );
 
     assign o_pc=wire_pc_to_memory;
+    assign o_next_pc = (wire_pc_to_memory + SIZE_PC) >> 3;
     
 endmodule

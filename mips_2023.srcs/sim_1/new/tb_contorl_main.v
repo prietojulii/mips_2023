@@ -12,6 +12,7 @@ module tb_ControlMain;
     wire o_mem_store_mask;
     wire o_wb_mem_to_reg_sel;
     wire o_wb_write_back_flag;
+    
     ControlMain control_main(
         .i_instruction(i_instruction),
         .i_is_A_B_equal_flag(i_is_A_B_equal_flag),
