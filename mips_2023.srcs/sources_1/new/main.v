@@ -66,7 +66,7 @@ module Main
 // );
 
 wire [PC_SIZE-1:0] wire_id_pc4, wire_if_pc4;
-wire [REG_SIZE -1:0] wire_id_instruction,wire_if_instruction;
+wire [REG_SIZE -1:0] wire_id_instruction,wire_if_instruction,wire_no_load_pc_flag;
 IF if_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
@@ -74,7 +74,7 @@ IF if_instance(
     .i_flag_new_inst_ready(wire_flag_instruction_write_prueba),
     .i_instruction_data(wire_debuguer_instruction_data_prueba),
     // .i_is_halt(),
-    // .i_no_load(),
+    .i_no_load(wire_no_load_pc_flag),
     .i_next_pc(wire_id_pc_next), //TODO: conectar
     .o_instruction_data(wire_if_instruction),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
@@ -120,6 +120,23 @@ ControlMain control_main_instance(
     .o_wb_mem_to_reg_sel(wire_ctrl_wb_mem_to_reg_sel),
     .o_wb_write_back_flag(wire_ctrl_wb_write_back_flag)
 );
+//************ RISK UNIT ********************************
+wire wire_arithmetic_risk_flag, wire_load_flag;             //FLAGS PARA LA SHORT CIRCUIT UNIT
+//wire wire_no_load_pc_flag; YA ESTABA CREADO EN LA IF INSTANCE 
+risk_unit risk_unit_instance(
+    .i_clk(i_clock),
+    .i_reset(i_reset),
+//TODO: Ver que onda este cable .i_flag_first_ex_instruction(i_flag_first_ex_instruction),
+     .i_rs_ex(wire_ex_rs),                  //Todos estos cables son del latch ID/EX
+     .i_rd_ex(wire_ex_rd),
+     .i_rt_ex(wire_ex_rt),
+     .i_op_ex(wire_ex_opcode),
+    .i_instruction_id(wire_id_instruction),
+    
+    .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),
+    .o_load_flag(wire_load_flag),
+    .o_no_load_pc_flag(wire_no_load_pc_flag)
+)
 
 /**
 * ID stage
