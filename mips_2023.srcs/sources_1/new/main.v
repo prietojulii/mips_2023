@@ -64,13 +64,24 @@ module Main
 //    .o_instruction_data(wire_debuguer_instruction_data)
 //    .o_flag_start_program(wire_flag_start_program),
 // );
+/*
+    LOS CABLES i_clock e i_reset son para TODOS LOS MÓDULOS
+*/
 
-wire [PC_SIZE-1:0] wire_id_pc4, wire_if_pc4;
-wire [REG_SIZE -1:0] wire_id_instruction,wire_if_instruction,wire_no_load_pc_flag;
+/*
+******WIRES DECLARED FOR IF INSTACE*****
+*/
+wire [PC_SIZE-1:0] wire_if_pc4;                                         //Cable que sale del módulo IF del siguiente PC.
+wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del módulo IF con la instrucción correspondiente a ejecutar.
+wire [REG_SIZE -1:0] wire_no_load_pc_flag;                              //Cable que ingresa al módulo PC, flag de que no hay que cargar el PC.
+wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable que ingresa desde el módulo ID con el próximo PC.
+/*
+******IF INSTACE*****
+*/
 IF if_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_flag_start_program(wire_flag_start_program_prueba),
+    .i_flag_start_program(wire_flag_start_program_prueba),          
     .i_flag_new_inst_ready(wire_flag_instruction_write_prueba),
     .i_instruction_data(wire_debuguer_instruction_data_prueba),
     // .i_is_halt(),
@@ -80,7 +91,15 @@ IF if_instance(
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
 
+/*
+******WIRES DECLARED FOR IFID INSTACE*****
+*/
+wire [PC_SIZE-1:0] wire_id_pc4;                                         //Cable sale del latch IF/ID con el siguiente PC.
+wire wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucción a ingresar en la etapa ID.
 
+/*
+******IFID INSTACE*****
+*/
 IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
@@ -90,20 +109,25 @@ IFID ifid_instance (
     .o_next_pc(wire_id_pc4) //!todo: CAMBIAR A PC4
 );
 
-/**
-* ControlMain module
+/*
+******WIRES DECLARED FOR CONTROL MAIN INSTANCE*****
 */
-wire wire_ctrl_ex_alu_src_a,
-    wire_ctrl_mem_write_to_register_flag,
-    wire_ctrl_mem_write_read_flag,
-    wire_ctrl_mem_store_mask,
-    wire_ctrl_wb_mem_to_reg_sel,
-    wire_ctrl_wb_write_back_flag;
-wire [1:0] wire_ctrl_next_pc_select,
-            wire_ctrl_ex_alu_src_b,
-            wire_ctrl_ex_reg_dest_sel;
-wire  [2:0] wire_ctrl_mem_load_mask;
+wire wire_ctrl_ex_alu_src_a;                                            //Cable que controla el operando A en ALU.
+wire wire_ctrl_mem_write_to_register_flag;                              //Cable que controla la escritura de Memoria hacia los Registros
+wire wire_ctrl_mem_write_read_flag;                                     //Cable que controla si se escribe o se lee en la memoria de Datos.
+wire wire_ctrl_mem_store_mask;                                          //Cable que controla la mascara en la memoria de Datos. (DUDA)
+wire wire_ctrl_wb_mem_to_reg_sel;                                       //Cable que controla si se escribirá desde la memeoria de Datos hacia la memoria de Registros.
+wire wire_ctrl_wb_write_back_flag;                                      //Cable que controla si hay un Write Back.
+wire wire_id_is_A_B_equal_flag;                                         //Cable que controla si A es igual a B en la etapa ID para los Branch.
 
+wire [1:0] wire_ctrl_next_pc_select;                                    //Cable que controla la selección del próximo PC.
+wire [1:0] wire_ctrl_ex_alu_src_b;                                      //Cable que controla la selección el operando B en la entrada de la ALU
+wire [1:0] wire_ctrl_ex_reg_dest_sel;                                   //Cable que controla la selección del registro INMEDIATO que pasa por la etapa EX.
+wire [2:0] wire_ctrl_mem_load_mask;                                     //Cable que controla la mascara en la memoria de Datos. (DUDA)
+
+/*
+******CONTROL MAIN INSTANCE*****
+*/
 ControlMain control_main_instance( 
     .i_clock(i_clock),
     .i_reset(i_reset),
@@ -120,46 +144,33 @@ ControlMain control_main_instance(
     .o_wb_mem_to_reg_sel(wire_ctrl_wb_mem_to_reg_sel),
     .o_wb_write_back_flag(wire_ctrl_wb_write_back_flag)
 );
-//************ RISK UNIT ********************************
-wire wire_arithmetic_risk_flag, wire_load_flag;             //FLAGS PARA LA SHORT CIRCUIT UNIT
-//wire wire_no_load_pc_flag; YA ESTABA CREADO EN LA IF INSTANCE 
-risk_unit risk_unit_instance(
-    .i_clk(i_clock),
-    .i_reset(i_reset),
-//TODO: Ver que onda este cable .i_flag_first_ex_instruction(i_flag_first_ex_instruction),
-     .i_rs_ex(wire_ex_rs),                  //Todos estos cables son del latch ID/EX
-     .i_rd_ex(wire_ex_rd),
-     .i_rt_ex(wire_ex_rt),
-     .i_op_ex(wire_ex_opcode),
-    .i_instruction_id(wire_id_instruction),
-    
-    .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),
-    .o_load_flag(wire_load_flag),
-    .o_no_load_pc_flag(wire_no_load_pc_flag)
-)
 
-/**
-* ID stage
+/*
+******WIRES DECLARED FOR ID INSTANCE*****
 */
-wire wire_id_is_A_B_equal_flag;
-wire [4:0] wire_id_rs, wire_id_rt, wire_id_rd;
-wire [REG_SIZE-1:0] wire_id_shamt, wire_id_indmediate, wire_id_dataA, wire_id_dataB;
-wire [PC_SIZE-1:0] wire_id_pc_next;
-wire [5:0] wire_id_function, wire_id_opcode;
+wire [4:0] wire_id_rs;                                                      //Cable que sale de la etapa ID con el registro RS                                          
+wire [4:0] wire_id_rt;                                                      //Cable que sale de la etapa ID con el registro RT
+wire [4:0] wire_id_rd;                                                      //Cable que sale de la etapa ID con el registro RD
+wire [REG_SIZE-1:0] wire_id_shamt;                                          //Cable que sale de la etapa ID con el registro SHAMT 
+wire [REG_SIZE-1:0] wire_id_indmediate;                                     //Cable que sale de la etapa ID con el registro IMMEDIATE 
+wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
+wire [REG_SIZE-1:0] wire_id_dataB;                                          //Cable que sale de la etapa ID con el registro DATA_B 
+//wire [PC_SIZE-1:0] wire_id_pc_next;
+wire [5:0] wire_id_function;                                                //Cable que sale de la etapa ID con el FUNCTION 
+wire [5:0] wire_id_opcode;                                                  //Cable que sale de la etapa ID con el OPCODE
 
+/*
+******ID INSTANCE*****
+*/
 ID id_instace (
     .i_clock(i_clock),
     .i_reset(i_reset),
-    
-    .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),
-    
+    .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),                          //Cable que controla la selección del próximo PC, viene de la CONTROL UNIT.
     // .i_write_wb_flag(),
     // .i_addr_wr(),
     // .i_data_wb(),
-
-    .i_instruction(wire_id_instruction),
-    .i_pc4(wire_id_pc4),
-
+    .i_instruction(wire_id_instruction),                                    //Cable que ingresa a la etapa ID con la instrucción, viene del latch IFID
+    .i_pc4(wire_id_pc4),                                                    //Cable que ingresa a la etapa ID con el PC4, viene del latch IFID
     .o_rs(wire_id_rs),
     .o_rt(wire_id_rt),
     .o_rd(wire_id_rd),
@@ -170,15 +181,43 @@ ID id_instace (
     .o_pc_next(wire_id_pc_next),
     .o_funct(wire_id_function),
     .o_op(wire_id_opcode),
-    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag)
-
+    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag)                         //Cable que controla si A es igual a B en la etapa ID para los Branch; viene de la CONTROL UNIT.                         
 );
+
+/*
+******WIRES DECLARED FOR RISK UNIT *****
+*/
+wire wire_arithmetic_risk_flag;                                             //Cable que sale de la unidad de Riesgo, flag de riesgo aritmético.
+wire wire_load_flag;                                                        //Cable que sale de la unidad de Riesgo, flag de riesgo de load.
+wire [4:0] wire_ex_rs;                                                      //Cable que viene de la etapa EX con el registro RS       
+wire [4:0] wire_ex_rt;                                                      //Cable que viene de la etapa EX con el registro RT                  
+wire [4:0] wire_ex_rd;                                                      //Cable que viene de la etapa EX con el registro RD
+wire [5:0] wire_ex_opcode;                                                  //Cable que viene de la etapa EX con el OPCODE 
+
+/*
+******RISK UNIT INSTANCE*****
+*/
+risk_unit risk_unit_instance(
+    .i_clk(i_clock),
+    .i_reset(i_reset),
+//TODO: Ver que onda este cable .i_flag_first_ex_instruction(i_flag_first_ex_instruction),
+     .i_rs_ex(wire_ex_rs),                  //Todos estos cables son del latch ID/EX
+     .i_rd_ex(wire_ex_rd),
+     .i_rt_ex(wire_ex_rt),
+     .i_op_ex(wire_ex_opcode),
+    .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucción, viene del latch IFID.
+    .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),
+    .o_load_flag(wire_load_flag),
+    .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al módulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
+);
+
+
 
 
 wire [4:0] wire_ex_rs, wire_ex_rt, wire_ex_rd;
 wire [REG_SIZE-1:0] wire_ex_shamt, wire_ex_indmediate, wire_ex_dataA, wire_ex_dataB;
 wire [PC_SIZE-1:0] wire_ex_pc_next;
-wire [5:0] wire_ex_function, wire_ex_opcode;
+wire [5:0] wire_ex_function; 
 // IDEX idex_instance (
 //     .i_clock(i_clock),
 //     .i_reset(i_reset),
