@@ -66,24 +66,31 @@ module tb_risk_unit#(
     i_flag_first_ex_instruction=1;
     #1000
     i_flag_first_ex_instruction=0;
-    i_op_ex=6'b100000;
+    //LOAD TEST
+    i_op_ex=6'b100000;                                      //VIENE UN LOAD
+    i_rt_ex=6;                                              //EL VALOR EN RT_EX ES UN 6
+    i_instruction_id=32'b00000000110000000000000000000000;  //EN RS_ID HAY UN 6    
+
+    #1000
+    //ARITHMETIC RISK TEST
+    i_op_ex=5'b00000;                                       //VIENE UNA SPECIAL
+    i_rd_ex=6;                                              //EN RD_EX HAY UN 6
+    i_instruction_id= 32'b00000000110000000000000000000000; //EN RS_ID HAY UN 6
     
-    i_rt_ex=6;
-    i_instruction_id=32'b00000000110000000000000000000000;
+    #1000
+    //IMMEDIATE ARITHMETIC TEST
+    i_op_ex=6'b001000;                                      //VIENE UN ADDI
+    i_rt_ex=6;                                              //EN RT_EX HAY UN 6
+    i_instruction_id= 32'b00000000110000000000000000000000; //EN RS_ID HAY UN 6
+    #1000
+    //SIMULACION DE UNA EJECUCION DE INSTRUCCIONES SIN RIESGOS
+    i_op_ex=5'b00000;
+    i_rt_ex=25;
+    i_rd_ex=9;
+    i_instruction_id= 32'b00000000110000000000000000000000;
     
-//    i_instruction_id= 32'b00000000110000000000000000000000;
-//    #1000
-//    //ARITHMETIC RISK TEST
-//    i_op_ex=5'b00000;
-//    i_rd_ex=6;
-//    i_instruction_id= 32'b00000000110000000000000000000000;
-//    #1000
-//    #1000
-//    //BRANCH TEST
-//    i_op_ex=6'b000101;
-//    #1000
-//    i_op_ex=6'b000100;
     
+                          
  end
  
  

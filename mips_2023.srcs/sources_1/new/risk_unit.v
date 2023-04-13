@@ -27,16 +27,14 @@ module risk_unit#(
     )(
     input wire i_clk,                                   //CLOCK
     input wire  i_reset,                                //RESET
-    input wire[(SIZE_REG-1):0] i_instruction_id,      
-    input wire [5:0] i_op_ex,
-    input wire [4:0] i_rs_ex,
-    input wire [4:0] i_rt_ex,
-    input wire [4:0] i_rd_ex,
-    input wire i_flag_first_ex_instruction, 
+    input wire[(SIZE_REG-1):0] i_instruction_id,        //Instruction from the ID stage     
+    input wire [5:0] i_op_ex,                           //OP input from the EX stage
+    input wire [4:0] i_rs_ex,                           //RS input from the EX stage
+    input wire [4:0] i_rt_ex,                           //RT input from the EX stage
+    input wire [4:0] i_rd_ex,                           //RD input from the EX stage
+    input wire i_flag_first_ex_instruction,             //First instruction in EX stage flag
  
 
-//    output wire o_bne_flag,                             //Bne Flag to Control Unit
-//    output wire o_beq_flag,                             //Beq Flag to Control Unit
     output wire o_load_flag,                            //Load Flag to Short Circuit Unit
     output wire o_no_load_pc_flag,                      //No Load PC to IF Module
     output wire o_arithmetic_risk_flag                  //Aritchmetic Flag to Short Circuit Unit
@@ -44,8 +42,10 @@ module risk_unit#(
     
     //States
     localparam ST_IDLE  = 4'b0001; 
-    localparam ST_READ_INSTRUCTION  = 4'b0010; 
-     
+    localparam ST_READ_INSTRUCTION  = 4'b0010;
+    localparam ST_RISK_DETECTED  = 4'b0011; 
+    localparam ST_PROGRAM_FINISHED  = 4'b0100; 
+    
    //Macros
     localparam LB=6'b100000;
     localparam LH=6'b100001;
@@ -61,7 +61,8 @@ module risk_unit#(
     localparam ANDI=6'b001100;
     localparam ORI=6'b001101;
     localparam XORI=6'b001110;
-    localparam SLTI=6'b001010;      
+    localparam SLTI=6'b001010;
+    localparam HALT=32'b0;      
     
     
     //Registers
@@ -109,33 +110,34 @@ always @ (*) begin
             end
         end
         ST_READ_INSTRUCTION: begin
-            if(i_op_ex==LB || i_op_ex==LH || i_op_ex==LW || i_op_ex==LBU || i_op_ex==LHU || i_op_ex==LWU || i_op_ex==LUI)begin //LOADS
-                if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
-                load_flag=1;
-                no_load_pc_flag=1;
-                end
+            if(i_instruction_id==HALT)begin
+                state_next = ST_PROGRAM_FINISHED;
             end
-//            else if(op_id==BEQ)begin
-//                    if(rs_id==rt_id)begin
-//                        beq_flag=1;
-//                    end
-//            end
-//            else if(op_id==BNE)begin
-//                    if(rs_id!=rt_id)begin
-//                        bne_flag=1;
-//                    end
-//            end
+            else if(i_op_ex==LB || i_op_ex==LH || i_op_ex==LW || i_op_ex==LBU || i_op_ex==LHU || i_op_ex==LWU || i_op_ex==LUI)begin //LOADS
+                    if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
+                        load_flag=1;
+                        no_load_pc_flag=1;
+                        state_next = ST_RISK_DETECTED;
+                    end
+            end
             else if(i_op_ex==SPECIAL)begin //ARITMETICAS
                     if(i_rd_ex==rs_id || i_rd_ex==rt_id )begin
                         arithmetic_risk_flag=1;
+                        state_next = ST_RISK_DETECTED;
                     end
             end
-            else if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin
+            else if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
                     if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin
                         arithmetic_risk_flag=1;
+                        state_next = ST_RISK_DETECTED;
                     end
             end
-            
+        end
+        ST_RISK_DETECTED: begin
+            no_load_pc_flag=0;
+            arithmetic_risk_flag=0;
+            load_flag=0;
+            state_next = ST_READ_INSTRUCTION;
         end
 
     endcase
@@ -146,8 +148,6 @@ end
                               RISK UNIT OUTPUTS
 *************************************************************************************/
 
-assign o_bne_flag = bne_flag;
-assign o_beq_flag = beq_flag;
 assign o_no_load_pc_flag = no_load_pc_flag;
 assign o_arithmetic_risk_flag = arithmetic_risk_flag;
 assign o_load_flag = load_flag;
