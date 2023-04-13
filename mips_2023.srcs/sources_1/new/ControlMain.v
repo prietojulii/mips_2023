@@ -26,6 +26,7 @@ module ControlMain
     localparam INSTRUCTION_SIZE = 32
 )(
     //!TODO: el nombre de las grag : <etapa destino>_<nombre de la señal>
+   
     input wire [INSTRUCTION_SIZE-1:0] i_instruction,
     input wire i_is_A_B_equal_flag,
     output wire [1:0] o_next_pc_select, // 01 - offset, 00 - PC+4, 10 - branch, 11 - jump data A

@@ -28,6 +28,7 @@ module PC
     input wire [SIZE_PC-1:0] i_next_pc,                 //El pc por si hay una burbuja y no hay que hacer PC+4
     input wire i_is_halt, i_no_load,            //Flags de control; de instrucción Halt y de No Cargar PC respectivamente
     input wire i_flag_start_program,                  //Flag para comenzar a incrementar el PC
+    input wire i_enable,
     output wire [SIZE_PC-1:0] o_pc,o_next_pc
     
     );
@@ -51,10 +52,14 @@ module PC
         pc <= 0;
         pc_next <= 0;
     end
-    else begin
+    else if(i_enable) begin
         state <= state_next;
         pc <= pc_next;
       end
+    else begin
+        state <= state;
+        pc <= pc;
+    end
 end
 
     always @ (*) begin

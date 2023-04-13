@@ -235,6 +235,7 @@ always @ (*) begin
         ST_SEND_DATA_TO_USER:begin
             //    Ir sacando por el output_trama_tx los datos de a 8 bits para que el uart los transmita al usuario desdel buffer_to_user_next
             // Tener en cuenta la flax tx_done para enviar un nuevo byte
+            //TODO: Chequear la flag tx_done antes de volver a enviar mas data.
             if(index == 0) begin
                     trama_tx_next = buffer_to_user_next[index*SIZE_TRAMA+:SIZE_TRAMA];
                     index_next = index + 1;

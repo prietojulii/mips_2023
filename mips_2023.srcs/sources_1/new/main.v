@@ -26,44 +26,55 @@ module Main
     parameter PC_SIZE= 32,
     parameter TRAMA_SIZE = 8
 )(
-
-
-    // input wire i_rx,
-    // output wire o_tx,
     input wire i_clock,
     input wire i_reset,
-    input wire wire_flag_start_program_prueba,
-    input wire wire_flag_instruction_write_prueba,
-    input wire [REG_SIZE-1:0] wire_debuguer_instruction_data_prueba
-
+    input wire i_rx,
+    
+    output wire [TRAMA_SIZE-1:0] o_command,          //EL i_command del DEBUGUER
+    output wire o_tx
     );
 
 
-// wire [TRAMA_SIZE-1:0] wire_trama;
-// wire wire_flag_rx_done;
-// UART uart_instance(
-//     .i_clk(i_clock),
-//     .i_reset(i_reset),
-//     .i_rx(i_rx),
-//     .i_tx(),
-//     .i_tx_start(),
-//     .o_rx(wire_trama),
-//     .o_rx_done_tick(wire_flag_rx_done),
-//     .o_tx(o_tx),
-//     .o_tx_done_tick()
-// );
+ wire [TRAMA_SIZE-1:0] wire_trama;
+ wire wire_flag_rx_done;
+ wire wire_debuger_uart_tx_start;
+ UART uart_instance(
+     .i_clk(i_clock),
+     .i_reset(i_reset),
+     .i_rx(i_rx),
+     .i_tx(wire_debuguer_uart_tx),
+     .i_tx_start(wire_debuger_uart_tx_start),
+     .o_rx(wire_trama),
+     .o_rx_done_tick(wire_flag_rx_done)
+     //.o_tx(o_tx),
+     //.o_tx_done_tick()
+ );
 
-// wire wire_flag_start_program, wire_flag_instruction_write;
-// wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
-// Debuguer debug_instace (
-//     .i_clk(i_clock),
-//     .i_reset(i_reset),
-//    .i_command(wire_trama),
-//    .i_flag_rx_done(wire_flag_rx_done),
-//    .o_flag_instruction_write(wire_flag_instruction_write),
-//    .o_instruction_data(wire_debuguer_instruction_data)
-//    .o_flag_start_program(wire_flag_start_program),
-// );
+ wire wire_flag_start_program, wire_flag_instruction_write;
+ //wire wire_debuguer_latch_enable_pc;  
+ wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
+ wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
+ Debuguer debug_instace (
+     .i_clk(i_clock),
+     .i_reset(i_reset),
+    .i_command(wire_trama),
+    .i_flag_tx_done(o_tx),
+    //.i_flag_halt()
+    .i_pc(),
+    .i_rs(wire_id_rs),
+    .i_rt(wire_id_rt),
+    .i_a(wire_id_dataA),
+    .i_b(wire_id_dataB),
+    //.i_addr_mem(),
+    //.i_data_mem(),
+    .i_flag_rx_done(wire_flag_rx_done),
+    .o_flag_instruction_write(wire_flag_instruction_write),
+    //.o_enable_pc(wire_debuguer_latch_enable_pc)
+    .o_instruction_data(wire_debuguer_instruction_data),
+    .o_trama_tx(wire_debuguer_uart_tx),
+    .o_tx_start(wire_debuger_uart_tx_start),
+    .o_flag_start_program(wire_flag_start_program)
+ );
 /*
     LOS CABLES i_clock e i_reset son para TODOS LOS MÓDULOS
 */
@@ -81,9 +92,9 @@ wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable 
 IF if_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_flag_start_program(wire_flag_start_program_prueba),          
-    .i_flag_new_inst_ready(wire_flag_instruction_write_prueba),
-    .i_instruction_data(wire_debuguer_instruction_data_prueba),
+    .i_flag_start_program(wire_flag_start_program),          
+    .i_flag_new_inst_ready(wire_flag_instruction_write),
+    .i_instruction_data(wire_debuguer_instruction_data),
     // .i_is_halt(),
     .i_no_load(wire_no_load_pc_flag),
     .i_next_pc(wire_id_pc_next), //TODO: conectar
@@ -129,8 +140,7 @@ wire [2:0] wire_ctrl_mem_load_mask;                                     //Cable 
 ******CONTROL MAIN INSTANCE*****
 */
 ControlMain control_main_instance( 
-    .i_clock(i_clock),
-    .i_reset(i_reset),
+ 
     .i_instruction(wire_id_instruction),
     .i_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),
     .o_next_pc_select(wire_ctrl_next_pc_select),
@@ -211,10 +221,7 @@ risk_unit risk_unit_instance(
     .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al módulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
 );
 
-
-
-
-wire [4:0] wire_ex_rs, wire_ex_rt, wire_ex_rd;
+//wire [4:0] wire_ex_rs, wire_ex_rt, wire_ex_rd;                          //TODO: Chequear porque estan declarados dos veces estos cables
 wire [REG_SIZE-1:0] wire_ex_shamt, wire_ex_indmediate, wire_ex_dataA, wire_ex_dataB;
 wire [PC_SIZE-1:0] wire_ex_pc_next;
 wire [5:0] wire_ex_function; 
@@ -272,4 +279,6 @@ wire [5:0] wire_ex_function;
 //     // .o_ctrl_WB_memToReg_flag(),
 //     // .o_ctrl_WB_wr_fla(),
 // );
+assign o_command = wire_trama;
+
 endmodule
