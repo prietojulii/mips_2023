@@ -30,8 +30,9 @@ module Main
     input wire i_reset,
     input wire i_rx,
     
-    output wire [TRAMA_SIZE-1:0] o_command,          //EL i_command del DEBUGUER
+    output wire [3:0] o_wire_state_leds_pins,
     output wire o_tx
+    
     );
 
 
@@ -54,6 +55,7 @@ module Main
  //wire wire_debuguer_latch_enable_pc;  
  wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
  wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
+ wire [3:0] wire_state_leds;
  Debuguer debug_instace (
      .i_clk(i_clock),
      .i_reset(i_reset),
@@ -73,7 +75,10 @@ module Main
     .o_instruction_data(wire_debuguer_instruction_data),
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
-    .o_flag_start_program(wire_flag_start_program)
+    .o_flag_start_program(wire_flag_start_program),
+    
+    //TODO: pruebas
+    .o_wire_state_leds(wire_state_leds)
  );
 /*
     LOS CABLES i_clock e i_reset son para TODOS LOS MÓDULOS
@@ -279,6 +284,6 @@ wire [5:0] wire_ex_function;
 //     // .o_ctrl_WB_memToReg_flag(),
 //     // .o_ctrl_WB_wr_fla(),
 // );
-assign o_command = wire_trama;
+assign o_wire_state_leds_pins = wire_state_leds;
 
 endmodule

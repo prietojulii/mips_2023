@@ -37,7 +37,11 @@ module Debuguer #(
     output wire [(SIZE_REG-1):0] o_instruction_data,
     output wire [(SIZE_TRAMA-1):0] o_trama_tx,
     output wire o_tx_start,
-    output wire o_flag_start_program
+    output wire o_flag_start_program,
+    
+    //TODO: OUTPUT TEST
+    output wire  [3:0] o_wire_state_leds
+    
 );  
 
 
@@ -280,6 +284,6 @@ assign o_flag_instruction_write = flag_instruction_write;
 assign o_flag_start_program = flag_start_program;
 assign o_trama_tx = trama_tx;
 assign o_tx_start = tx_start;
-
+assign o_wire_state_leds = state;
 
 endmodule
