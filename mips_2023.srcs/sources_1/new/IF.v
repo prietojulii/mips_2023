@@ -35,7 +35,7 @@ module IF #
     input wire i_is_halt,
     input wire i_no_load,
     input wire [(SIZE_PC-1):0] i_next_pc,
-    
+    input wire i_enable,
     //IF OUTPUTS
     output wire [(SIZE_REG-1):0] o_instruction_data,
     output wire  [(SIZE_PC-1):0] o_pc,
@@ -60,6 +60,7 @@ module IF #
     PC pc (
         .i_clk(i_clk),
         .i_reset(i_reset),
+        .i_enable(i_enable),
         .i_next_pc(i_next_pc),
         .i_is_halt(i_is_halt),
         .i_no_load(i_no_load),

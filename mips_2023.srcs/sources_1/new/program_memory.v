@@ -32,11 +32,9 @@ module PROGRAM_MEMORY
         input wire [7:0] i_pc,                                    //PC
         input wire[(SIZE_REG-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
         
-        //input wire[(SIZE_COMMAND-1):0] i_instruction_data,      //La input que trae la instruccion, es decir la que viene del debuger
         input wire i_flag_new_inst_ready,                   //Flag de que hay una instruccion nueva para leer, viene del debuger
         input wire i_flag_start_program, 
         output wire [(SIZE_REG-1):0] o_instruction_data     //El output con la instruccion que corresponda
-        //output wire [(SIZE_COMMAND-1):0] o_instruction_data    //El output con la instruccion que corresponda
  
     );
 

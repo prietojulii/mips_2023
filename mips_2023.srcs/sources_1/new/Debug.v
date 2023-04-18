@@ -81,7 +81,6 @@ reg flag_start_program, enable_pc,enable_pc_next;
 reg [SIZE_TRAMA-1:0] trama_tx, trama_tx_next;
 reg [4:0] index, index_next;
 reg tx_start,tx_start_next;
-
 /************************************************************************************
                               DEBUGUER STATE MACHINE.
 *************************************************************************************/
@@ -89,34 +88,20 @@ reg tx_start,tx_start_next;
 always @ (posedge i_clk) begin
     if(i_reset)begin
         state <= ST_IDLE;
-        state_next <=ST_IDLE;
         addr_mem <= 0;
-        addr_mem_next <= 0;
         addr_wb <= 0;
-        addr_wb_next <= 0;
         pc <= 0;
-        pc_next <= 0;
         data_mem <= 0;
-        data_mem_next <= 0;
         data_wb <= 0;
-        data_wb_next <= 0;
         flag_instruction_write <= 0;
-        flag_instruction_write_next <= 0;
         bytes_counter <= 0;
-        bytes_counter_next <= 0;
         buffer_inst <= 32'b0;
-        buffer_inst_next <= 32'b0;
         flag_start_program <=0;
         enable_pc <= 0;
-        enable_pc_next <= 0;
         trama_tx <= 0;
-        trama_tx_next <= 0;
         index <= 0;
-        index_next <= 0;
         tx_start <= 0;
-        tx_start_next <= 0;
         buffer_to_user <= 0;
-        buffer_to_user_next <= 0;
  
     end
     else begin

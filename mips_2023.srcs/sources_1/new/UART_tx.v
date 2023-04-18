@@ -67,6 +67,7 @@ begin
     tiks_count_next     = tiks_count;
     bits_count_next     = bits_count;
     i_buff_trama_next   = buff_trama;
+    flag_tx_done_next   = flag_tx_done;
     //! tx_next = 0;
 
     case(state_reg)

@@ -48,9 +48,7 @@ module PC
     always @ (posedge i_clk) begin
     if(i_reset)begin
         state <= ST_IDLE;
-        state_next <= ST_IDLE; 
         pc <= 0;
-        pc_next <= 0;
     end
     else if(i_enable) begin
         state <= state_next;
@@ -62,7 +60,9 @@ module PC
     end
 end
 
-    always @ (*) begin
+always @ (*) begin
+    pc_next = pc;
+    state_next = state;
         case(state)
             ST_IDLE: begin
                 if(i_flag_start_program)
@@ -100,5 +100,5 @@ end
 *************************************************************************************/
 
 assign o_pc = pc;
-assign o_next_pc=pc_next;
+assign o_next_pc=pc+{{(SIZE_PC-6){1'b0}},6'b100000};//pc+4Bytes
 endmodule

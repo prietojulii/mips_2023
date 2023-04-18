@@ -35,7 +35,7 @@ module Main
     
     );
 
-
+ wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
  wire [TRAMA_SIZE-1:0] wire_trama;
  wire wire_flag_rx_done;
  wire wire_debuger_uart_tx_start;
@@ -51,10 +51,13 @@ module Main
      //.o_tx_done_tick()
  );
 
+wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
+wire [REG_SIZE-1:0] wire_id_dataB;                                          //Cable que sale de la etapa ID con el registro DATA_B 
+wire [4:0] wire_id_rs;                                                      //Cable que sale de la etapa ID con el registro RS                                          
+wire [4:0] wire_id_rt;                                                      //Cable que sale de la etapa ID con el registro RT
  wire wire_flag_start_program, wire_flag_instruction_write;
- //wire wire_debuguer_latch_enable_pc;  
+ wire wire_debuguer_latch_enable_pc;  
  wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
- wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
  wire [3:0] wire_state_leds;
  Debuguer debug_instace (
      .i_clk(i_clock),
@@ -71,7 +74,7 @@ module Main
     //.i_data_mem(),
     .i_flag_rx_done(wire_flag_rx_done),
     .o_flag_instruction_write(wire_flag_instruction_write),
-    //.o_enable_pc(wire_debuguer_latch_enable_pc)
+    .o_enable_pc(wire_debuguer_latch_enable_pc),
     .o_instruction_data(wire_debuguer_instruction_data),
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
@@ -103,6 +106,7 @@ IF if_instance(
     // .i_is_halt(),
     .i_no_load(wire_no_load_pc_flag),
     .i_next_pc(wire_id_pc_next), //TODO: conectar
+    .i_enable(wire_debuguer_latch_enable_pc),
     .o_instruction_data(wire_if_instruction),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
@@ -163,13 +167,9 @@ ControlMain control_main_instance(
 /*
 ******WIRES DECLARED FOR ID INSTANCE*****
 */
-wire [4:0] wire_id_rs;                                                      //Cable que sale de la etapa ID con el registro RS                                          
-wire [4:0] wire_id_rt;                                                      //Cable que sale de la etapa ID con el registro RT
 wire [4:0] wire_id_rd;                                                      //Cable que sale de la etapa ID con el registro RD
 wire [REG_SIZE-1:0] wire_id_shamt;                                          //Cable que sale de la etapa ID con el registro SHAMT 
 wire [REG_SIZE-1:0] wire_id_indmediate;                                     //Cable que sale de la etapa ID con el registro IMMEDIATE 
-wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
-wire [REG_SIZE-1:0] wire_id_dataB;                                          //Cable que sale de la etapa ID con el registro DATA_B 
 //wire [PC_SIZE-1:0] wire_id_pc_next;
 wire [5:0] wire_id_function;                                                //Cable que sale de la etapa ID con el FUNCTION 
 wire [5:0] wire_id_opcode;                                                  //Cable que sale de la etapa ID con el OPCODE
