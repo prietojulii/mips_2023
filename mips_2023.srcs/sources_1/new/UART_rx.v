@@ -1,7 +1,7 @@
 module UART_rx
     #(
         parameter SIZE_TRAMA_BIT = 8,
-        parameter SIZE_BIT_COUNTER = 3  //tamaño del contadoe de bits
+        parameter SIZE_BIT_COUNTER = 3  //tamaï¿½o del contadoe de bits
     )
     (
         input wire i_clk,
@@ -60,6 +60,7 @@ always @(*) begin
 
     case (state_reg)
         ST_IDLE: begin
+            flag_rx_done_next = 1'b0;
             if(~i_rx)begin
                 state_next = ST_START;
                 tiks_count_next = 0;
@@ -71,6 +72,7 @@ always @(*) begin
                     state_next = ST_DATA;
                     tiks_count_next = 0;
                     bits_count_next = 0;
+                    flag_rx_done_next = 0;
                 end
                 else
                     tiks_count_next = tiks_count + 1;

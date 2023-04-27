@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Mateo Merino y Julieta Prieto.
 // 
 // Create Date: 21.02.2023 17:35:39
 // Design Name: 
@@ -31,9 +31,15 @@ module Main
     input wire i_rx,
     
     output wire [3:0] o_wire_state_leds_pins,
-    output wire o_tx
+    output wire [2:0] o_wire_bytes_counter_leds_pins,
+    output wire o_tx,
+    output wire [8:0] o_wire_instruction_buffer_MSB_leds_pin
     
     );
+
+ wire [2:0] wire_debuguer_main; //TODO: borrar
+
+
 
  wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
  wire [TRAMA_SIZE-1:0] wire_trama;
@@ -79,21 +85,21 @@ wire [4:0] wire_id_rt;                                                      //Ca
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
     .o_flag_start_program(wire_flag_start_program),
-    
+    .o_counter_prueba(wire_debuguer_main), //TODO: borrar
     //TODO: pruebas
     .o_wire_state_leds(wire_state_leds)
  );
 /*
-    LOS CABLES i_clock e i_reset son para TODOS LOS MÓDULOS
+    LOS CABLES i_clock e i_reset son para TODOS LOS Mï¿½DULOS
 */
 
 /*
 ******WIRES DECLARED FOR IF INSTACE*****
 */
-wire [PC_SIZE-1:0] wire_if_pc4;                                         //Cable que sale del módulo IF del siguiente PC.
-wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del módulo IF con la instrucción correspondiente a ejecutar.
-wire [REG_SIZE -1:0] wire_no_load_pc_flag;                              //Cable que ingresa al módulo PC, flag de que no hay que cargar el PC.
-wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable que ingresa desde el módulo ID con el próximo PC.
+wire [PC_SIZE-1:0] wire_if_pc4;                                         //Cable que sale del mï¿½dulo IF del siguiente PC.
+wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del mï¿½dulo IF con la instrucciï¿½n correspondiente a ejecutar.
+wire [REG_SIZE -1:0] wire_no_load_pc_flag;                              //Cable que ingresa al mï¿½dulo PC, flag de que no hay que cargar el PC.
+wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable que ingresa desde el mï¿½dulo ID con el prï¿½ximo PC.
 /*
 ******IF INSTACE*****
 */
@@ -115,7 +121,7 @@ IF if_instance(
 ******WIRES DECLARED FOR IFID INSTACE*****
 */
 wire [PC_SIZE-1:0] wire_id_pc4;                                         //Cable sale del latch IF/ID con el siguiente PC.
-wire wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucción a ingresar en la etapa ID.
+wire wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucciï¿½n a ingresar en la etapa ID.
 
 /*
 ******IFID INSTACE*****
@@ -136,13 +142,13 @@ wire wire_ctrl_ex_alu_src_a;                                            //Cable 
 wire wire_ctrl_mem_write_to_register_flag;                              //Cable que controla la escritura de Memoria hacia los Registros
 wire wire_ctrl_mem_write_read_flag;                                     //Cable que controla si se escribe o se lee en la memoria de Datos.
 wire wire_ctrl_mem_store_mask;                                          //Cable que controla la mascara en la memoria de Datos. (DUDA)
-wire wire_ctrl_wb_mem_to_reg_sel;                                       //Cable que controla si se escribirá desde la memeoria de Datos hacia la memoria de Registros.
+wire wire_ctrl_wb_mem_to_reg_sel;                                       //Cable que controla si se escribirï¿½ desde la memeoria de Datos hacia la memoria de Registros.
 wire wire_ctrl_wb_write_back_flag;                                      //Cable que controla si hay un Write Back.
 wire wire_id_is_A_B_equal_flag;                                         //Cable que controla si A es igual a B en la etapa ID para los Branch.
 
-wire [1:0] wire_ctrl_next_pc_select;                                    //Cable que controla la selección del próximo PC.
-wire [1:0] wire_ctrl_ex_alu_src_b;                                      //Cable que controla la selección el operando B en la entrada de la ALU
-wire [1:0] wire_ctrl_ex_reg_dest_sel;                                   //Cable que controla la selección del registro INMEDIATO que pasa por la etapa EX.
+wire [1:0] wire_ctrl_next_pc_select;                                    //Cable que controla la selecciï¿½n del prï¿½ximo PC.
+wire [1:0] wire_ctrl_ex_alu_src_b;                                      //Cable que controla la selecciï¿½n el operando B en la entrada de la ALU
+wire [1:0] wire_ctrl_ex_reg_dest_sel;                                   //Cable que controla la selecciï¿½n del registro INMEDIATO que pasa por la etapa EX.
 wire [2:0] wire_ctrl_mem_load_mask;                                     //Cable que controla la mascara en la memoria de Datos. (DUDA)
 
 /*
@@ -180,11 +186,11 @@ wire [5:0] wire_id_opcode;                                                  //Ca
 ID id_instace (
     .i_clock(i_clock),
     .i_reset(i_reset),
-    .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),                          //Cable que controla la selección del próximo PC, viene de la CONTROL UNIT.
+    .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),                          //Cable que controla la selecciï¿½n del prï¿½ximo PC, viene de la CONTROL UNIT.
     // .i_write_wb_flag(),
     // .i_addr_wr(),
     // .i_data_wb(),
-    .i_instruction(wire_id_instruction),                                    //Cable que ingresa a la etapa ID con la instrucción, viene del latch IFID
+    .i_instruction(wire_id_instruction),                                    //Cable que ingresa a la etapa ID con la instrucciï¿½n, viene del latch IFID
     .i_pc4(wire_id_pc4),                                                    //Cable que ingresa a la etapa ID con el PC4, viene del latch IFID
     .o_rs(wire_id_rs),
     .o_rt(wire_id_rt),
@@ -202,7 +208,7 @@ ID id_instace (
 /*
 ******WIRES DECLARED FOR RISK UNIT *****
 */
-wire wire_arithmetic_risk_flag;                                             //Cable que sale de la unidad de Riesgo, flag de riesgo aritmético.
+wire wire_arithmetic_risk_flag;                                             //Cable que sale de la unidad de Riesgo, flag de riesgo aritmï¿½tico.
 wire wire_load_flag;                                                        //Cable que sale de la unidad de Riesgo, flag de riesgo de load.
 wire [4:0] wire_ex_rs;                                                      //Cable que viene de la etapa EX con el registro RS       
 wire [4:0] wire_ex_rt;                                                      //Cable que viene de la etapa EX con el registro RT                  
@@ -220,10 +226,10 @@ risk_unit risk_unit_instance(
      .i_rd_ex(wire_ex_rd),
      .i_rt_ex(wire_ex_rt),
      .i_op_ex(wire_ex_opcode),
-    .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucción, viene del latch IFID.
+    .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucciï¿½n, viene del latch IFID.
     .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),
     .o_load_flag(wire_load_flag),
-    .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al módulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
+    .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al mï¿½dulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
 );
 
 //wire [4:0] wire_ex_rs, wire_ex_rt, wire_ex_rd;                          //TODO: Chequear porque estan declarados dos veces estos cables
@@ -285,5 +291,7 @@ wire [5:0] wire_ex_function;
 //     // .o_ctrl_WB_wr_fla(),
 // );
 assign o_wire_state_leds_pins = wire_state_leds;
-
+assign  o_wire_bytes_counter_leds_pins   = wire_debuguer_main; //TODO: borrar
+assign o_wire_flag_rx_done = wire_flag_rx_done; //todo borrar
+assign o_wire_instruction_buffer_MSB_leds_pin = wire_debuguer_instruction_data[31:23];
 endmodule
