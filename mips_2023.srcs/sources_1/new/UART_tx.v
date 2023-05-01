@@ -11,7 +11,7 @@ module UART_tx
     input wire i_tx_start,          //Start bit
     input wire i_tick,              //Tick
     input wire [(SIZE_TRAMA_BIT-1):0] i_buff_trama,   //Buffer de datos recibidos
-    output wire o_flag_tx_done,      //"flag" de transmisión terminada
+    output wire o_flag_tx_done,      //"flag" de transmisiï¿½n terminada
     output wire o_tx                //Serial data transmitida
 
 );
@@ -28,7 +28,7 @@ localparam [3:0]
 
 //VARIABLES LOCALES
 reg      tx_reg,            tx_next;          //dato a transmitir
-reg      flag_tx_done,      flag_tx_done_next; //"flag" de transmisión terminada
+reg      flag_tx_done,      flag_tx_done_next; //"flag" de transmisiï¿½n terminada
 reg[3:0] state_reg,         state_next;       //Estado
 reg[3:0] tiks_count,        tiks_count_next;  //contador de ticks
 reg[(SIZE_BIT_COUNTER-1):0] bits_count,    bits_count_next;  //contador de bits
@@ -73,6 +73,7 @@ begin
     case(state_reg)
         ST_IDLE:
             begin
+                flag_tx_done_next = 0;
                 tx_next = 1; //~start
                 if (i_tx_start)
                 begin
@@ -84,7 +85,7 @@ begin
             end
         ST_START:
         begin
-        flag_tx_done_next=0;
+        flag_tx_done_next = 0;
             tx_next = 0; //start bit
             if(i_tick)
             begin

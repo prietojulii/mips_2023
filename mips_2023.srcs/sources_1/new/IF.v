@@ -38,13 +38,13 @@ module IF #
     input wire i_enable,
     //IF OUTPUTS
     output wire [(SIZE_REG-1):0] o_instruction_data,
-    output wire  [(SIZE_PC-1):0] o_pc,
+    // output wire  [(SIZE_PC-1):0] o_pc,
     output wire  [(SIZE_PC-1):0] o_next_pc
 
     );
 
-    wire [(SIZE_PC-1):0] wire_pc_to_memory;
-
+    wire [(SIZE_PC-1):0] wire_pc_to_memory, next_pc;
+    wire [(SIZE_REG-1):0] instruction_data;
 
     PROGRAM_MEMORY program_memory (
 
@@ -54,7 +54,7 @@ module IF #
     .i_flag_new_inst_ready(i_flag_new_inst_ready),
     .i_instruction_data(i_instruction_data),
     .i_flag_start_program(i_flag_start_program),
-    .o_instruction_data(o_instruction_data)
+    .o_instruction_data(instruction_data)
     ); 
 
     PC pc (
@@ -66,10 +66,10 @@ module IF #
         .i_no_load(i_no_load),
         .i_flag_start_program(i_flag_start_program),
         .o_pc(wire_pc_to_memory),
-        .o_next_pc(o_next_pc)
+        .o_next_pc(next_pc)
     );
 
-    assign o_pc=wire_pc_to_memory;
-    assign o_next_pc = (wire_pc_to_memory + SIZE_PC) >> 3;
-    
+    // assign o_pc = wire_pc_to_memory;
+    assign o_next_pc = next_pc >> 3;
+    assign o_instruction_data = instruction_data;
 endmodule

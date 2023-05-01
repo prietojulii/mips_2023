@@ -40,7 +40,7 @@ module Main
  wire [2:0] wire_debuguer_main; //TODO: borrar
 
 
-
+ wire wire_uart_main_tx, wire_uart_debug_tx_done;
  wire [(TRAMA_SIZE-1):0] wire_debuguer_uart_tx;
  wire [TRAMA_SIZE-1:0] wire_trama;
  wire wire_flag_rx_done;
@@ -52,9 +52,9 @@ module Main
      .i_tx(wire_debuguer_uart_tx),
      .i_tx_start(wire_debuger_uart_tx_start),
      .o_rx(wire_trama),
-     .o_rx_done_tick(wire_flag_rx_done)
-     //.o_tx(o_tx),
-     //.o_tx_done_tick()
+     .o_rx_done_tick(wire_flag_rx_done),
+     .o_tx(wire_uart_main_tx),
+     .o_tx_done_tick(wire_uart_debug_tx_done) //tx done
  );
 
 wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
@@ -66,10 +66,11 @@ wire [4:0] wire_id_rt;                                                      //Ca
  wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
  wire [3:0] wire_state_leds;
  Debuguer debug_instace (
-     .i_clk(i_clock),
-     .i_reset(i_reset),
+    .i_clk(i_clock),
+    .i_reset(i_reset),
     .i_command(wire_trama),
-    .i_flag_tx_done(o_tx),
+    .i_flag_rx_done(wire_flag_rx_done),
+    .i_flag_tx_done(wire_uart_debug_tx_done),
     //.i_flag_halt()
     .i_pc(),
     .i_rs(wire_id_rs),
@@ -78,16 +79,17 @@ wire [4:0] wire_id_rt;                                                      //Ca
     .i_b(wire_id_dataB),
     //.i_addr_mem(),
     //.i_data_mem(),
-    .i_flag_rx_done(wire_flag_rx_done),
+    //....
     .o_flag_instruction_write(wire_flag_instruction_write),
     .o_enable_pc(wire_debuguer_latch_enable_pc),
     .o_instruction_data(wire_debuguer_instruction_data),
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
     .o_flag_start_program(wire_flag_start_program),
-    .o_counter_prueba(wire_debuguer_main), //TODO: borrar
-    //TODO: pruebas
-    .o_wire_state_leds(wire_state_leds)
+
+    //TODO: borrar pruebas:
+    .o_wire_state_leds(wire_state_leds),
+    .o_counter_prueba(wire_debuguer_main)
  );
 /*
     LOS CABLES i_clock e i_reset son para TODOS LOS M�DULOS
@@ -109,10 +111,10 @@ IF if_instance(
     .i_flag_start_program(wire_flag_start_program),          
     .i_flag_new_inst_ready(wire_flag_instruction_write),
     .i_instruction_data(wire_debuguer_instruction_data),
-    // .i_is_halt(),
     .i_no_load(wire_no_load_pc_flag),
     .i_next_pc(wire_id_pc_next), //TODO: conectar
     .i_enable(wire_debuguer_latch_enable_pc),
+    // .i_is_halt(),
     .o_instruction_data(wire_if_instruction),
     .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
 );
@@ -290,6 +292,7 @@ wire [5:0] wire_ex_function;
 //     // .o_ctrl_WB_memToReg_flag(),
 //     // .o_ctrl_WB_wr_fla(),
 // );
+assign o_tx = wire_uart_main_tx;
 assign o_wire_state_leds_pins = wire_state_leds;
 assign  o_wire_bytes_counter_leds_pins   = wire_debuguer_main; //TODO: borrar
 assign o_wire_flag_rx_done = wire_flag_rx_done; //todo borrar

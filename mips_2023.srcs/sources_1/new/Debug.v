@@ -3,7 +3,7 @@ module Debuguer #(
     parameter SIZE_REG = 32,
     parameter SIZE_COMMAND = 8,
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER = 170,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter SIZE_BUFFER_TO_USER = 224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
     parameter SIZE_TRAMA = 8
@@ -54,7 +54,7 @@ localparam S=3;
 localparam N=4;
 localparam BYTES_PER_INSTRUCTION= 3'b100;
 localparam HALT = {32{1'b1}};
-localparam TX_COUNTER= 21; // = SIZE_BUFFER_TO_USER/8
+localparam TX_COUNTER= 28; // = SIZE_BUFFER_TO_USER/8
 
 //States Codes
 localparam ST_IDLE  = 4'b0001; 
@@ -218,14 +218,29 @@ always @ (*) begin
         ST_FILL_BUFFER_TO_USER: begin
             enable_pc_next= 0; //reset pc_next
             //shifteando data
-            buffer_to_user_next={i_pc,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_PC]};         //PC
-            buffer_to_user_next={i_rs,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_RS]};         //RS
-            buffer_to_user_next={i_rt,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_RT]};         //RT
-            buffer_to_user_next={i_a,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_REG]};         //A
-            buffer_to_user_next={i_b,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_REG]};         //B
-            buffer_to_user_next={i_addr_mem,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_REG]}; //AddrMem
-            buffer_to_user_next={i_data_mem,buffer_to_user[(SIZE_BUFFER_TO_USER-1):SIZE_REG]}; //DataMem
-  
+            buffer_to_user_next= {
+                                     i_pc,      //PC
+                                     {27'b0,i_rs},        //RS
+                                     {27'b0,i_rt},   //RT
+                                     i_a,  //A
+                                     i_b, //B
+                                     i_addr_mem, //AddrMem
+                                     i_data_mem //DataMem
+                                    };
+            
+            // //************************************************
+            // /**
+            //     Prueba
+            // */
+            // buffer_to_user_next = {32'b1111,
+            //                       32'b111111,
+            //                       32'b11111,
+            //                       32'b1111,
+            //                       32'b1111,
+            //                       32'b1111,
+            //                       32'b1111
+            //                       };
+            // //************************************************
             state_next = ST_SEND_DATA_TO_USER;
         end
 
@@ -235,11 +250,11 @@ always @ (*) begin
             //TODO: Chequear la flag tx_done antes de volver a enviar mas data.
             if(index == 0) begin
                     trama_tx_next = buffer_to_user_next[index*SIZE_TRAMA+:SIZE_TRAMA];
-                    index_next = index + 1;
+                    index_next = index + 5'b00001;
                     tx_start_next = 1;
 
             end
-            else if(i_flag_tx_done) begin
+            else if(i_flag_tx_done ) begin
                     trama_tx_next = buffer_to_user_next[index*SIZE_TRAMA+:SIZE_TRAMA];
                     if( index == TX_COUNTER ) // se envio todo el buffer
                     begin
@@ -248,7 +263,7 @@ always @ (*) begin
                         state_next = ST_STEP_TO_STEP;
                     end
                     else begin
-                        index_next = index + 1;
+                        index_next = index + 5'b00001;
                         tx_start_next = 1;
                     end
             end

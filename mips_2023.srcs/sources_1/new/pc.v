@@ -100,5 +100,5 @@ always @ (*) begin
 *************************************************************************************/
 
 assign o_pc = pc;
-assign o_next_pc=pc+{{(SIZE_PC-6){1'b0}},6'b100000};//pc+4Bytes
+assign o_next_pc= pc +   {{(SIZE_PC-6){1'b0}},6'b100000}   ;//pc+4Bytes
 endmodule
