@@ -29,11 +29,15 @@ module Main
     input wire i_clock,
     input wire i_reset,
     input wire i_rx,
-    
+
     output wire [3:0] o_wire_state_leds_pins,
-    output wire [2:0] o_wire_bytes_counter_leds_pins,
+    output wire [3:0] o_wire_state_program_memory_pins,
     output wire o_tx,
-    output wire [8:0] o_wire_instruction_buffer_MSB_leds_pin
+    output wire o_wire_if_new_inst_ready
+    // output wire o_wire_flag_instruction_write,
+    // output wire [2:0] o_wire_bytes_counter_leds_pins,
+    // output wire [8:0] o_main_pc_next,
+    // output wire [8:0] o_wire_instruction_buffer_MSB_leds_pin
     
     );
 
@@ -72,7 +76,7 @@ wire [4:0] wire_id_rt;                                                      //Ca
     .i_flag_rx_done(wire_flag_rx_done),
     .i_flag_tx_done(wire_uart_debug_tx_done),
     //.i_flag_halt()
-    .i_pc(),
+    //.i_pc(),
     .i_rs(wire_id_rs),
     .i_rt(wire_id_rt),
     .i_a(wire_id_dataA),
@@ -100,8 +104,11 @@ wire [4:0] wire_id_rt;                                                      //Ca
 */
 wire [PC_SIZE-1:0] wire_if_pc4;                                         //Cable que sale del m�dulo IF del siguiente PC.
 wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del m�dulo IF con la instrucci�n correspondiente a ejecutar.
-wire [REG_SIZE -1:0] wire_no_load_pc_flag;                              //Cable que ingresa al m�dulo PC, flag de que no hay que cargar el PC.
+wire  wire_no_load_pc_flag;                              //Cable que ingresa al m�dulo PC, flag de que no hay que cargar el PC.
 wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable que ingresa desde el m�dulo ID con el pr�ximo PC.
+wire [3:0] wire_if_main_state_program_memory;           //todo: borrar
+wire wire_if_new_inst_ready_prueba;                     //todo: borrar
+
 /*
 ******IF INSTACE*****
 */
@@ -112,18 +119,20 @@ IF if_instance(
     .i_flag_new_inst_ready(wire_flag_instruction_write),
     .i_instruction_data(wire_debuguer_instruction_data),
     .i_no_load(wire_no_load_pc_flag),
+    //.i_is_halt( ),                                                     //Este cable viene de la unidad de control. Avisa que llego la ultima instruccion y termina el programa
     .i_next_pc(wire_id_pc_next), //TODO: conectar
     .i_enable(wire_debuguer_latch_enable_pc),
-    // .i_is_halt(),
     .o_instruction_data(wire_if_instruction),
-    .o_next_pc(wire_if_pc4) //TODO: cambiar pc_next a pc4
+    .o_next_pc(wire_if_pc4), //TODO: cambiar pc_next a pc4
+    .o_wire_state_program_memory(wire_if_main_state_program_memory),
+    .o_wire_new_inst_program_memory(wire_if_new_inst_ready_prueba)
 );
 
 /*
 ******WIRES DECLARED FOR IFID INSTACE*****
 */
 wire [PC_SIZE-1:0] wire_id_pc4;                                         //Cable sale del latch IF/ID con el siguiente PC.
-wire wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucci�n a ingresar en la etapa ID.
+wire [REG_SIZE-1:0] wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucci�n a ingresar en la etapa ID.
 
 /*
 ******IFID INSTACE*****
@@ -294,7 +303,11 @@ wire [5:0] wire_ex_function;
 // );
 assign o_tx = wire_uart_main_tx;
 assign o_wire_state_leds_pins = wire_state_leds;
-assign  o_wire_bytes_counter_leds_pins   = wire_debuguer_main; //TODO: borrar
+// assign  o_wire_bytes_counter_leds_pins   = wire_debuguer_main; //TODO: borrar
 assign o_wire_flag_rx_done = wire_flag_rx_done; //todo borrar
-assign o_wire_instruction_buffer_MSB_leds_pin = wire_debuguer_instruction_data[31:23];
+// assign o_wire_instruction_buffer_MSB_leds_pin = wire_if_instruction[31:23];
+
+// assign o_wire_flag_instruction_write = wire_flag_instruction_write; //todo: borrar
+assign o_wire_state_program_memory_pins = wire_if_main_state_program_memory;
+assign o_wire_if_new_inst_ready = wire_if_new_inst_ready_prueba;
 endmodule

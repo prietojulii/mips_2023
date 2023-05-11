@@ -70,7 +70,6 @@ module ControlMain
     reg wb_mem_to_reg_sel;
     reg wb_write_back_flag;
 
-
 /** --------------------------------------------------------------------------------------------------------------------------
 ** DEFINES FOR OPCODES AND FUNCTS
 ** --------------------------------------------------------------------------------------------------------------------------
@@ -91,7 +90,7 @@ module ControlMain
     localparam OPCODE_SH   = 6'b101001;
     localparam OPCODE_SW   = 6'b101011;
     localparam OPCODE_ADDI = 6'b001000;
-    localparam OPCODE_ORI  = 6'b100101;
+    localparam OPCODE_ORI  = 6'b001101;
     localparam OPCODE_XORI = 6'b001110;
     localparam OPCODE_LUI  = 6'b001111;
     localparam OPCODE_SLTI = 6'b001010;

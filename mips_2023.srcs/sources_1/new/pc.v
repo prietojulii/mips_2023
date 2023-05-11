@@ -72,11 +72,11 @@ always @ (*) begin
             end
             ST_INCREMENT_PC:
              begin
-                if(i_is_halt)
-                    begin
-                    state_next=ST_PROGRAM_FINISHED;
-                    end
-                else if(i_no_load) 
+               //  if(i_is_halt) //todo: descomentar
+               //     begin
+               //    state_next=ST_PROGRAM_FINISHED;
+               //    end
+                if(i_no_load)  //todo: else if
                     begin
                     pc_next=pc;
                     end

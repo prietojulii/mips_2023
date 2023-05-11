@@ -93,16 +93,18 @@ module ID
         jump_direction = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
         branch_address = imm_extend + i_pc4; //branch address
         case (i_ctrl_next_pc_sel)
-            00: begin pc_next = jump_direction; end //jump
-            01: begin pc_next = i_pc4;          end //pc4
-            10: begin pc_next = branch_address; end //branch
-            11: begin pc_next = data_A;         end //jump register
+            2'b00: begin pc_next = jump_direction; end //jump
+            2'b01: begin pc_next = i_pc4;          end //pc4
+            2'b10: begin pc_next = branch_address; end //branch
+            2'b11: begin pc_next = data_A;         end //jump register
             default: begin pc_next = i_pc4; end
         endcase
-
     end
+
     //o_shamt_extend logic
-    always @(*) shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
+    always @(*) begin
+    shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
+    end
     
     //******************* OUTPUT ****************************************************************
     assign o_rs = rs;

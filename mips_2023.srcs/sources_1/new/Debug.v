@@ -79,7 +79,7 @@ reg flag_instruction_write, flag_instruction_write_next;
 reg [SIZE_REG-1:0] buffer_inst, buffer_inst_next; //buffer de instruccion
 reg [2:0] bytes_counter, bytes_counter_next;
 reg [SIZE_BUFFER_TO_USER-1:0] buffer_to_user, buffer_to_user_next;
-reg flag_start_program, enable_pc,enable_pc_next;
+reg flag_start_program,flag_start_program_next, enable_pc,enable_pc_next;
 reg [SIZE_TRAMA-1:0] trama_tx, trama_tx_next;
 reg [4:0] index, index_next;
 reg tx_start,tx_start_next;
@@ -121,6 +121,7 @@ always @ (posedge i_clk) begin
         index <= index_next;
         tx_start <= tx_start_next;
         buffer_to_user <= buffer_to_user_next;
+        flag_start_program <= flag_start_program_next;
       end
 end
 
@@ -139,9 +140,11 @@ always @ (*) begin
     index_next = index;
     tx_start_next = tx_start;
     buffer_to_user_next = buffer_to_user;
+    flag_start_program_next = flag_start_program;
 
     case(state)
         ST_IDLE: begin
+            enable_pc_next = 0;
             if(i_flag_rx_done)
             begin
                 if(i_command==L)
@@ -153,6 +156,7 @@ always @ (*) begin
         end
 
         ST_RECEIVE_INSTRUCTION: begin
+            enable_pc_next = 0;
             flag_instruction_write_next = 0;
             if(i_flag_rx_done) begin
                 //Ac? ya nos aseguramos que en i_command hay un byte de instrucci?n
@@ -177,7 +181,7 @@ always @ (*) begin
             //esperando un halt para pasar al siguiente estado 
             if(buffer_inst == HALT ) begin //! remplazar por if( intruccion == halt)
                 state_next = ST_READY;
-                flag_instruction_write_next = 0;
+                flag_instruction_write_next = 1;
             end
             else begin
                 //enviamos data
@@ -189,11 +193,13 @@ always @ (*) begin
         
         ST_READY:
         begin
+            flag_instruction_write_next=0;
+
             if(i_flag_rx_done ) begin 
                 if(i_command == C)
                 begin
                     state_next = ST_CONTINUE;
-                    enable_pc = 1; 
+                    enable_pc_next = 1; 
                 end
                 else if(i_command == S)
                 begin
@@ -204,11 +210,13 @@ always @ (*) begin
         ST_STEP_TO_STEP: begin
             if (i_flag_rx_done) begin
                 if(i_command == N)begin
+                    flag_start_program_next=1;
                     enable_pc_next = 1;
                     state_next = ST_FILL_BUFFER_TO_USER;
                 end
                 else begin 
                     enable_pc_next=0;
+                    flag_start_program_next=0;
                 end
             end
             else begin
@@ -273,7 +281,7 @@ always @ (*) begin
         end
         // ST_CONTINUE:
         // begin
-        //     flag_start_program=1;
+        //     flag_start_program_next=1;
         // end
         default: begin
             state_next = ST_IDLE; 
@@ -285,7 +293,6 @@ end
                               DEBUGUER OUTPUTS.
 *************************************************************************************/
 
-assign o_flag_instruction_write = flag_instruction_write;
 assign o_enable_pc = enable_pc;
 assign o_instruction_data = buffer_inst;
 assign o_flag_instruction_write = flag_instruction_write;
