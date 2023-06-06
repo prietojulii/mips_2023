@@ -44,7 +44,7 @@ module IFID
     reg [PC_SIZE-1:0] next_pc;
 
 
-    always @(posedge i_clock )
+always @(posedge i_clock )
 begin
     if (i_reset)
     begin

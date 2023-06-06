@@ -40,6 +40,7 @@ module Debuguer #(
     output wire o_flag_start_program,
     
     //TODO: OUTPUT TEST
+    input wire [SIZE_REG-1:0] i_wire_if_instruction,
     output wire  [3:0] o_wire_state_leds,
     output wire [2:0] o_counter_prueba //TODO: borrar
     
@@ -53,7 +54,7 @@ localparam C=2;
 localparam S=3;
 localparam N=4;
 localparam BYTES_PER_INSTRUCTION= 3'b100;
-localparam HALT = {32{1'b1}};
+localparam HALT = 32'b00000000000000000000000000000000;
 localparam TX_COUNTER= 28; // = SIZE_BUFFER_TO_USER/8
 
 //States Codes
@@ -226,15 +227,16 @@ always @ (*) begin
         ST_FILL_BUFFER_TO_USER: begin
             enable_pc_next= 0; //reset pc_next
             //shifteando data
-            buffer_to_user_next= {
-                                     i_pc,      //PC
-                                     {27'b0,i_rs},        //RS
-                                     {27'b0,i_rt},   //RT
-                                     i_a,  //A
-                                     i_b, //B
-                                     i_addr_mem, //AddrMem
-                                     i_data_mem //DataMem
-                                    };
+            buffer_to_user_next = i_wire_if_instruction;
+            // buffer_to_user_next= {
+            //                          i_pc,      //PC
+            //                          {27'b0,i_rs},        //RS
+            //                          {27'b0,i_rt},   //RT
+            //                          i_a,  //A
+            //                          i_b, //B
+            //                          i_addr_mem, //AddrMem
+            //                          i_data_mem //DataMem
+            //                         };
             
             // //************************************************
             // /**
@@ -301,8 +303,4 @@ assign o_trama_tx = trama_tx;
 assign o_tx_start = tx_start;
 assign o_wire_state_leds = state;
 
-//pruebas 
-//TODO: borrar
-assign o_counter_prueba = bytes_counter; //TODO: borrar
-assign o_buffer_inst = buffer_inst;
 endmodule

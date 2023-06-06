@@ -55,7 +55,7 @@ module PROGRAM_MEMORY
     
     //Parameters
     //parameter first_instruction=0;
-    localparam HALT = {32{1'b1}};
+    localparam HALT = 32'b00000000000000000000000000000000;
     localparam INSTRUCTIONS_TOTAL=10; //La cantidad total de instrucciones: SIZE_MEMORY/SIZE_REG
     
     
@@ -115,11 +115,13 @@ always @ (*) begin
     inst_decrease_next = inst_decrease;
     instruction_buffer_next = instruction_buffer;
     flag_new_inst_ready_next =flag_new_inst_ready;
+    total_instructions_next = total_instructions;
+
     case(state)
         ST_IDLE: begin
             if(i_flag_new_inst_ready)
             begin
-                    flag_new_inst_ready_next = 1;
+                    flag_new_inst_ready_next = 0;
                     state_next = ST_RECEIVE_INSTRUCTION;    //Si me llega un flag de que una instrucción está lista, inmediatamente paso al siguiente estado
             end
         end
@@ -128,8 +130,8 @@ always @ (*) begin
             if(i_instruction_data==HALT) begin     //Si la instruccion que vino es halt
                 //ALMACENAR INSTRUCCIÓN HALT
 //                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
-                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]};
-                instruction_buffer_next=instruction_buffer_next>>(SIZE_REG*(total_instructions-1));
+                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]}; //pecho las instrucciones desde el mas signficativo hacia la derecha
+                instruction_buffer_next=instruction_buffer_next>>(SIZE_REG*(total_instructions-1));         //shift para que la primera instruccion quede en la posicion 0
                 
                 inst_counter_next = inst_counter+1;
                 //inst_decrease_next = inst_decrease+1;

@@ -60,7 +60,7 @@ module Main
      .o_tx(wire_uart_main_tx),
      .o_tx_done_tick(wire_uart_debug_tx_done) //tx done
  );
-
+wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del m�dulo IF con la instrucci�n correspondiente a ejecutar.
 wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
 wire [REG_SIZE-1:0] wire_id_dataB;                                          //Cable que sale de la etapa ID con el registro DATA_B 
 wire [4:0] wire_id_rs;                                                      //Cable que sale de la etapa ID con el registro RS                                          
@@ -93,7 +93,8 @@ wire [4:0] wire_id_rt;                                                      //Ca
 
     //TODO: borrar pruebas:
     .o_wire_state_leds(wire_state_leds),
-    .o_counter_prueba(wire_debuguer_main)
+    .o_counter_prueba(wire_debuguer_main),
+    .i_wire_if_instruction(wire_if_instruction)
  );
 /*
     LOS CABLES i_clock e i_reset son para TODOS LOS M�DULOS
@@ -103,7 +104,6 @@ wire [4:0] wire_id_rt;                                                      //Ca
 ******WIRES DECLARED FOR IF INSTACE*****
 */
 wire [PC_SIZE-1:0] wire_if_pc4;                                         //Cable que sale del m�dulo IF del siguiente PC.
-wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del m�dulo IF con la instrucci�n correspondiente a ejecutar.
 wire  wire_no_load_pc_flag;                              //Cable que ingresa al m�dulo PC, flag de que no hay que cargar el PC.
 wire [PC_SIZE-1:0] wire_id_pc_next;                                     //Cable que ingresa desde el m�dulo ID con el pr�ximo PC.
 wire [3:0] wire_if_main_state_program_memory;           //todo: borrar
@@ -304,7 +304,7 @@ wire [5:0] wire_ex_function;
 assign o_tx = wire_uart_main_tx;
 assign o_wire_state_leds_pins = wire_state_leds;
 // assign  o_wire_bytes_counter_leds_pins   = wire_debuguer_main; //TODO: borrar
-assign o_wire_flag_rx_done = wire_flag_rx_done; //todo borrar
+//assign o_wire_flag_rx_done = wire_flag_rx_done; //todo borrar
 // assign o_wire_instruction_buffer_MSB_leds_pin = wire_if_instruction[31:23];
 
 // assign o_wire_flag_instruction_write = wire_flag_instruction_write; //todo: borrar
