@@ -50,6 +50,13 @@ module ID
     output wire [5:0] o_op, //opcode in ALU
     output wire o_is_A_B_equal_flag
     );
+
+    // Define next pc selector
+    localparam SELECT_JUMP_DIRECTION = 2'b01; //offset
+    localparam SELECT_PC4 = 2'b00;
+    localparam SELECT_BRANCH = 2'b10;
+    localparam SELECT_JUMP_DATA_A = 2'b11;
+
     //***************** Declaration of signals ******************************************************
     reg [31:0] imm_extend, shamt_extend, jump_direction, branch_address, pc_next;
 
@@ -85,7 +92,7 @@ module ID
         .o_data_A(data_A),
         .o_data_B(data_B)
     );
-    
+
     //o_pc_next logic 
     always @(*) 
     begin
@@ -93,10 +100,10 @@ module ID
         jump_direction = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
         branch_address = imm_extend + i_pc4; //branch address
         case (i_ctrl_next_pc_sel)
-            2'b00: begin pc_next = jump_direction; end //jump
-            2'b01: begin pc_next = i_pc4;          end //pc4
-            2'b10: begin pc_next = branch_address; end //branch
-            2'b11: begin pc_next = data_A;         end //jump register
+            SELECT_JUMP_DIRECTION: begin pc_next = jump_direction; end //jump
+            SELECT_PC4: begin pc_next = i_pc4;          end //pc4
+            SELECT_BRANCH: begin pc_next = branch_address; end //branch
+            SELECT_JUMP_DATA_A: begin pc_next = data_A;         end //jump register
             default: begin pc_next = i_pc4; end
         endcase
     end
