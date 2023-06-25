@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Julieta Prieto
 // 
 // Create Date: 24.02.2023 19:41:11
 // Design Name: 
@@ -33,17 +33,15 @@ module ControlMain
     output wire o_ex_alu_src_a,
     output wire [1:0] o_ex_alu_src_b, // 00 - B , 01 - inmediate, 10 - return address, 11 - not used
     output wire [1:0] o_ex_reg_dest_sel, // 01 - rd, 00 - rt, 10 - GPR 31, 11 - not used
-    
-    output wire o_mem_write_to_register_flag, //write in the register memory 
-    
+        
     
     output wire o_mem_write_read_flag, //read o write in memory data
-    //output wire o_mem_write_flag,
-    //output wire o_mem_read_flag,
+    //TODO: equivale a output wire o_mem_write_flag,
+    //TODO: equivale a  output wire o_mem_read_flag,
     
-    //TODO: output wire [1:0] o_mem_byte_half_or_word, // 00 - word, 01 - byte, 10 - halfword
     output wire [2:0] o_mem_load_mask,
     output wire  o_mem_store_mask,
+    //TODO: replazo de output wire [1:0] o_mem_byte_half_or_word, // 00 - word, 01 - byte, 10 - halfword
 
     output wire o_wb_mem_to_reg_sel,//selector of the font to use to write the register
     output wire o_wb_write_back_flag //1- there is wrtieback , 0-there is no writeback
@@ -62,7 +60,6 @@ module ControlMain
     reg ex_branch_flag;
     reg [1:0] ex_reg_dest_sel;
     
-    reg mem_write_to_register_flag;
     reg mem_write_read_flag;
     reg [2:0] mem_load_mask;
     reg mem_store_mask;
@@ -386,50 +383,6 @@ begin
 end
 
 /**-----------------------------------------------------------------------------------------------------------------------
-** Memory Wreite To Register Flag Logic
-** -----------------------------------------------------------------------------------------------------------------------
-** 
-   exisiting 2 cases:
-    - 0 - no write back
-    - 1 - write back
-____________________________________________
-TABLE OF INSTRUCTIONS WRITE in Register Memory:
-**------opcode------function---
-- <arit>    000000        -
-- LB    100000        -
-- LH    100001        -
-- LW    100011        -
-- LWU   100111        -
-- LBU   100100        -
-- LHU   100101        -
-- ADDI  001000        -
-- ORI   100101        -
-- XORI  001110        -
-- LUI   001111        -
-_______________________________________________
-*/
-localparam MEM_WRITE_BACK = 1'b1;
-localparam MEM_NO_WRITE_BACK = 1'b0;
-
-always @(*)
-begin 
-    case(i_instruction[MSB_OPCODE:LSB_OPCODE])
-        OPCODE_ARITMETIC_OR_SPECIAL : mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_ADDI : mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_ORI :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_XORI :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LUI :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_SLTI : mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LB : mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LH :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LW :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LWU :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LBU :  mem_write_to_register_flag = MEM_WRITE_BACK;
-        OPCODE_LHU : mem_write_to_register_flag = MEM_WRITE_BACK;
-        default : mem_write_to_register_flag = MEM_NO_WRITE_BACK;
-    endcase
-end
-/**-----------------------------------------------------------------------------------------------------------------------
 ** Memory Write OR Read Flag Logic
 ** -----------------------------------------------------------------------------------------------------------------------
 
@@ -603,7 +556,6 @@ assign  o_next_pc_select = next_pc_select;
 assign  o_ex_alu_src_a = ex_alu_src_a;
 assign  o_ex_alu_src_b = ex_alu_src_b;
 assign  o_ex_reg_dest_sel = ex_reg_dest_sel;
-assign  o_mem_write_to_register_flag = mem_write_to_register_flag;
 assign  o_mem_write_read_flag = mem_write_read_flag;
 assign  o_mem_load_mask = mem_load_mask;
 assign  o_mem_store_mask = mem_store_mask;

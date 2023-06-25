@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Mateo Merino
 // 
 // Create Date: 21.02.2023 17:51:44
 // Design Name: 
@@ -49,18 +49,6 @@ module IF #
     wire [(SIZE_REG-1):0] instruction_data;
     wire [3:0] wire_state_program_memory; //todo: borrar
     wire wire_new_inst_program_memory;
-    PROGRAM_MEMORY program_memory (
-
-    .i_clk(i_clk),
-    .i_reset(i_reset),
-    .i_pc(wire_pc_to_memory),
-    .i_flag_new_inst_ready(i_flag_new_inst_ready),
-    .i_instruction_data(i_instruction_data),
-    .i_flag_start_program(i_flag_start_program),
-    .o_instruction_data(instruction_data),
-    .o_state_prueba(wire_state_program_memory),
-    .o_flag_new_inst_ready_prueba(wire_new_inst_program_memory)
-    ); 
 
     PC pc (
         .i_clk(i_clk),
@@ -73,6 +61,18 @@ module IF #
         .o_pc(wire_pc_to_memory),
         .o_next_pc(next_pc)
     );
+
+    PROGRAM_MEMORY program_memory (
+    .i_clk(i_clk),
+    .i_reset(i_reset),
+    .i_pc(wire_pc_to_memory),
+    .i_flag_new_inst_ready(i_flag_new_inst_ready),
+    .i_instruction_data(i_instruction_data),
+    .i_flag_start_program(i_flag_start_program),
+    .o_instruction_data(instruction_data),
+    .o_state_prueba(wire_state_program_memory),
+    .o_flag_new_inst_ready_prueba(wire_new_inst_program_memory)
+    ); 
 
     // assign o_pc = wire_pc_to_memory;
     assign o_next_pc = next_pc >> 3; //mapping bits a bytes

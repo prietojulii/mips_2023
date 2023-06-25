@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Mateo Merino
 // 
 // Create Date: 17.02.2023 15:21:36
 // Design Name: 
@@ -72,11 +72,11 @@ always @ (*) begin
             end
             ST_INCREMENT_PC:
              begin
-               //  if(i_is_halt) //todo: descomentar
-               //     begin
-               //    state_next=ST_PROGRAM_FINISHED;
-               //    end
-                if(i_no_load)  //todo: else if
+                if(i_is_halt) //todo: descomentar
+                   begin
+                  state_next=ST_PROGRAM_FINISHED;
+                  end
+                else if(i_no_load)  //todo: else if
                     begin
                     pc_next=pc;
                     end

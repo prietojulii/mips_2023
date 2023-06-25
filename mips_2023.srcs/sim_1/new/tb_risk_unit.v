@@ -27,7 +27,7 @@ module tb_risk_unit#(
 ();
 
     reg i_clock, i_reset, i_flag_first_ex_instruction;
-    reg [4:0] i_rs_ex, i_rt_ex, i_rd_ex;
+    reg [4:0] i_rt_ex, i_rd_ex;
     reg [SIZE_REG-1:0] i_instruction_id;
     reg [5:0] i_op_ex;
     wire o_arithmetic_risk_flag, o_load_flag, o_no_load_pc_flag; 
@@ -36,8 +36,7 @@ module tb_risk_unit#(
     .i_clk(i_clock),
     .i_reset(i_reset),
     .i_flag_first_ex_instruction(i_flag_first_ex_instruction),
-    
-    .i_rs_ex(i_rs_ex),
+
     .i_rd_ex(i_rd_ex),
     .i_rt_ex(i_rt_ex),
     .i_op_ex(i_op_ex),

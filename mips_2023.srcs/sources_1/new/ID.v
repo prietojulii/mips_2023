@@ -58,7 +58,7 @@ module ID
     localparam SELECT_JUMP_DATA_A = 2'b11;
 
     //***************** Declaration of signals ******************************************************
-    reg [31:0] imm_extend, shamt_extend, jump_direction, branch_address, pc_next;
+    reg [31:0] imm_extend, inm_to_byte, shamt_extend, jump_direction, branch_address, pc_next;
 
     reg [15:0] inm;
     reg [25:0] offset;
@@ -94,17 +94,16 @@ module ID
     );
 
     //o_pc_next logic 
-    always @(*) 
-    begin
-        imm_extend = ( { { 16{inm[15] } } , inm } ) << 2;; //immediate with extended sign
+    always @(*)  begin
+        imm_extend = ( { { 16{inm[15] } } , inm } ); //immediate with extended sign
+        inm_to_byte =  ( { { 16{inm[15] } } , inm } ) << 2; // inmediate with extended sign and shifted 2 bits (for mapping a byte)
         jump_direction = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
-        branch_address = imm_extend + i_pc4; //branch address
+        branch_address = inm_to_byte + i_pc4; //branch address
         case (i_ctrl_next_pc_sel)
-            SELECT_JUMP_DIRECTION: begin pc_next = jump_direction; end //jump
-            SELECT_PC4: begin pc_next = i_pc4;          end //pc4
-            SELECT_BRANCH: begin pc_next = branch_address; end //branch
-            SELECT_JUMP_DATA_A: begin pc_next = data_A;         end //jump register
-            default: begin pc_next = i_pc4; end
+            SELECT_JUMP_DIRECTION: pc_next = jump_direction;  //jump
+            SELECT_PC4:  pc_next = i_pc4;      //pc4
+            SELECT_BRANCH:  pc_next = branch_address;  //branch
+            SELECT_JUMP_DATA_A:  pc_next = data_A;     //jump register
         endcase
     end
 
