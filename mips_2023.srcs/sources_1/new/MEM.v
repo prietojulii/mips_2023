@@ -28,9 +28,9 @@ module MEM # (
     input wire i_reset,
     input wire [REG_SIZE-1:0] i_addr_mem,
     input wire [REG_SIZE-1:0] i_data_mem,
-    input wire [1:0] ctrl_mem_store_mask,
-    input wire [2:0] ctrl_mem_load_mask,
-    input wire ctrl_mem_write_or_read_flag,
+    input wire [1:0] i_ctrl_mem_store_mask,
+    input wire [2:0] i_ctrl_mem_load_mask,
+    input wire i_ctrl_mem_write_or_read_flag,
     output wire [REG_SIZE-1:0] o_data_mem
 );
 
@@ -57,7 +57,7 @@ wire  [REG_SIZE-1:0] data_from_mem;
 
 // Mascara STORE
 always @(*) begin
-case (ctrl_mem_store_mask)
+case (i_ctrl_mem_store_mask)
     MASK_STORE_NONE_MASK: data_to_mem = i_data_mem;
     MASK_STORE_BYTE: data_to_mem = {24'b0, i_data_mem[7:0]};
     MASK_STORE_HALF: data_to_mem = {16'b0, i_data_mem[15:0]};
@@ -69,7 +69,7 @@ end
 DATA_MEM(
   .i_clock(i_clock),
   .i_reset(i_reset),
-  .i_ctrl_mem_rd_or_wr(ctrl_mem_write_or_read_flag),
+  .i_ctrl_mem_rd_or_wr(i_ctrl_mem_write_or_read_flag),
   .i_data_mem(i_data_mem),
   .i_addr_mem(i_addr_mem),
   .o_data_mem(data_from_mem)
@@ -77,7 +77,7 @@ DATA_MEM(
 // Mascara LOAD
 always @(*) begin
 reg_data_from_mem = data_from_mem;
-case (ctrl_mem_load_mask)
+case (i_ctrl_mem_load_mask)
     MASK_LOAD_NONE_MASK: data_to_wb = reg_data_from_mem;
     MASK_LOAD_SIGNED_BYTE: data_to_wb = {{24{reg_data_from_mem[7]}}, reg_data_from_mem[7:0]};
     MASK_LOAD_SIGNED_HALF: data_to_wb = {{16{reg_data_from_mem[15]}}, reg_data_from_mem[15:0]};

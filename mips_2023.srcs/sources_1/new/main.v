@@ -59,6 +59,16 @@ module Main
  );
 
 
+/**
+* WB wires
+**/
+wire [REG_SIZE-1:0] wb_mem_data_to_wb,wb_wire_mem_alu_result;
+wire wb_wire_mem_ctrl_WB_memToReg_flag;
+wire wb_wire_mem_ctrl_WB_wr_flag;
+wire [4:0] wb_addr_wb;
+wire [REG_SIZE-1:0] wb_wire_mem_data_to_wb;
+
+
  /***
 EXMEM WIRES
 ***/
@@ -110,10 +120,12 @@ wire [4:0] wire_id_rt;                                                      //Ca
     //TODO: borrar pruebas:
     .o_wire_state_leds(wire_state_leds),
     // .i_wire_if_instruction(wire_if_instruction),
-    .i_buffer_to_send(
-        {
-            wire_mem_alu_result,
-            mem_data_to_wb}
+    .i_buffer_to_send(mem_data_to_wb
+        // {
+        //     wire_mem_alu_result,
+        //     mem_data_to_wb
+            
+        //     }
         )
  );
 /*
@@ -219,9 +231,9 @@ ID id_instace (
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_ctrl_next_pc_sel(wire_ctrl_next_pc_select),                          //Cable que controla la selecci�n del pr�ximo PC, viene de la CONTROL UNIT.
-    .i_write_wb_flag(1), //Todo: conectar
-    .i_addr_wr(5'b11111), //Todo: conectar
-    .i_data_wb(32'b11111111111111111111111111111111), //todo: conectar
+    .i_write_wb_flag(wb_wire_mem_ctrl_WB_wr_flag),
+    .i_addr_wr(wb_addr_wb), 
+    .i_data_wb(wb_wire_mem_data_to_wb),
     .i_instruction(wire_id_instruction),                                    //Cable que ingresa a la etapa ID con la instrucci�n, viene del latch IFID
     .i_pc4(wire_id_pc4),                                                    //Cable que ingresa a la etapa ID con el PC4, viene del latch IFID
     .o_rs(wire_id_rs),
@@ -335,11 +347,11 @@ wire [1:0] cc_sel_short_circuit_A, cc_sel_short_circuit_B;
 
 SHORT_CIRCUIT_UNIT short_circuit_instance(
     .i_ex_mem_reg_write_flag(wire_mem_ctrl_WB_wr_flag),
-    .i_mem_wb_reg_write_flag(1'b1), //TODO conecatar con MEM_WB
+    .i_mem_wb_reg_write_flag(wb_wire_mem_ctrl_WB_wr_flag),
     .i_id_ex_rs(wire_ex_rs),
     .i_id_ex_rt(wire_ex_rt),
     .i_ex_mem_write_addr(wire_mem_addr_wb),
-    .i_mem_wb_write_addr(5'b11111), //TODO conecatar con MEM_WB
+    .i_mem_wb_write_addr(wb_addr_wb),
     .o_sel_short_circuit_A(cc_sel_short_circuit_A),
     .o_sel_short_circuit_B(cc_sel_short_circuit_B)
 );
@@ -349,7 +361,7 @@ SHORT_CIRCUIT_UNIT short_circuit_instance(
  wire [4:0] exmem_addr_wb;
 
  EX ex_instance(
-    .i_cc_data_wb(32'b11111111111111111111111111111111), //TODO conecatar cortocircuito con etapa WB
+    .i_cc_data_wb(wb_wire_mem_data_to_wb), //TODO conecatar cortocircuito con etapa WB
     .i_op_a(wire_ex_dataA),
     .i_op_b(wire_ex_dataB),
     .i_inmediate(wire_ex_indmediate),
@@ -375,10 +387,10 @@ EXMEM EXMEM_instance(
 
     .i_alu_result(exmem_alu_result),
     .i_data_B(exmem_op_b),
-    .i_addr_wb(exmem_addr_wb),
-    .o_alu_result(wire_mem_alu_result),
+    .i_addr_wb(exmem_addr_wb), 
+    .o_alu_result(wire_mem_alu_result),//TODO:
     .o_data_B(wire_mem_data_B),
-    .o_addr_wb(wire_mem_addr_wb),
+    .o_addr_wb(wire_mem_addr_wb),//TODO:
 
     //* Signals from unit
     // to MEM
@@ -391,8 +403,8 @@ EXMEM EXMEM_instance(
     // to WB
     .i_ctrl_WB_memToReg_flag(wire_ex_ctrl_WB_memToReg_flag),
     .i_ctrl_WB_wr_flag(wire_ex_ctrl_WB_wr_flag),
-    .o_ctrl_WB_memToReg_flag(wire_mem_ctrl_WB_memToReg_flag),
-    .o_ctrl_WB_wr_flag(wire_mem_ctrl_WB_wr_flag)
+    .o_ctrl_WB_memToReg_flag(wire_mem_ctrl_WB_memToReg_flag),//TODO:
+    .o_ctrl_WB_wr_flag(wire_mem_ctrl_WB_wr_flag)//TODO:
 );
 
 wire [REG_SIZE-1:0] mem_data_to_wb;
@@ -402,10 +414,35 @@ MEM MEM_instance(
     .i_reset(i_reset),
     .i_addr_mem(wire_mem_alu_result),
     .i_data_mem(wire_mem_data_B),
-    .ctrl_mem_store_mask(wire_mem_MEM_store_mask),
-    .ctrl_mem_load_mask(wire_mem_MEM_load_mask),
-    .ctrl_mem_write_or_read_flag(wire_mem_MEM_mem_write_or_read_flag),
-    .o_data_mem(mem_data_to_wb)
+    .i_ctrl_mem_store_mask(wire_mem_MEM_store_mask),
+    .i_ctrl_mem_load_mask(wire_mem_MEM_load_mask),
+    .i_ctrl_mem_write_or_read_flag(wire_mem_MEM_mem_write_or_read_flag),
+    .o_data_mem(mem_data_to_wb)//TODO:
+);
+
+
+MEMWB MEMWB_instance(
+    .i_clock(i_clock),
+    .i_reset(i_reset),
+    .i_addr_wb(wire_mem_addr_wb),
+    .i_data_mem(mem_data_to_wb),
+    .i_ctrl_WB_memToReg_flag(wire_mem_ctrl_WB_memToReg_flag),
+    .i_ctrl_WB_wr_flag(wire_mem_ctrl_WB_wr_flag),
+    .i_alu_result(wire_mem_alu_result),
+
+    .o_ctrl_WB_wr_flag(wb_wire_mem_ctrl_WB_wr_flag),
+    .o_addr_wb(wb_addr_wb),
+    .o_data_mem(wb_mem_data_to_wb),
+    .o_ctrl_WB_memToReg_flag(wb_wire_mem_ctrl_WB_memToReg_flag),
+    .o_alu_result(wb_wire_mem_alu_result)
+);
+
+
+WB WB_instance (
+    .i_data_mem(wb_mem_data_to_wb),
+    .i_ctrl_WB_memToReg_flag(wb_wire_mem_ctrl_WB_memToReg_flag),
+    .i_alu_result(wb_wire_mem_alu_result),
+    .o_data_to_wb(wb_wire_mem_data_to_wb)
 );
 
 
