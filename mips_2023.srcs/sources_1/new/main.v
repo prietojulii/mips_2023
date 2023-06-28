@@ -120,7 +120,7 @@ wire [4:0] wire_id_rt;                                                      //Ca
     //TODO: borrar pruebas:
     .o_wire_state_leds(wire_state_leds),
     // .i_wire_if_instruction(wire_if_instruction),
-    .i_buffer_to_send(mem_data_to_wb
+    .i_buffer_to_send(wb_wire_mem_data_to_wb
         // {
         //     wire_mem_alu_result,
         //     mem_data_to_wb
