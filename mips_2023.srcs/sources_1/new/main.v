@@ -120,10 +120,17 @@ wire [4:0] wire_id_rt;                                                      //Ca
     //TODO: borrar pruebas:
     .o_wire_state_leds(wire_state_leds),
     // .i_wire_if_instruction(wire_if_instruction),
-    .i_buffer_to_send(wb_wire_mem_data_to_wb
+    .i_buffer_to_send(
+        // { {27{1'b1}}  , wb_addr_wb }
+        {
+            wire_id_dataA,
+            wire_id_dataB
+        }
+
+        // wb_wire_mem_data_to_wb
         // {
-        //     wire_mem_alu_result,
-        //     mem_data_to_wb
+            //  wire_mem_alu_result
+            // mem_data_to_wb
             
         //     }
         )
@@ -265,10 +272,10 @@ wire ex_flag_first_ex_instruction;                                          //Ca
 risk_unit risk_unit_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-     .i_flag_first_ex_instruction(ex_flag_first_ex_instruction),
-     .i_rd_ex(wire_ex_rd),
-     .i_rt_ex(wire_ex_rt),
-     .i_op_ex(wire_ex_opcode),
+    .i_flag_first_ex_instruction(ex_flag_first_ex_instruction),
+    .i_rd_ex(wire_ex_rd),
+    .i_rt_ex(wire_ex_rt),
+    .i_op_ex(wire_ex_opcode),
     .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucci�n, viene del latch IFID.
     .o_is_halt_flag(wire_is_halt_flag),
     .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),

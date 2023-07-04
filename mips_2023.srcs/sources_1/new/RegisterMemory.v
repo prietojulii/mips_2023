@@ -49,6 +49,8 @@ always@(negedge i_clock) begin // first write
    if (i_reset) begin
       dataA = 0;
       dataB = 0;
+      //TODO buffer[1]=1;
+      //TODO buffer[2]=2;
     end
     else  if (i_wr_flag ) begin //write in the first cicle-time
        //R0, always is 0
@@ -57,11 +59,13 @@ always@(negedge i_clock) begin // first write
 end
 always@(posedge i_clock) begin // read in the second cicle-time
       dataA =  buffer[i_addr_A];
-      dataB =  buffer[i_addr_B];
+      dataB = buffer[i_addr_B] ;
+      //TODO: dataB =  {{26{1'b1}},i_addr_wr,i_wr_flag};
 end
 
 
 
-assign o_data_A =dataA; //dynamic index (ADDR-A POSITION)
+//TODO: assign o_data_A = {32{1'b1}}; //dynamic index (ADDR-A POSITION)
 assign o_data_B = dataB; //dynamic index (ADDR-B POSITION)
+assign o_data_A = dataA; //dynamic index (ADDR-A POSITION)
 endmodule

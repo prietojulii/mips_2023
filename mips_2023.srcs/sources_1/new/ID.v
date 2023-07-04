@@ -65,8 +65,9 @@ module ID
     reg [5:0] funct, op;
     reg [4:0] shamt, rd, rt, rs;
 
-    wire [31:0] data_A, data_B;
-
+    wire [REG_SIZE-1:0] data_A, data_B;   //TODO: Se cambio wire por reg por error en assign. No se puede asignar cables a cab
+    reg [REG_SIZE-1:0] reg_data_A, reg_data_B;
+    reg is_A_B_equal_flag;
     // ***************** Architecture DLX ***********************************************************
      
     always @(*) rs     = i_instruction[25:21]; //source register
@@ -111,6 +112,19 @@ module ID
     always @(*) begin
     shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
     end
+
+    // register logic
+    always @(*) begin
+     reg_data_A = data_A;
+     reg_data_B = data_B;
+     if ( reg_data_A == reg_data_B) begin
+        is_A_B_equal_flag = 1;
+     end
+     else begin
+        is_A_B_equal_flag = 0;
+     end
+
+    end
     
     //******************* OUTPUT ****************************************************************
     assign o_rs = rs;
@@ -118,12 +132,13 @@ module ID
     assign o_rd = rd;
     assign o_imm_extend = imm_extend ;
     assign o_shamt_extend = shamt_extend;
-    assign o_data_A = data_A;
-    assign o_data_B = data_B;
+    assign o_data_A = reg_data_A;
+    assign o_data_B = reg_data_B;
     assign o_pc_next = pc_next;
     assign o_funct = funct;
     assign o_op = op;
-    assign o_is_A_B_equal_flag = data_A == data_B;
+    assign o_is_A_B_equal_flag = is_A_B_equal_flag;
+
 endmodule
 
 

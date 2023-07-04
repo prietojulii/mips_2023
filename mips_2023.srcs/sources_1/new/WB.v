@@ -26,7 +26,7 @@ module WB #(
    input wire [SIZE_REG-1:0] i_data_mem,
    input wire i_ctrl_WB_memToReg_flag,
    input wire [SIZE_REG-1:0] i_alu_result,
-   output wire o_data_to_wb
+   output wire [SIZE_REG-1:0] o_data_to_wb
     );
 
     reg [SIZE_REG-1:0] data_to_wb ;

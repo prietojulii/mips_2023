@@ -3,7 +3,8 @@ module Debuguer #(
     parameter SIZE_REG = 32,
     parameter SIZE_COMMAND = 8,
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER = 32,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter SIZE_BUFFER_TO_USER = 64,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter TX_COUNTER= 8,//28; //TODO: = SIZE_BUFFER_TO_USER/8
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
     parameter SIZE_TRAMA = 8
@@ -39,7 +40,7 @@ module Debuguer #(
     
     //TODO: OUTPUT TEST
     // input wire [SIZE_REG-1:0] i_wire_if_instruction,
-    input wire [SIZE_REG-1:0] i_buffer_to_send,
+    input wire [SIZE_BUFFER_TO_USER-1:0] i_buffer_to_send,
     output wire  [3:0] o_wire_state_leds
 
 );
@@ -52,7 +53,6 @@ localparam S=3;
 localparam N=4;
 localparam BYTES_PER_INSTRUCTION= 3'b100;
 localparam HALT = 32'b00000000000000000000000000000000;
-localparam TX_COUNTER= 4;//28; //TODO: = SIZE_BUFFER_TO_USER/8
 
 //States Codes
 localparam ST_IDLE  = 4'b0001; 
