@@ -42,24 +42,27 @@ module REG_MEMORY
 );
 
 (* dont_touch = "yes" *) reg [DATA_SIZE-1:0] buffer [BUFFER_SIZE-1:0]; //buffer of the memory 
-reg [DATA_SIZE-1:0] dataA;
-reg [DATA_SIZE-1:0] dataB;
+(* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataA;
+(* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataB;
 
-always@(negedge i_clock) begin // first write
-   if (i_reset) begin
-      dataA = 0;
-      dataB = 0;
-      //TODO buffer[1]=1;
-      //TODO buffer[2]=2;
-    end
+//ESCRITURA
+always@(posedge i_clock) begin // first write
+      if (i_reset) begin
+         buffer[1]=2;//TODO
+         buffer[2]=3;
+         buffer[3]=4;
+         buffer[4]=5;
+      end
     else  if (i_wr_flag ) begin //write in the first cicle-time
        //R0, always is 0
        buffer[ i_addr_wr] = (i_addr_wr != 0) ? i_data_in : {DATA_SIZE{1'b0}};  //dynamic index (ADDR POSITION) 
     end
 end
-always@(posedge i_clock) begin // read in the second cicle-time
-      dataA =  buffer[i_addr_A];
-      dataB = buffer[i_addr_B] ;
+
+// LECTURA
+always@(negedge i_clock) begin // read in the second cicle-time
+      dataA = buffer[i_addr_A];
+      dataB = buffer[i_addr_B];
       //TODO: dataB =  {{26{1'b1}},i_addr_wr,i_wr_flag};
 end
 
