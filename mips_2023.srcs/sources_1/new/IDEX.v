@@ -6,6 +6,7 @@ module IDEX
 (
     input wire i_clock,
     input wire i_reset,
+    input wire i_enable,
     
     //* Signals from ID to EX
     input wire [4:0] i_rs,                      // Register source 1
@@ -103,24 +104,26 @@ begin
     end
     else
     begin
-        rs <= i_rs;
-        rt <= i_rt;
-        rd <= i_rd;
-        shamt_extend <= i_shamt_extend;
-        imm_extend <= i_imm_extend;
-        data_A <= i_data_A;
-        data_B <= i_data_B;
-        pc4 <= i_pc4;
-        op <= i_op;
-        flag_first_ex_instruction <= i_flag_first_ex_instruction;
-        ctrl_EX_regDEST_flag <= i_ctrl_EX_regDEST_flag;
-        ctrl_EX_ALU_source_B_flag  <= i_ctrl_EX_ALU_source_B_flag ;
-        ctrl_EX_ALU_source_A_flag  <= i_ctrl_EX_ALU_source_A_flag ;
-        ctrl_MEM_mem_write_or_read_flag <= i_ctrl_MEM_mem_write_or_read_flag;
-        ctrl_MEM_store_mask <= i_ctrl_MEM_store_mask;
-        ctrl_MEM_load_mask <= i_ctrl_MEM_load_mask;
-        ctrl_WB_memToReg_flag  <= i_ctrl_WB_memToReg_flag ;
-        ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+        if(i_enable == 1) begin
+            rs <= i_rs;
+            rt <= i_rt;
+            rd <= i_rd;
+            shamt_extend <= i_shamt_extend;
+            imm_extend <= i_imm_extend;
+            data_A <= i_data_A;
+            data_B <= i_data_B;
+            pc4 <= i_pc4;
+            op <= i_op;
+            flag_first_ex_instruction <= i_flag_first_ex_instruction;
+            ctrl_EX_regDEST_flag <= i_ctrl_EX_regDEST_flag;
+            ctrl_EX_ALU_source_B_flag  <= i_ctrl_EX_ALU_source_B_flag ;
+            ctrl_EX_ALU_source_A_flag  <= i_ctrl_EX_ALU_source_A_flag ;
+            ctrl_MEM_mem_write_or_read_flag <= i_ctrl_MEM_mem_write_or_read_flag;
+            ctrl_MEM_store_mask <= i_ctrl_MEM_store_mask;
+            ctrl_MEM_load_mask <= i_ctrl_MEM_load_mask;
+            ctrl_WB_memToReg_flag  <= i_ctrl_WB_memToReg_flag ;
+            ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+        end
     end
 end
 //OUTPUTS

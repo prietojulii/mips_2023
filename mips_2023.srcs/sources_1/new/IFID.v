@@ -28,6 +28,7 @@ module IFID
 (
     input wire i_clock,
     input wire i_reset,
+    input wire i_enable,
 
     input wire [REG_SIZE-1:0] i_instruction_data,
   //  input wire [PC_SIZE-1:0] i_pc,
@@ -57,10 +58,12 @@ begin
     end
     else
     begin
-        instruction_data <= i_instruction_data;
-       // pc <= i_pc;
-        next_pc <= i_next_pc;
-        wire_flag_start_program <= i_flag_start_program;
+      if(i_enable == 1) begin
+          instruction_data <= i_instruction_data;
+        // pc <= i_pc;
+          next_pc <= i_next_pc;
+          wire_flag_start_program <= i_flag_start_program;
+      end
     end
 end
 

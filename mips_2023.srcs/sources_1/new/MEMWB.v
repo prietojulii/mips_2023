@@ -26,6 +26,8 @@ module MEMWB #(
     (
     input wire i_clock,
     input wire i_reset,
+    input wire i_enable,
+
     input wire [REG_SIZE-1:0] i_data_mem,
     input wire                i_ctrl_WB_memToReg_flag,
     input wire                i_ctrl_WB_wr_flag,
@@ -49,17 +51,19 @@ always @(posedge i_clock )
 begin
     if(i_reset)
     begin
-    data_mem <= 0;
-    ctrl_WB_memToReg_flag <= 0;
-    ctrl_WB_wr_flag <= 0;
-    alu_result <= 0;
+        data_mem <= 0;
+        ctrl_WB_memToReg_flag <= 0;
+        ctrl_WB_wr_flag <= 0;
+        alu_result <= 0;
     end
     else
     begin
-    data_mem <=i_data_mem;
-    ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
-    ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
-    alu_result <= i_alu_result;
+        if(i_reset == 1) begin
+            data_mem <=i_data_mem;
+            ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
+            ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+            alu_result <= i_alu_result;
+        end
     end
 end
 

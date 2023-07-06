@@ -62,8 +62,8 @@ end
 // LECTURA
 always@(negedge i_clock) begin // read in the second cicle-time
       dataA = buffer[i_addr_A];
-      dataB = buffer[i_addr_B];
-      //TODO: dataB =  {{26{1'b1}},i_addr_wr,i_wr_flag};
+      // dataB = buffer[i_addr_B];//TODO
+      dataB =  {i_addr_A,3'b000,i_addr_B,3'b000,i_addr_wr,7'b0,i_wr_flag};
 end
 
 

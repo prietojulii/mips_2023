@@ -208,13 +208,13 @@ always @ (*) begin
         ST_STEP_TO_STEP: begin
             if (i_flag_rx_done) begin
                 if(i_command == N)begin
-                    flag_start_program_next=1;
+                    flag_start_program_next=1; // TODO: este cable solo debe inicializarse en uno nada mas. una vez
                     enable_pc_next = 1;
                     state_next = ST_FILL_BUFFER_TO_USER;
                 end
                 else begin 
                     enable_pc_next=0;
-                    flag_start_program_next=0;
+                    flag_start_program_next=0; // TODO: este cable solo debe inicializarse en uno nada mas. una vez
                 end
             end
             else begin

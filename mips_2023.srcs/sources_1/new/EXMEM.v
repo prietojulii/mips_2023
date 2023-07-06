@@ -27,6 +27,7 @@ module EXMEM
 (
     input wire i_clock,
     input wire i_reset,
+    input wire i_enable,
 
     //* Signals from EX to MEM
     input wire [(REG_SIZE-1):0] i_alu_result,      // Result of ALU
@@ -83,14 +84,16 @@ begin
     end
     else
     begin
-        alu_result <= i_alu_result;
-        data_B <= i_data_B;
-        addr_wb <= i_addr_wb;
-        ctrl_MEM_mem_write_or_read_flag <= i_ctrl_MEM_mem_write_or_read_flag;
-        ctrl_MEM_store_mask <= i_ctrl_MEM_store_mask;
-        ctrl_MEM_load_mask <= i_ctrl_MEM_load_mask;
-        ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
-        ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+        if(i_enable == 1) begin
+            alu_result <= i_alu_result;
+            data_B <= i_data_B;
+            addr_wb <= i_addr_wb;
+            ctrl_MEM_mem_write_or_read_flag <= i_ctrl_MEM_mem_write_or_read_flag;
+            ctrl_MEM_store_mask <= i_ctrl_MEM_store_mask;
+            ctrl_MEM_load_mask <= i_ctrl_MEM_load_mask;
+            ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
+            ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+        end
     end
 end
 

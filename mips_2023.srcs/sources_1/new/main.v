@@ -115,7 +115,7 @@ wire [4:0] wire_id_rt;                                                      //Ca
     .o_instruction_data(wire_debuguer_instruction_data),
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
-    .o_flag_start_program(wire_flag_start_program),
+    .o_flag_start_program(wire_flag_start_program), // ESTE CABLE SE ENVIA A TODAS LAS UNIDADES LATCH (y pc) PARA HABILITARLAS O DESHABILITARLAS
 
     //TODO: borrar pruebas:
     .o_wire_state_leds(wire_state_leds),
@@ -180,6 +180,8 @@ wire id_flag_first_ex_instruction;
 IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
+    .i_enable(wire_debuguer_latch_enable_pc),
+    
     .i_instruction_data(wire_if_instruction),
     .i_flag_start_program(wire_flag_start_program),
     .i_next_pc(wire_if_pc4),
@@ -296,6 +298,7 @@ wire   wire_ex_ctrl_WB_memToReg_flag, wire_ex_ctrl_WB_wr_flag;
 IDEX idex_instance(
      .i_clock(i_clock),
      .i_reset(i_reset),
+     .i_enable(wire_debuguer_latch_enable_pc), //sin output
     
     //* Signals from ID to EX
     .i_rs(wire_id_rs),
@@ -391,6 +394,7 @@ SHORT_CIRCUIT_UNIT short_circuit_instance(
 EXMEM EXMEM_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
+    .i_enable(wire_debuguer_latch_enable_pc),
 
     .i_alu_result(exmem_alu_result),
     .i_data_B(exmem_op_b),
@@ -431,6 +435,8 @@ MEM MEM_instance(
 MEMWB MEMWB_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
+    .i_enable(wire_debuguer_latch_enable_pc),
+
     .i_addr_wb(wire_mem_addr_wb),
     .i_data_mem(mem_data_to_wb),
     .i_ctrl_WB_memToReg_flag(wire_mem_ctrl_WB_memToReg_flag),
