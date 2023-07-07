@@ -3,11 +3,12 @@ module Debuguer #(
     parameter SIZE_REG = 32,
     parameter SIZE_COMMAND = 8,
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER = 64,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
-    parameter TX_COUNTER= 8,//28; //TODO: = SIZE_BUFFER_TO_USER/8
+    parameter SIZE_BUFFER_TO_USER =160,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter TX_COUNTER= 20,//28; //TODO: = SIZE_BUFFER_TO_USER/8
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
-    parameter SIZE_TRAMA = 8
+    parameter SIZE_TRAMA = 8,
+    parameter SIZE_INDEX = 8
 ) (
     input wire i_clk,
     input wire i_reset,
@@ -79,7 +80,7 @@ reg [2:0] bytes_counter, bytes_counter_next;
 reg [SIZE_BUFFER_TO_USER-1:0] buffer_to_user, buffer_to_user_next;
 reg flag_start_program,flag_start_program_next, enable_pc,enable_pc_next;
 reg [SIZE_TRAMA-1:0] trama_tx, trama_tx_next;
-reg [4:0] index, index_next;
+reg [SIZE_INDEX-1:0] index, index_next;
 reg tx_start,tx_start_next;
 /************************************************************************************
                               DEBUGUER STATE MACHINE.
