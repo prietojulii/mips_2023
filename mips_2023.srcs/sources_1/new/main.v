@@ -127,7 +127,7 @@ wire [4:0] wire_id_rt;                                                      //Ca
             wire_id_dataB,
             wire_mem_alu_result,
             wb_wire_mem_data_to_wb,
-            {30'b0, wire_ctrl_wb_mem_to_reg_sel, wb_wire_mem_ctrl_WB_memToReg_flag}
+            {28'b0, wire_ctrl_wb_mem_to_reg_sel,wire_ex_ctrl_WB_memToReg_flag,wire_mem_ctrl_WB_memToReg_flag,wb_wire_mem_ctrl_WB_memToReg_flag}
 
         }
 

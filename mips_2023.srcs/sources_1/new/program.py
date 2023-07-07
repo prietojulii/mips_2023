@@ -88,8 +88,18 @@ elif user_input.upper() == "S":
             ser.write(b'\x04')
             
             # Esperar y leer la respuesta del MIPS
-            response_bytes = ser.read(8)
+            response_bytes = ser.read(20)
             response_reorder = response_bytes[::-1] # ordenar los bytes big-endian
+            response_hex =  response_reorder.hex()
+            print("DATA A: ", response_hex[0:8])
+            print("DATA B: ", response_hex[8:16])
+            print("ALU Result: ", response_hex[16:24])
+            print("WB data: ", response_hex[24:32])
+            
+            response_bin = bin(int(response_reorder.hex(), 16))[2:].zfill(160) # convertir a binario
+            # print("FLAG MEM TO REG: ", response_hex[32:40])
+            print("FLAG MEM TO REG: ", response_bin[128:160])
+
             print("Respuesta del MIPS:",  response_reorder.hex())
             
         elif user_input.upper() == "E":

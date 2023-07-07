@@ -58,7 +58,7 @@ begin
     end
     else
     begin
-        if(i_reset == 1) begin
+        if(i_enable == 1) begin
             data_mem <=i_data_mem;
             ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
             ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
