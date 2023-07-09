@@ -127,8 +127,12 @@ wire [4:0] wire_id_rt;                                                      //Ca
             wire_id_dataB,
             wire_mem_alu_result,
             wb_wire_mem_data_to_wb,
-            {28'b0, wire_ctrl_wb_mem_to_reg_sel,wire_ex_ctrl_WB_memToReg_flag,wire_mem_ctrl_WB_memToReg_flag,wb_wire_mem_ctrl_WB_memToReg_flag}
-
+            {28'b0, wire_ctrl_wb_mem_to_reg_sel,wire_ex_ctrl_WB_memToReg_flag,wire_mem_ctrl_WB_memToReg_flag,wb_wire_mem_ctrl_WB_memToReg_flag},
+            {28'b0,wire_ctrl_ex_reg_dest_sel,wire_ex_ctrl_EX_regDEST_flag},//Selector para controlar la seleccion del registro
+            {28'b0,wire_ctrl_wb_write_back_flag,wire_ex_ctrl_WB_wr_flag,wire_mem_ctrl_WB_wr_flag,wb_wire_mem_ctrl_WB_wr_flag}, 
+            {27'b0, exmem_addr_wb}, //salida del mux con addr wb
+            {27'b0, wire_mem_addr_wb},// salida latcheada
+            {27'b0, wb_addr_wb} //entrada al MEM reg
         }
 
         // wb_wire_mem_data_to_wb
@@ -159,7 +163,7 @@ wire wire_is_halt_flag;
 IF if_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_flag_start_program(wire_flag_start_program),          
+    .i_flag_start_program(wire_flag_start_program),
     .i_flag_new_inst_ready(wire_flag_instruction_write),
     .i_instruction_data(wire_debuguer_instruction_data),
     .i_no_load(wire_no_load_pc_flag),
@@ -181,7 +185,7 @@ wire id_flag_first_ex_instruction;
 /*
 ******IFID INSTACE*****
 */
-IFID ifid_instance (
+ IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_enable(wire_debuguer_latch_enable_pc),
@@ -271,14 +275,12 @@ wire [4:0] wire_ex_rs;                                                      //Ca
 wire [4:0] wire_ex_rt;                                                      //Cable que viene de la etapa EX con el registro RT                  
 wire [4:0] wire_ex_rd;                                                      //Cable que viene de la etapa EX con el registro RD
 wire [5:0] wire_ex_opcode;                                                  //Cable que viene de la etapa EX con el OPCODE 
-wire ex_flag_first_ex_instruction;                                          //Cable que viene de la etapa EX con el flag en True si es la primera instrucci�n.
 /*
 ******RISK UNIT INSTANCE*****
 */
 risk_unit risk_unit_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_flag_first_ex_instruction(ex_flag_first_ex_instruction),
     .i_rd_ex(wire_ex_rd),
     .i_rt_ex(wire_ex_rt),
     .i_op_ex(wire_ex_opcode),
@@ -314,7 +316,6 @@ IDEX idex_instance(
     .i_data_B(wire_id_dataB),
     .i_pc4(wire_id_pc4),
     .i_op(wire_id_opcode),
-    .i_flag_first_ex_instruction(id_flag_first_ex_instruction), //TODO: preguntar a mateo si esta bien.
     .o_rs(wire_ex_rs),
     .o_rt(wire_ex_rt),
     .o_rd(wire_ex_rd),
@@ -324,7 +325,6 @@ IDEX idex_instance(
     .o_data_B(wire_ex_dataB), 
     .o_pc4(wire_ex_pc4),
     .o_op(wire_ex_opcode),
-    .o_flag_first_ex_instruction(ex_flag_first_ex_instruction),
 
     //* Signals from Unit Control
     //to EX

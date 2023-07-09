@@ -32,7 +32,6 @@ module risk_unit#(
     input wire [5:0] i_op_ex,                           //OP input from the EX stage
     input wire [4:0] i_rt_ex,                           //RT input from the EX stage
     input wire [4:0] i_rd_ex,                           //RD input from the EX stage
-    input wire i_flag_first_ex_instruction,             //First instruction in EX stage flag
 
     output wire o_is_halt_flag,                         //Halt Flag to IF Module
     output wire o_load_flag,                            //Load Flag to Short Circuit Unit
@@ -41,8 +40,7 @@ module risk_unit#(
     );
     
     //States
-    localparam ST_IDLE  = 4'b0001; 
-    localparam ST_READ_INSTRUCTION  = 4'b0010;
+    localparam ST_READ_INSTRUCTION  = 4'b0000;
     localparam ST_RISK_DETECTED  = 4'b0011; 
     localparam ST_PROGRAM_FINISHED  = 4'b0100; 
     
@@ -83,7 +81,7 @@ module risk_unit#(
 
     always @ (posedge i_clk) begin
     if(i_reset)begin
-        state <= ST_IDLE;
+        state <= ST_READ_INSTRUCTION;
 //        op_id <= 0;
     end
     else begin
@@ -99,12 +97,6 @@ always @ (*) begin
     is_halt_flag = 0;
    
     case(state)
-        ST_IDLE: begin
-            if(i_flag_first_ex_instruction)
-            begin
-                    state_next = ST_READ_INSTRUCTION;
-            end
-        end
         ST_READ_INSTRUCTION: begin
             if(i_instruction_id==HALT)begin
                 state_next = ST_PROGRAM_FINISHED;
@@ -117,7 +109,7 @@ always @ (*) begin
                     end
             end
             else if(i_op_ex==SPECIAL)begin //ARITMETICAS
-                    if(i_rd_ex==rs_id || i_rd_ex==rt_id )begin
+                    if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin
                         arithmetic_risk_flag=1;
                         state_next = ST_RISK_DETECTED;
                     end

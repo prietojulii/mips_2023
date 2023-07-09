@@ -45,6 +45,7 @@ module MEMWB #(
 (* dont_touch = "yes" *) reg ctrl_WB_memToReg_flag;
 (* dont_touch = "yes" *) reg ctrl_WB_wr_flag;
 (* dont_touch = "yes" *) reg [REG_SIZE-1:0]  alu_result;
+(* dont_touch = "yes" *) reg [4:0] addr_wb;
 
 
 always @(posedge i_clock )
@@ -55,6 +56,7 @@ begin
         ctrl_WB_memToReg_flag <= 0;
         ctrl_WB_wr_flag <= 0;
         alu_result <= 0;
+        addr_wb <= 0;
     end
     else
     begin
@@ -63,6 +65,7 @@ begin
             ctrl_WB_memToReg_flag <= i_ctrl_WB_memToReg_flag;
             ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
             alu_result <= i_alu_result;
+            addr_wb <= i_addr_wb;
         end
     end
 end
@@ -72,5 +75,6 @@ assign o_data_mem = data_mem;
 assign o_ctrl_WB_memToReg_flag = ctrl_WB_memToReg_flag;
 assign o_ctrl_WB_wr_flag = ctrl_WB_wr_flag;
 assign o_alu_result = alu_result;
+assign o_addr_wb = addr_wb;
 
 endmodule
