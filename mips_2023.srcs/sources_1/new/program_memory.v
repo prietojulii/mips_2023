@@ -71,13 +71,13 @@ module PROGRAM_MEMORY
         state <= ST_IDLE;
         flag_new_inst_ready <=0; 
 //        flag_start_program<=0;
-        instruction_data_output<=0;
+        //TODO: instruction_data_output<=0;
         instruction_buffer<=0;
         total_instructions<=INSTRUCTIONS_TOTAL;
     end
     else begin
         state <= state_next;
-        instruction_data_output <= instruction_data_output_next;
+        //TODO:  instruction_data_output <= instruction_data_output_next;
         instruction_buffer <= instruction_buffer_next;
 //        flag_start_program<=flag_start_program_next;
         total_instructions<=total_instructions_next;
@@ -87,7 +87,7 @@ end
 
 always @ (*) begin
     state_next = state;
-    instruction_data_output_next = instruction_data_output;
+    //TODO  instruction_data_output_next = instruction_data_output;
 //    flag_start_program_next = flag_start_program;
     instruction_buffer_next = instruction_buffer;
     flag_new_inst_ready_next =flag_new_inst_ready;
@@ -107,8 +107,8 @@ always @ (*) begin
                 //ALMACENAR INSTRUCCIÓN HALT
 //                instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_REG-1):SIZE_COMMAND]};
                 instruction_buffer_next={i_instruction_data,instruction_buffer[(SIZE_MEMORY-1):SIZE_REG]}; //pecho las instrucciones desde el mas signficativo hacia la derecha
-                instruction_buffer_next=instruction_buffer_next>>(SIZE_REG*(total_instructions-1));         //shift para que la primera instruccion quede en la posicion 0
-
+                
+                instruction_buffer_next=instruction_buffer_next>>(SIZE_REG*(total_instructions-1));       //shift para que la primera instruccion quede en la posicion 0
                state_next = ST_READY_TO_EXECUTE;    //Si ya llegó la instruccion halt, ya estamos listos para empezar a ejecutar
             end 
             else begin
@@ -121,6 +121,7 @@ always @ (*) begin
         end
     
     ST_READY_TO_EXECUTE: begin
+        instruction_data_output=instruction_buffer[0+:SIZE_REG]; //TODO: 
         if(i_flag_start_program)begin
             //SACO LA INSTRUCCION CORRESPONDIENTE
             state_next = ST_SEND_INSTRUCTION;
@@ -128,7 +129,8 @@ always @ (*) begin
     end
     
     ST_SEND_INSTRUCTION:begin
-           instruction_data_output_next=instruction_buffer[(i_pc)+:SIZE_REG];
+        //TODO    instruction_data_output_next=instruction_buffer[(i_pc)+:SIZE_REG];
+           instruction_data_output=instruction_buffer[(i_pc)+:SIZE_REG];
     end
 
     endcase

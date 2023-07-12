@@ -28,7 +28,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 #PROGRAMA
 # Configuración del puerto serial
-uart_port = "COM8"  # Reemplaza esto con el puerto UART correspondiente en tu sistema
+uart_port = "COM8"  #TODO: Reemplaza esto con el puerto UART correspondiente en tu sistema
 baud_rate = 9600  # Velocidad de transmisión en baudios
 
 # Abrir la conexión del puerto serial
@@ -88,26 +88,41 @@ elif user_input.upper() == "S":
             ser.write(b'\x04')
             
             # Esperar y leer la respuesta del MIPS
-            response_bytes = ser.read(40)
+            response_bytes = ser.read(88) #TODO: cambiar cuando agregas cosas para leer
             response_reorder = response_bytes[::-1] # ordenar los bytes big-endian
             response_hex =  response_reorder.hex()
-            print("DATA A: ", response_hex[0:8])
-            print("DATA B: ", response_hex[8:16])
-            print("ALU Result: ", response_hex[16:24])
-            print("WB data: ", response_hex[24:32])
-            print("MEM to REG: ", response_hex[32:40])
-            print("Selector ADDR WRITEBACK(CONTROL)(IDEX): ",response_hex[40:48] )
-            print("FLAG HAY WB: ",response_hex[48:56] )
-            print("Addr WB (mux):  ",response_hex[56:64] )
-            print("Addr WB (1er latch):  ",response_hex[64:72] )
-            print("Addr WB (en MEM reg):  ",response_hex[72:80] )
+            print("#################################################", )
+            # print("DATA A: ", response_hex[0:8])
+            # print("DATA B: ", response_hex[8:16])
+            # print("ALU Result: ", response_hex[16:24])
+            # print("WB data: ", response_hex[24:32])
+            # print("MEM to REG: ", response_hex[32:40])
+            # print("Selector ADDR WRITEBACK(CONTROL)(IDEX): ",response_hex[40:48] )
+            # print("FLAGS HAY WB: ",response_hex[48:56] )
+            # print("Addr WB (mux):  ",response_hex[56:64] )
+            # print("Addr WB (1er latch):  ",response_hex[64:72] )
+            # print("Addr WB (en MEM reg):  ",response_hex[72:80] )
+            pc_mas_4_id = str(response_hex[80:88])
+            pc_id = int(pc_mas_4_id, 16) - 4
+            # print("PC ID:  ",pc_id)
+            print("INSTRUCCION (ID):  ",response_hex[88:96] )
+            # print("A==B? (ID):  ",response_hex[96:104] )
+            print("Selector Next PC(control unit):  ",response_hex[104:112] )
+            print("PC NEXT (desde ID  hasta IF sin latch):  ",response_hex[112:120] )
+            # print("is_halt (Risk unit):  ",response_hex[120:128] )
+            # print("ARITHMETIK RISK (Risk unit):  ",response_hex[128:136] )
+            # print("load_flag (Risk unit):  ",response_hex[136:144] )
+            # print("NO load_flag (Risk unit):  ",response_hex[144:152] )
 
+            print("INSTRUCTION IF:  ",response_hex[152:160] )
+            pc_mas_4_if = str(response_hex[160:168])
+            pc_if = int(pc_mas_4_if, 16) - 4
+            print("PC IF:  ", pc_if)
+            # print("FLAG START PROGRAM:  ",response_hex[168:176] )
+            print("________________________________________" )
             response_bin = bin(int(response_reorder.hex(), 16))[2:].zfill(160) # convertir a binario
-            # print("FLAG MEM TO REG: ", response_hex[32:40])
-            print("FLAG MEM TO REG: ", response_bin[128:160])
-            print("Selector Addr WB: ", response_bin[160:182])
-
-            print("Respuesta del MIPS:",  response_reorder.hex())
+            # print("Respuesta del MIPS:",  response_reorder.hex())
+            print("########################################", )
             
         elif user_input.upper() == "E":
             # Enviar comando de salida (0x05)

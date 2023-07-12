@@ -9,6 +9,7 @@ module IDEX
     input wire i_enable,
     
     //* Signals from ID to EX
+    input wire i_enable_risk_unit,
     input wire [4:0] i_rs,                      // Register source 1
     input wire [4:0] i_rt,                      // Register source 2
     input wire [4:0] i_rd,                      // Register destination
@@ -19,6 +20,7 @@ module IDEX
     input wire [PC_SIZE-1:0] i_pc4,             // PC + 4
     input wire [5:0] i_op,                      // Opcode in ALU
     input wire i_flag_first_ex_instruction,     // Flag to know if is the first instruction in EX
+
     output wire [4:0] o_rs,
     output wire [4:0] o_rt,
     output wire [4:0] o_rd,
@@ -29,6 +31,7 @@ module IDEX
     output wire [PC_SIZE-1:0] o_pc4,
     output wire [5:0] o_op,
     output wire o_flag_first_ex_instruction,
+    output wire o_enable_risk_unit,
 
     //* Signals from Unit Control
     //to EX
@@ -78,6 +81,8 @@ reg [2:0]  ctrl_MEM_load_mask;
 reg ctrl_WB_memToReg_flag;
 reg ctrl_WB_wr_flag;
 
+reg enable_risk_unit;
+
 //SECUENTIAL LOGIC ************************************************
 always @(posedge i_clock )
 begin
@@ -101,6 +106,7 @@ begin
         ctrl_MEM_load_mask <= 0;
         ctrl_WB_memToReg_flag  <= 0;
         ctrl_WB_wr_flag <= 0;
+        enable_risk_unit <= 0;
     end
     else
     begin
@@ -123,6 +129,7 @@ begin
             ctrl_MEM_load_mask <= i_ctrl_MEM_load_mask;
             ctrl_WB_memToReg_flag  <= i_ctrl_WB_memToReg_flag ;
             ctrl_WB_wr_flag <= i_ctrl_WB_wr_flag;
+            enable_risk_unit <= i_enable_risk_unit;
         end
     end
 end
@@ -145,6 +152,7 @@ assign o_ctrl_MEM_store_mask = ctrl_MEM_store_mask;
 assign o_ctrl_MEM_load_mask = ctrl_MEM_load_mask;
 assign o_ctrl_WB_memToReg_flag  = ctrl_WB_memToReg_flag ;
 assign o_ctrl_WB_wr_flag = ctrl_WB_wr_flag;
+assign o_enable_risk_unit = enable_risk_unit;
 
 
 

@@ -48,20 +48,20 @@ module PC
     always @ (posedge i_clk) begin
     if(i_reset)begin
         state <= ST_IDLE;
-        pc <= 0;
+        // pc <= 0;
     end
     else if(i_enable) begin
         state <= state_next;
-        pc <= pc_next;
+        // pc <= pc_next;
       end
     else begin
         state <= state;
-        pc <= pc;
+        // pc <= pc;
     end
 end
 
 always @ (*) begin
-    pc_next = pc;
+    // pc_next = pc;
     state_next = state;
         case(state)
             ST_IDLE: begin
@@ -78,11 +78,11 @@ always @ (*) begin
                   end
                 else if(i_no_load)  //todo: else if
                     begin
-                    pc_next=pc;
+                    pc=pc;
                     end
                 else 
                     begin
-                    pc_next=i_next_pc<<3; // i_next_pc with byte-to-bit mapping 
+                    pc=i_next_pc<<3; // i_next_pc with byte-to-bit mapping 
                     end
              end
              

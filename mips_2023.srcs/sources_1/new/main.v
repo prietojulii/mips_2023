@@ -132,7 +132,19 @@ wire [4:0] wire_id_rt;                                                      //Ca
             {28'b0,wire_ctrl_wb_write_back_flag,wire_ex_ctrl_WB_wr_flag,wire_mem_ctrl_WB_wr_flag,wb_wire_mem_ctrl_WB_wr_flag}, 
             {27'b0, exmem_addr_wb}, //salida del mux con addr wb
             {27'b0, wire_mem_addr_wb},// salida latcheada
-            {27'b0, wb_addr_wb} //entrada al MEM reg
+            {27'b0, wb_addr_wb}, //entrada al MEM reg
+            wire_id_pc4,
+            wire_id_instruction,
+            {31'b0,wire_id_is_A_B_equal_flag},
+            {30'b0, wire_ctrl_next_pc_select}, //selector
+            wire_id_pc_next,
+            {31'b0, wire_is_halt_flag},
+            {31'b0, wire_arithmetic_risk_flag},
+            {31'b0, wire_load_flag},
+            {31'b0, wire_no_load_pc_flag},
+            wire_if_instruction,
+            wire_if_pc4,
+            {31'b0, wire_flag_start_program}
         }
 
         // wb_wire_mem_data_to_wb
@@ -182,6 +194,8 @@ IF if_instance(
 wire [PC_SIZE-1:0] wire_id_pc4;                                         //Cable sale del latch IF/ID con el siguiente PC.
 wire [REG_SIZE-1:0] wire_id_instruction;                                               //Cable que sale del latch IF/ID con la instrucci�n a ingresar en la etapa ID.
 wire id_flag_first_ex_instruction;
+wire wire_id_ex_debuguer_latch_enable_pc;
+
 /*
 ******IFID INSTACE*****
 */
@@ -195,7 +209,9 @@ wire id_flag_first_ex_instruction;
     .i_next_pc(wire_if_pc4),
     .o_instruction_data(wire_id_instruction),
     .o_next_pc(wire_id_pc4), //!todo: CAMBIAR A PC4
-    .o_flag_start_program(id_flag_first_ex_instruction)
+    .o_flag_start_program(id_flag_first_ex_instruction),
+    .o_enable(wire_id_ex_debuguer_latch_enable_pc)
+
 );
 
 /*
@@ -237,10 +253,8 @@ ControlMain control_main_instance(
 wire [4:0] wire_id_rd;                                                      //Cable que sale de la etapa ID con el registro RD
 wire [REG_SIZE-1:0] wire_id_shamt;                                          //Cable que sale de la etapa ID con el registro SHAMT 
 wire [REG_SIZE-1:0] wire_id_indmediate;                                     //Cable que sale de la etapa ID con el registro IMMEDIATE 
-//wire [PC_SIZE-1:0] wire_id_pc_next;
 wire [5:0] wire_id_function;                                                //Cable que sale de la etapa ID con el FUNCTION 
 wire [5:0] wire_id_opcode;                                                  //Cable que sale de la etapa ID con el OPCODE
-
 /*
 ******ID INSTANCE*****
 */
@@ -275,19 +289,21 @@ wire [4:0] wire_ex_rs;                                                      //Ca
 wire [4:0] wire_ex_rt;                                                      //Cable que viene de la etapa EX con el registro RT                  
 wire [4:0] wire_ex_rd;                                                      //Cable que viene de la etapa EX con el registro RD
 wire [5:0] wire_ex_opcode;                                                  //Cable que viene de la etapa EX con el OPCODE 
+wire wire_ex_enable_risk_unit;                                            //Cable que viene de la etapa EX con el enable de la unidad de riesgo.
 /*
 ******RISK UNIT INSTANCE*****
 */
 risk_unit risk_unit_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
+    .i_enable(wire_ex_enable_risk_unit), // el cable sale desde EX ( representa la primera instruccion a ejecutar)- lo lee una vez.
     .i_rd_ex(wire_ex_rd),
     .i_rt_ex(wire_ex_rt),
     .i_op_ex(wire_ex_opcode),
     .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucci�n, viene del latch IFID.
     .o_is_halt_flag(wire_is_halt_flag),
     .o_arithmetic_risk_flag(wire_arithmetic_risk_flag),
-    .o_load_flag(wire_load_flag),
+    .o_load_flag(wire_load_flag), // !No ESTA IMPLEMENTADO!
     .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al m�dulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
 );
 
@@ -304,9 +320,10 @@ wire   wire_ex_ctrl_WB_memToReg_flag, wire_ex_ctrl_WB_wr_flag;
 IDEX idex_instance(
      .i_clock(i_clock),
      .i_reset(i_reset),
-     .i_enable(wire_debuguer_latch_enable_pc), //sin output
-    
+     .i_enable(wire_debuguer_latch_enable_pc),
+
     //* Signals from ID to EX
+    .i_enable_risk_unit(wire_id_ex_debuguer_latch_enable_pc),
     .i_rs(wire_id_rs),
     .i_rt(wire_id_rt),
     .i_rd(wire_id_rd),
@@ -325,6 +342,7 @@ IDEX idex_instance(
     .o_data_B(wire_ex_dataB), 
     .o_pc4(wire_ex_pc4),
     .o_op(wire_ex_opcode),
+    .o_enable_risk_unit(wire_ex_enable_risk_unit), // habilita por primera vez el risk unit
 
     //* Signals from Unit Control
     //to EX

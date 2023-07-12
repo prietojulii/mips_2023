@@ -3,8 +3,8 @@ module Debuguer #(
     parameter SIZE_REG = 32,
     parameter SIZE_COMMAND = 8,
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER =320,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
-    parameter TX_COUNTER= 40,//28; //TODO: = SIZE_BUFFER_TO_USER/8
+    parameter SIZE_BUFFER_TO_USER =704,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter TX_COUNTER= 88,//28; //TODO: = SIZE_BUFFER_TO_USER/8
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
     parameter SIZE_TRAMA = 8,
@@ -223,6 +223,7 @@ always @ (*) begin
             end
         end
         ST_FILL_BUFFER_TO_USER: begin
+            flag_start_program_next = 0;
             enable_pc_next= 0; //reset pc_next
             //shifteando data
             buffer_to_user_next = i_buffer_to_send;
@@ -282,6 +283,7 @@ always @ (*) begin
         // ST_CONTINUE:
         // begin
         //     flag_start_program_next=1;
+        //     enable_pc_next =1;
         // end
         default: begin
             state_next = ST_IDLE; 
