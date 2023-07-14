@@ -87,20 +87,23 @@ module risk_unit#(
 //        op_id <= 0;
     end
     else begin
-        state <= state_next;
+        if(i_enable) begin #! TODO: Revisar si es necesario
+            state <= state_next;
+        end
       end
-end
+    end
 
 always @ (*) begin
     state_next = state; 
-    no_load_pc_flag = 0;
-    load_flag = 0;
-    arithmetic_risk_flag = 0; 
-    is_halt_flag = 0;
+  
    
     case(state)
         ST_IDLE: begin
             if(i_enable) begin
+                no_load_pc_flag = 0;
+                load_flag = 0;
+                arithmetic_risk_flag = 0; 
+                is_halt_flag = 0;
                 state_next = ST_READ_INSTRUCTION;
             end
         end
@@ -108,20 +111,20 @@ always @ (*) begin
             if(i_instruction_id==HALT)begin
                 state_next = ST_PROGRAM_FINISHED;
             end
-            else if(i_op_ex==LB || i_op_ex==LH || i_op_ex==LW || i_op_ex==LBU || i_op_ex==LHU || i_op_ex==LWU || i_op_ex==LUI)begin //LOADS
+            if(i_op_ex==LB || i_op_ex==LH || i_op_ex==LW || i_op_ex==LBU || i_op_ex==LHU || i_op_ex==LWU || i_op_ex==LUI)begin //LOADS
                     if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
                         load_flag=1;
                         no_load_pc_flag=1;
                         state_next = ST_RISK_DETECTED;
                     end
             end
-            else if(i_op_ex==SPECIAL)begin //ARITMETICAS
+            if(i_op_ex==SPECIAL)begin //ARITMETICAS
                     if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin
                         arithmetic_risk_flag=1;
                         state_next = ST_RISK_DETECTED;
                     end
             end
-            else if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
+            if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
                     if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin
                         arithmetic_risk_flag=1;
                         state_next = ST_RISK_DETECTED;
