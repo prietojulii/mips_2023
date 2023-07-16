@@ -144,7 +144,9 @@ wire [4:0] wire_id_rt;                                                      //Ca
             {31'b0, wire_no_load_pc_flag},
             wire_if_instruction,
             wire_if_pc4,
-            {31'b0, wire_flag_start_program}
+            {31'b0, wire_flag_start_program},
+            {26'b0,wire_ex_opcode},
+            {26'b0,wire_id_opcode}
         }
 
         // wb_wire_mem_data_to_wb
@@ -296,7 +298,8 @@ wire wire_ex_enable_risk_unit;                                            //Cabl
 risk_unit risk_unit_instance(
     .i_clk(i_clock),
     .i_reset(i_reset),
-    .i_enable(wire_ex_enable_risk_unit), // el cable sale desde EX ( representa la primera instruccion a ejecutar)- lo lee una vez.
+    .i_enable(wire_debuguer_latch_enable_pc),
+    .i_enable_from_ex(wire_ex_enable_risk_unit), // el cable sale desde EX ( representa la primera instruccion a ejecutar)- lo lee una vez.
     .i_rd_ex(wire_ex_rd),
     .i_rt_ex(wire_ex_rt),
     .i_op_ex(wire_ex_opcode),

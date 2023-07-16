@@ -37,6 +37,7 @@ module PC
     localparam ST_IDLE  = 4'b0001; 
     localparam ST_INCREMENT_PC  = 4'b0010;
     localparam ST_PROGRAM_FINISHED = 4'b0011; 
+    localparam ST_NO_LOAD_PC=4'b0111;
     
     //Registers
     reg [3:0] state, state_next; 
@@ -50,49 +51,53 @@ module PC
         state <= ST_IDLE;
         // pc <= 0;
     end
-    else if(i_enable) begin
+    else begin
+        if(i_enable) begin
         state <= state_next;
         // pc <= pc_next;
       end
-    else begin
-        state <= state;
-        // pc <= pc;
     end
 end
 
 always @ (*) begin
     // pc_next = pc;
-    state_next = state;
-        case(state)
-            ST_IDLE: begin
-                if(i_flag_start_program)
+    // if(i_enable) begin
+        state_next = state;
+        
+            case(state)
+                ST_IDLE: begin
+                    pc = 0;
+                    if(i_flag_start_program)
+                        begin
+                        state_next=ST_INCREMENT_PC;
+                        end
+                end
+                ST_INCREMENT_PC:
+                begin
+                    if(i_is_halt) //todo: descomentar
                     begin
+                    state_next=ST_PROGRAM_FINISHED;
+                    end
+                    else begin
+                        if(i_no_load)
+                            state_next=ST_NO_LOAD_PC;
+                        if(~i_no_load)  //todo: else if
+                            begin
+                            pc=i_next_pc<<3; // i_next_pc with byte-to-bit mapping 
+                            end
+                    end
+                end
+                ST_NO_LOAD_PC:
+                begin
                     state_next=ST_INCREMENT_PC;
-                    end
-            end
-            ST_INCREMENT_PC:
-             begin
-                if(i_is_halt) //todo: descomentar
-                   begin
-                  state_next=ST_PROGRAM_FINISHED;
-                  end
-                else if(i_no_load)  //todo: else if
-                    begin
-                    pc=pc;
-                    end
-                else 
-                    begin
-                    pc=i_next_pc<<3; // i_next_pc with byte-to-bit mapping 
-                    end
-             end
-             
-             ST_PROGRAM_FINISHED: 
-             begin
-                //stay here forever
-             end
-                  
-        endcase
-    
+                end
+                ST_PROGRAM_FINISHED: 
+                begin
+                    //stay here forever
+                end
+                    
+            endcase
+    // end
     end
     
 /************************************************************************************

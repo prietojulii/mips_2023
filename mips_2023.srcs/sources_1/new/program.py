@@ -88,12 +88,12 @@ elif user_input.upper() == "S":
             ser.write(b'\x04')
             
             # Esperar y leer la respuesta del MIPS
-            response_bytes = ser.read(88) #TODO: cambiar cuando agregas cosas para leer
+            response_bytes = ser.read(96) #TODO: cambiar cuando agregas cosas para leer
             response_reorder = response_bytes[::-1] # ordenar los bytes big-endian
             response_hex =  response_reorder.hex()
             print("#################################################", )
-            print("DATA A: ", response_hex[0:8])
-            print("DATA B: ", response_hex[8:16])
+            # print("DATA A: ", response_hex[0:8])
+            # print("DATA B: ", response_hex[8:16])
             # print("ALU Result: ", response_hex[16:24])
             # print("WB data: ", response_hex[24:32])
             # print("MEM to REG: ", response_hex[32:40])
@@ -119,6 +119,8 @@ elif user_input.upper() == "S":
             pc_if = int(pc_mas_4_if, 16) - 4
             print("PC IF:  ", pc_if)
             # print("FLAG START PROGRAM:  ",response_hex[168:176] )
+            print("OPCODE (EX): ", response_hex[176:184])
+            print("OPCODE (ID): ", response_hex[184:192])
             print("________________________________________" )
             response_bin = bin(int(response_reorder.hex(), 16))[2:].zfill(160) # convertir a binario
             # print("Respuesta del MIPS:",  response_reorder.hex())

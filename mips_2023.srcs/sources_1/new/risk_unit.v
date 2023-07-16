@@ -29,6 +29,7 @@ module risk_unit#(
     input wire i_clk,                                   //CLOCK
     input wire  i_reset,                                //RESET
     input wire i_enable,                                //ENABLE
+    input wire i_enable_from_ex,
     input wire[(SIZE_REG-1):0] i_instruction_id,        //Instruction from the ID stage     
     input wire [5:0] i_op_ex,                           //OP input from the EX stage
     input wire [4:0] i_rt_ex,                           //RT input from the EX stage
@@ -62,7 +63,7 @@ module risk_unit#(
     localparam ORI=6'b001101;
     localparam XORI=6'b001110;
     localparam SLTI=6'b001010;
-    localparam HALT=32'b0;
+    localparam HALT=32'b00000000000000000000000000000000;
 
     //Registers
     reg is_halt_flag;
@@ -87,62 +88,70 @@ module risk_unit#(
 //        op_id <= 0;
     end
     else begin
-        if(i_enable) begin #! TODO: Revisar si es necesario
             state <= state_next;
-        end
       end
     end
 
 always @ (*) begin
+    if(i_enable)begin
     state_next = state; 
-  
-   
-    case(state)
-        ST_IDLE: begin
-            if(i_enable) begin
-                no_load_pc_flag = 0;
-                load_flag = 0;
-                arithmetic_risk_flag = 0; 
-                is_halt_flag = 0;
+    
+        case(state)
+        
+            ST_IDLE: begin
+                if(i_enable_from_ex) begin
+                    no_load_pc_flag = 0;
+                    load_flag = 0;
+                    arithmetic_risk_flag = 0; 
+                    is_halt_flag = 0;
+                    state_next = ST_READ_INSTRUCTION;
+                end
+            end
+            ST_READ_INSTRUCTION: begin
+                if(i_instruction_id==HALT)begin
+                    state_next = ST_PROGRAM_FINISHED;
+                end
+                if((i_op_ex==LB) || (i_op_ex==LH) || (i_op_ex==LW) || (i_op_ex==LBU) || (i_op_ex==LHU) || (i_op_ex==LWU) || (i_op_ex==LUI))begin //LOADS
+                        if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
+                            load_flag=1;
+                            no_load_pc_flag=1;
+                            state_next = ST_RISK_DETECTED;
+                        end
+                end
+
+                if(i_op_ex==SPECIAL)begin //ARITMETICAS
+                        if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin
+                            arithmetic_risk_flag=1;
+                            state_next = ST_RISK_DETECTED;
+                        end
+                end
+
+                if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
+                        if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin
+                            arithmetic_risk_flag=1;
+                            state_next = ST_RISK_DETECTED;
+                        end
+                end
+            end
+            ST_RISK_DETECTED: begin
+                no_load_pc_flag=0;
+                arithmetic_risk_flag=0;
+                load_flag=0;
                 state_next = ST_READ_INSTRUCTION;
             end
-        end
-        ST_READ_INSTRUCTION: begin
-            if(i_instruction_id==HALT)begin
+            ST_PROGRAM_FINISHED: begin
+                is_halt_flag = 1;
                 state_next = ST_PROGRAM_FINISHED;
             end
-            if(i_op_ex==LB || i_op_ex==LH || i_op_ex==LW || i_op_ex==LBU || i_op_ex==LHU || i_op_ex==LWU || i_op_ex==LUI)begin //LOADS
-                    if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
-                        load_flag=1;
-                        no_load_pc_flag=1;
-                        state_next = ST_RISK_DETECTED;
-                    end
+            default:
+            begin
+                arithmetic_risk_flag=0;
+                load_flag=0;
+                no_load_pc_flag=0;
+                is_halt_flag = 0;
             end
-            if(i_op_ex==SPECIAL)begin //ARITMETICAS
-                    if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin
-                        arithmetic_risk_flag=1;
-                        state_next = ST_RISK_DETECTED;
-                    end
-            end
-            if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
-                    if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin
-                        arithmetic_risk_flag=1;
-                        state_next = ST_RISK_DETECTED;
-                    end
-            end
-        end
-        ST_RISK_DETECTED: begin
-            no_load_pc_flag=0;
-            arithmetic_risk_flag=0;
-            load_flag=0;
-            state_next = ST_READ_INSTRUCTION;
-        end
-        ST_PROGRAM_FINISHED: begin
-            is_halt_flag = 1;
-            state_next = ST_PROGRAM_FINISHED;
-        end
-
-    endcase
+        endcase
+    end
 
 end
 
