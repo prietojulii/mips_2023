@@ -43,7 +43,8 @@ module EX
         input wire [(SIZE_CTRL_CC_OP-1):0] i_sel_cc_a, //selector de corto circuito a
         input wire [(SIZE_CTRL_ALU_SRC_A-1):0] i_ctrl_Alu_src_a, //selector de input A, a la ALU.
         input wire [(SIZE_CTRL_ALU_SRC_B-1):0] i_ctrl_Alu_src_b, //selector de input B, a la ALU.
-        
+        input wire [(SIZE_REG-1):0] i_alu_result_from_MEM, // resultado de la ALU lacheado, (extarido desde etapa MEM)
+
         output wire [(SIZE_REG-1):0] o_op_b,
         output wire [(SIZE_REG-1):0] o_alu_result,
         output wire [4:0] o_addr_wb
@@ -122,7 +123,7 @@ end
     /********* MUX SELECTOR SHORT CIRCUIT B **********/
         case(i_sel_cc_b)
         SELECT_B_CC_OP_B: out_mux_cc_src_b = i_op_b;
-        SELECT_B_CC_ALU_RESULT: out_mux_cc_src_b = reg_alu_result; //corto circuito en B
+        SELECT_B_CC_ALU_RESULT: out_mux_cc_src_b = i_alu_result_from_MEM; //corto circuito en B
         SELECT_B_CC_DATA_WB: out_mux_cc_src_b = i_cc_data_wb;
         default: out_mux_cc_src_b = i_op_b;
 
@@ -131,7 +132,7 @@ end
     /********* MUX SELECTOR SHORT CIRCUIT A **********/
         case(i_sel_cc_a)
         SELECT_A_CC_OP_A: out_mux_cc_src_a = i_op_a;
-        SELECT_A_CC_ALU_RESULT: out_mux_cc_src_a = reg_alu_result; //corto circuito en A
+        SELECT_A_CC_ALU_RESULT: out_mux_cc_src_a = i_alu_result_from_MEM; //corto circuito en A
         SELECT_A_CC_DATA_WB: out_mux_cc_src_a = i_cc_data_wb;
         default: out_mux_cc_src_a = i_op_a;
 

@@ -410,6 +410,7 @@ SHORT_CIRCUIT_UNIT short_circuit_instance(
     .i_sel_cc_a(cc_sel_short_circuit_A),
     .i_ctrl_Alu_src_a(wire_ex_ctrl_EX_ALU_source_A_flag),
     .i_ctrl_Alu_src_b(wire_ex_ctrl_EX_ALU_source_B_flag),
+    .i_alu_result_from_MEM(wire_mem_alu_result),
     .o_op_b(exmem_op_b),
     .o_alu_result(exmem_alu_result),
     .o_addr_wb(exmem_addr_wb)
