@@ -77,7 +77,6 @@ reg [1:0] sel_short_circuit_B;
     end
 
 assign o_sel_short_circuit_B = sel_short_circuit_B;
-// assign o_sel_short_circuit_B = 2'b00;
 assign o_sel_short_circuit_A = sel_short_circuit_A;
 // assign o_sel_short_circuit_A =  2'b00;
 

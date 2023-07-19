@@ -119,15 +119,17 @@ always @ (*) begin
                         end
                 end
 
+                // El registro A o B quieren ser leidos antes de estar listos (riesgo de datos)
+
                 if(i_op_ex==SPECIAL)begin //ARITMETICAS
-                        if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin
+                        if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin // rd= registro destino
                             arithmetic_risk_flag=1;
                             state_next = ST_RISK_DETECTED;
                         end
                 end
 
                 if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
-                        if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin
+                        if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin//rt = registro destino
                             arithmetic_risk_flag=1;
                             state_next = ST_RISK_DETECTED;
                         end
