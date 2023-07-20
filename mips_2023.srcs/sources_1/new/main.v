@@ -146,7 +146,8 @@ wire [4:0] wire_id_rt;                                                      //Ca
             wire_if_pc4,
             {31'b0, wire_flag_start_program},
             {26'b0,wire_ex_opcode},
-            {26'b0,wire_id_opcode}
+            {26'b0,wire_id_opcode},
+            wire_mem_data_B
         }
 
         // wb_wire_mem_data_to_wb

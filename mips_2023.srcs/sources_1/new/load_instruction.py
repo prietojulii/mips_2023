@@ -15,20 +15,40 @@ instrucciones_funct_diccionario = {
     "SLT": "101010",
     "NOR": "100111",
     "XOR": "100111",
-    "AND" : "100100"
+    "AND" : "100100",
+    "JR":"00100",
+    "JALR":"001001", # Salta a la direccion por GPR(rs) y  guarda la direccion de retorno en GPR(rd) 
 }
 
 instrucciones_opcode_diccionario = {
     "ARITH": "000000",
-    "LB" : "100000",
+    "LB" : "100000", # GPT(rt) <- MEM(  base(rs) + ofsset(inmediato)  )
     "LBU" : "100100",
     "LH" : "100001",
     "LHU" : "100101",
     "LWU" : "100111",
     "LW" : "100011",
+    "SB":"101000", # GPR(rt) ->  MEM(  base(rs) + ofsset(inmediato)  )
+    "SH":"101001",
+    "SW":"101011",
+    "ADDI":"001000",
+    "ANDI":"001100",
+    "ORI":"001101",
+    "XORI":"001110",
+    "LUI":"001111",
+    "SLTI":"001010",
+    "BEQ":"000100", # rs == rt => jump a => pc + offset(inmediato)
+    "BNE":"000101",
+    "J":"000010",
+    "JAL":"000011",
     "DUMMY": "111111",
+    "SPECIAL":"000000",
     # Agrega más instrucciones y sus códigos aquí
 }
+
+
+
+# SLTI, BEQ, BNE, J,
 
 def generar_instruccion_mips5():
     print("Ingrese la instrucción de MIPS5: ")
