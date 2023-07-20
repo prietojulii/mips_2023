@@ -41,24 +41,34 @@ module REG_MEMORY
   output wire [DATA_SIZE-1:0] o_data_B // B register to be read
 );
 
-reg [DATA_SIZE-1:0] buffer [BUFFER_SIZE-1:0]; //buffer of the memory 
+(* dont_touch = "yes" *) reg [DATA_SIZE-1:0] buffer [BUFFER_SIZE-1:0]; //buffer of the memory 
+(* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataA;
+(* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataB;
 
-always @(posedge i_clock) begin
-    if (i_reset) begin //write 
-         buffer[0] = {DATA_SIZE{1'b0}}; //R0 
-  end
-end
-always @(*) begin   
-    if (i_wr_flag & i_clock) begin //write in the first cicle-time
-        begin
-          if(i_addr_wr != 0) //R0, always is 0
-               buffer[ i_addr_wr] = i_data_in; //dynamic index (ADDR POSITION) 
-         end
+//ESCRITURA
+always@(posedge i_clock) begin // first write
+      if (i_reset) begin
+         buffer[1]=2;//TODO
+         buffer[2]=3;
+         buffer[3]=4;
+         buffer[4]=5;
+      end
+    else  if (i_wr_flag ) begin //write in the first cicle-time
+       //R0, always is 0
+       buffer[ i_addr_wr] = (i_addr_wr != 0) ? i_data_in : {DATA_SIZE{1'b0}};  //dynamic index (ADDR POSITION) 
     end
 end
 
+// LECTURA
+always@(negedge i_clock) begin // read in the second cicle-time
+      dataA = buffer[i_addr_A];
+      dataB = buffer[i_addr_B];
+      // dataB =  {i_addr_A,3'b000,i_addr_B,3'b000,i_addr_wr,7'b0,i_wr_flag};
+end
 
 
-assign o_data_A = buffer[i_addr_A]; //dynamic index (ADDR-A POSITION)
-assign o_data_B = buffer[i_addr_B]; //dynamic index (ADDR-B POSITION)
+
+//TODO: assign o_data_A = {32{1'b1}}; //dynamic index (ADDR-A POSITION)
+assign o_data_B = dataB; //dynamic index (ADDR-B POSITION)
+assign o_data_A = dataA; //dynamic index (ADDR-A POSITION)
 endmodule

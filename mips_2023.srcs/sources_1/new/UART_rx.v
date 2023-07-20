@@ -1,14 +1,14 @@
 module UART_rx
     #(
         parameter SIZE_TRAMA_BIT = 8,
-        parameter SIZE_BIT_COUNTER = 3  //tamaño del contadoe de bits
+        parameter SIZE_BIT_COUNTER = 3  //tamaï¿½o del contadoe de bits
     )
     (
         input wire i_clk,
         input wire  i_reset,
         input wire i_rx,
         input wire  i_tick,
-        output reg o_flag_rx_done,
+        output wire o_flag_rx_done,
         output wire [(SIZE_TRAMA_BIT-1):0] o_buff_data
     );
 
@@ -32,7 +32,6 @@ reg[3:0] state_reg, state_next;                 //Estado
 reg[3:0] tiks_count,tiks_count_next;            //contador de ticks
 reg[(SIZE_BIT_COUNTER-1):0] bits_count,bits_count_next;            //contador de bits
 reg[(SIZE_TRAMA_BIT-1):0] buff_data,buff_data_next;              //buffer de bits
- 
 always @(posedge i_clk) begin
 
     if (i_reset) begin
@@ -40,25 +39,28 @@ always @(posedge i_clk) begin
             tiks_count <= 0;
             bits_count <= 0;
             buff_data <= 0;
+            flag_rx_done <= 0;
     end
     else begin
         state_reg <= state_next;
         tiks_count <= tiks_count_next;
         bits_count <= bits_count_next;
         buff_data <= buff_data_next;
+        flag_rx_done <= flag_rx_done_next;
     end
 end
 
 always @(*) begin
 
     state_next = state_reg;
-    o_flag_rx_done = 1'b0;
     tiks_count_next = tiks_count;
     bits_count_next = bits_count;
     buff_data_next = buff_data;
+    flag_rx_done_next = flag_rx_done;
 
     case (state_reg)
         ST_IDLE: begin
+            flag_rx_done_next = 1'b0;
             if(~i_rx)begin
                 state_next = ST_START;
                 tiks_count_next = 0;
@@ -70,6 +72,7 @@ always @(*) begin
                     state_next = ST_DATA;
                     tiks_count_next = 0;
                     bits_count_next = 0;
+                    flag_rx_done_next = 0;
                 end
                 else
                     tiks_count_next = tiks_count + 1;
@@ -93,7 +96,7 @@ always @(*) begin
             if(i_tick) begin
                 if(tiks_count == (TICK16 - 1)) begin
                     state_next = ST_IDLE;
-                    o_flag_rx_done = 1'b1;
+                    flag_rx_done_next = 1'b1;
                 end
                 else
                     tiks_count_next = tiks_count + 1;
@@ -103,4 +106,5 @@ always @(*) begin
 end
 
 assign o_buff_data = buff_data;
+assign o_flag_rx_done = flag_rx_done;
 endmodule

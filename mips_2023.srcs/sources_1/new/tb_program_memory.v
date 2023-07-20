@@ -155,12 +155,5 @@ initial begin
 //    #2000
 //    i_pc=9'b000010000;
     
-    
-    
-    
-    
-    
-    
-
 end
 endmodule

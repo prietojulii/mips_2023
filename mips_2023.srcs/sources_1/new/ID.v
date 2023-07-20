@@ -30,14 +30,13 @@ module ID
 (
     input wire i_clock,
     input wire i_reset,
-    input wire i_ctrl_condition_flag, //condition flag (control unit)  
-    input wire i_ctrl_jump_flag, //branch(I-type)->DIRECTION=1 signal or branch(J-type)->RA=0 signal (control unit)
+    input wire [1:0] i_ctrl_next_pc_sel,  //01-> pc4, 00-> jump(direction), 11 jump(A), 10-> branch
+    input wire [INSTR_SIZE-1:0]  i_instruction,
     input wire i_write_wb_flag, //write back signal
     input wire [4:0] i_addr_wr, //register to write from writeback
     input wire [REG_SIZE-1:0] i_data_wb, //write back data
-    input wire [INSTR_SIZE-1:0]  i_instruction,
     input wire [PC_SIZE-1:0] i_pc4, //PC + 4
-    input wire [PC_SIZE-1:0] i_pc, //PC 
+
     
     output wire [4:0] o_rs, //register source 1
     output wire [4:0] o_rt, //register source 2
@@ -48,18 +47,27 @@ module ID
     output wire [REG_SIZE-1:0] o_data_B, 
     output wire [PC_SIZE-1:0] o_pc_next, //program counter next value
     output wire [5:0] o_funct, //opcode in ALU
-    output wire [5:0] o_op //opcode in ALU
+    output wire [5:0] o_op, //opcode in ALU
+    output wire o_is_A_B_equal_flag
     );
+
+    // Define next pc selector
+    localparam SELECT_JUMP_DIRECTION = 2'b01; //offset
+    localparam SELECT_PC4 = 2'b00;
+    localparam SELECT_BRANCH = 2'b10;
+    localparam SELECT_JUMP_DATA_A = 2'b11;
+
     //***************** Declaration of signals ******************************************************
-    reg [31:0] imm_extend, shamt_extend, addr_offset_jump, out_mux1, pc_next;
+    reg [31:0] imm_extend, inm_to_byte, shamt_extend, jump_direction, branch_address, pc_next;
 
     reg [15:0] inm;
     reg [25:0] offset;
     reg [5:0] funct, op;
     reg [4:0] shamt, rd, rt, rs;
 
-    wire [31:0] data_A, data_B;
-
+    wire [REG_SIZE-1:0] data_A, data_B;   //TODO: Se cambio wire por reg por error en assign. No se puede asignar cables a cab
+    reg [REG_SIZE-1:0] reg_data_A, reg_data_B;
+    reg is_A_B_equal_flag;
     // ***************** Architecture DLX ***********************************************************
      
     always @(*) rs     = i_instruction[25:21]; //source register
@@ -85,20 +93,38 @@ module ID
         .o_data_A(data_A),
         .o_data_B(data_B)
     );
-    
+
     //o_pc_next logic 
-    always @(*)
-    begin
-        addr_offset_jump = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
-        out_mux1 = ( i_ctrl_jump_flag ) ? addr_offset_jump : data_A;        
-        pc_next = (i_ctrl_condition_flag) ? i_pc :out_mux1 ;
+    always @(*)  begin
+        imm_extend = ( { { 16{inm[15] } } , inm } ); //immediate with extended sign
+        inm_to_byte =  ( { { 16{inm[15] } } , inm } ) << 2; // inmediate with extended sign and shifted 2 bits (for mapping a byte)
+        jump_direction = { i_pc4[31:28] , offset, 2'b00 }; //addr to jump
+        branch_address = inm_to_byte + i_pc4; //branch address
+        case (i_ctrl_next_pc_sel)
+            SELECT_JUMP_DIRECTION: pc_next = jump_direction;  //jump
+            SELECT_PC4:  pc_next = i_pc4;      //pc4
+            SELECT_BRANCH:  pc_next = branch_address;  //branch
+            SELECT_JUMP_DATA_A:  pc_next = data_A;     //jump register
+        endcase
     end
-    
-    //o_imm_extend logic
-    always @(*) imm_extend = ( { { 16{inm[15] } } , inm } ) << 2;; //immediate with extended sign
-    
+
     //o_shamt_extend logic
-    always @(*) shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
+    always @(*) begin
+    shamt_extend = { {27{1'b0}}  , shamt}; //unsigned extended shift amount
+    end
+
+    // register logic
+    always @(*) begin
+     reg_data_A = data_A;
+     reg_data_B = data_B;
+     if ( reg_data_A == reg_data_B) begin
+        is_A_B_equal_flag = 1;
+     end
+     else begin
+        is_A_B_equal_flag = 0;
+     end
+
+    end
     
     //******************* OUTPUT ****************************************************************
     assign o_rs = rs;
@@ -106,11 +132,12 @@ module ID
     assign o_rd = rd;
     assign o_imm_extend = imm_extend ;
     assign o_shamt_extend = shamt_extend;
-    assign o_data_A = data_A;
-    assign o_data_B = data_B;
+    assign o_data_A = reg_data_A;
+    assign o_data_B = reg_data_B;
     assign o_pc_next = pc_next;
     assign o_funct = funct;
     assign o_op = op;
+    assign o_is_A_B_equal_flag = is_A_B_equal_flag;
 
 endmodule
 

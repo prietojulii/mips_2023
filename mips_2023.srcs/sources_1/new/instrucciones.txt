@@ -1,0 +1,4 @@
+00600809 # Jalr salto a GPR(3)= 4 y guarda la direccion de retorno en GPR1
+00220020 # add para  visualizar el dato GPR1 en A.
+00000000
+
