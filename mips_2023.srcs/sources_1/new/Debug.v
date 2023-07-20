@@ -15,6 +15,7 @@ module Debuguer #(
     input wire [(SIZE_COMMAND-1):0] i_command, //rx data
     input wire i_flag_rx_done, //rx done
     input wire i_flag_tx_done,
+    input wire i_is_halt_flag,
 
     // input wire [(SIZE_PC-1):0] i_pc,
     // input wire [(SIZE_RS-1):0] i_rs,
@@ -64,7 +65,7 @@ localparam ST_STEP_TO_STEP  = 4'b0110;
 localparam ST_CONTINUE  = 4'b0111; 
 localparam ST_FILL_BUFFER_TO_USER  = 4'b1000;
 localparam ST_SEND_DATA_TO_USER = 4'b1001; 
-
+localparam ST_END = 4'b1111;
 
 //reguistros
 reg [3:0] state, state_next;
@@ -269,7 +270,13 @@ always @ (*) begin
                     begin
                         tx_start_next = 0; //reset
                         index_next = 0; //reset
-                        state_next = ST_STEP_TO_STEP;
+                        // Cambio de estado
+                        if( i_is_halt_flag == 0 ) begin
+                            state_next = ST_STEP_TO_STEP;
+                        end
+                        else begin
+                            state_next = ST_END;
+                        end
                     end
                     else begin
                         index_next = index + 5'b00001;
@@ -280,11 +287,23 @@ always @ (*) begin
                     tx_start_next = 0;
             end
         end
-        // ST_CONTINUE:
-        // begin
-        //     flag_start_program_next=1;
-        //     enable_pc_next =1;
-        // end
+        ST_CONTINUE:
+        begin
+            if (i_is_halt_flag == 1) begin
+                state_next = ST_FILL_BUFFER_TO_USER;
+                flag_start_program_next=0;
+                enable_pc_next =0;
+            end
+            else begin
+                state_next =  ST_CONTINUE;
+                flag_start_program_next=1;
+                enable_pc_next =1;
+            end
+        end
+        ST_END:
+        begin
+            state_next = ST_END;
+        end
         default: begin
             state_next = ST_IDLE; 
         end

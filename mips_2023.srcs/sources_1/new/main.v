@@ -101,6 +101,7 @@ wire [4:0] wire_id_rt;                                                      //Ca
     .i_command(wire_trama),
     .i_flag_rx_done(wire_flag_rx_done),
     .i_flag_tx_done(wire_uart_debug_tx_done),
+    .i_is_halt_flag(wire_is_halt_flag),
     //.i_flag_halt()
     //.i_pc(),
     // .i_rs(wire_id_rs),
@@ -306,8 +307,8 @@ risk_unit risk_unit_instance(
     .i_op_ex(wire_ex_opcode),
     .i_instruction_id(wire_id_instruction),                                 //Cable que ingresa a la Risk Unit con la instrucci�n, viene del latch IFID.
     .o_is_halt_flag(wire_is_halt_flag),
-    .o_arithmetic_risk_flag(wire_arithmetic_risk_flag), // !No ESTA IMPLEMENTADO!
-    .o_load_flag(wire_load_flag), // !No ESTA IMPLEMENTADO!
+    .o_arithmetic_risk_flag(wire_arithmetic_risk_flag), // !Solo para debuguear!
+    .o_load_flag(wire_load_flag), // !Solo para debuguear!
     .o_no_load_pc_flag(wire_no_load_pc_flag)                                 //Cable que ingresa al m�dulo PC, flag de que no hay que cargar el PC. Declarado en la etapa IF.
 );
 
