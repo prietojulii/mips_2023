@@ -1,3 +1,5 @@
+# Autores: Julieta Prieto y Mateo Merino.
+
 HALT = "00000000"
 
 instrucciones_funct_diccionario = {

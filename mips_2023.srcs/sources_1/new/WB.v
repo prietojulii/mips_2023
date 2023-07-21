@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Julieta Prieto y Mateo Merino.
 // 
 // Create Date: 27.06.2023 17:57:10
 // Design Name: 
@@ -22,16 +22,18 @@
 
 module WB #(
     parameter SIZE_REG=32
-    )(
-   input wire [SIZE_REG-1:0] i_data_mem,
-   input wire i_ctrl_WB_memToReg_flag,
-   input wire [SIZE_REG-1:0] i_alu_result,
-   output wire [SIZE_REG-1:0] o_data_to_wb
-    );
+)(
+    input wire [SIZE_REG-1:0] i_data_mem,
+    input wire i_ctrl_WB_memToReg_flag,
+    input wire [SIZE_REG-1:0] i_alu_result,
+    output wire [SIZE_REG-1:0] o_data_to_wb
+);
 
-    reg [SIZE_REG-1:0] data_to_wb ;
-    always @(*)
-    begin
+    // Registers
+    reg [SIZE_REG-1:0] data_to_wb;
+
+    // Combinational Logic
+    always @(*) begin
         if(i_ctrl_WB_memToReg_flag == 1) begin
             data_to_wb = i_data_mem;
         end
@@ -43,6 +45,7 @@ module WB #(
         end
     end
 
+    // Assigns
+    assign o_data_to_wb = data_to_wb;
 
-assign o_data_to_wb = data_to_wb;
 endmodule

@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Mateo Merino
 // 
 // Create Date: 10.02.2023 15:44:02
 // Design Name: 
@@ -61,13 +61,13 @@ initial begin
     i_reset = 0;
     
 /************************************************************************************
-                              ESTE TEST BENCH FUNCIONA PARA EL MODULO PROGRAM
-                              MEMORY. SE ENVIAN DOS INSTRUCCIONES, Y LUEGO EL 
-                              HALT.
-                              LUEGO, ARRANCA EL PROGRAMA Y SE INCREMENTA EL VALOR
-                              DEL PC. 
-                              A LA SALIDA DE LA MEMORIA DE INSTRUCCIONES SE VEN
-                              LAS INSTRUCCIONES CORRESPONDIENTES. 
+    ESTE TEST BENCH FUNCIONA PARA EL MODULO PROGRAM
+    MEMORY. SE ENVIAN DOS INSTRUCCIONES, Y LUEGO EL 
+    HALT.
+    LUEGO, ARRANCA EL PROGRAMA Y SE INCREMENTA EL VALOR
+    DEL PC. 
+    A LA SALIDA DE LA MEMORIA DE INSTRUCCIONES SE VEN
+    LAS INSTRUCCIONES CORRESPONDIENTES. 
 *************************************************************************************/
     //MANDO TRES INSTRUCCIONES Y EL HALT
 //    i_flag_new_inst_ready=1;
@@ -106,13 +106,10 @@ initial begin
 //    i_pc=9'b000010000;
 
 /************************************************************************************
-                              FIN DEL TEST BENCH PARA EL PROGRAM MEMORY
+*                              FIN DEL TEST BENCH PARA EL PROGRAM MEMORY
 *************************************************************************************/
 
-  
-    
-    
-    //    //MANDO TRES INSTRUCCIONES Y EL HALT
+     //MANDO TRES INSTRUCCIONES Y EL HALT
     i_flag_new_inst_ready=1;
     #1000
     i_flag_new_inst_ready=0;

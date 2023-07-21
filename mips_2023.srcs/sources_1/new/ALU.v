@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Julieta Prieto y Mateo Merino
 // 
 // Create Date: 20.06.2023 05:44:44
 // Design Name: 

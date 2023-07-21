@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
-// 
+// Engineer: Julieta Prieto
+//
 // Create Date: 20.06.2023 05:07:48
 // Design Name: 
 // Module Name: EXMEM
@@ -10,13 +10,13 @@
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+//
 // Dependencies: 
-// 
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -30,9 +30,9 @@ module EXMEM
     input wire i_enable,
 
     //* Signals from EX to MEM
-    input wire [(REG_SIZE-1):0] i_alu_result,      // Result of ALU
-    input wire [(REG_SIZE-1):0] i_data_B,          // Data from register B
-    input wire [4:0] i_addr_wb,                    // Address of register to write in WB
+    input wire [(REG_SIZE-1):0] i_alu_result,      // Result of ALU.
+    input wire [(REG_SIZE-1):0] i_data_B,          // Data from register B.
+    input wire [4:0] i_addr_wb,                    // Address of register to write in WB.
     output wire [(REG_SIZE-1):0] o_alu_result,
     output wire [(REG_SIZE-1):0] o_data_B,
     output wire [4:0] o_addr_wb,
@@ -110,5 +110,3 @@ assign o_ctrl_WB_memToReg_flag = ctrl_WB_memToReg_flag;
 assign o_ctrl_WB_wr_flag = ctrl_WB_wr_flag;
 
 endmodule
-
-

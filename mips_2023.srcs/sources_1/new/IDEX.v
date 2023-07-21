@@ -1,7 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: Julieta Prieto
+// Create Date: 15.02.2023 18:38:28
+// Design Name: 
+// Module Name: ID
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description:  Latch ID-EX.
+// Dependencies: 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+//////////////////////////////////////////////////////////////////////////////////
+
 module IDEX 
 #(
     parameter REG_SIZE= 32,
-   parameter PC_SIZE= 32
+    parameter PC_SIZE= 32
 )
 (
     input wire i_clock,
@@ -133,6 +149,7 @@ begin
         end
     end
 end
+
 //OUTPUTS
 assign o_rs = rs;
 assign o_rt = rt;
@@ -153,7 +170,5 @@ assign o_ctrl_MEM_load_mask = ctrl_MEM_load_mask;
 assign o_ctrl_WB_memToReg_flag  = ctrl_WB_memToReg_flag ;
 assign o_ctrl_WB_wr_flag = ctrl_WB_wr_flag;
 assign o_enable_risk_unit = enable_risk_unit;
-
-
 
 endmodule
