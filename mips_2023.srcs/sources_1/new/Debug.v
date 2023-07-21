@@ -1,47 +1,29 @@
 module Debuguer #(
     parameter SIZE_MEM = 1024,
     parameter SIZE_REG = 32,
-    parameter SIZE_COMMAND = 8,
+    parameter SIZE_COMMAND = 8, // Tamaño en bits del comando enviado por el usuario.
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER =1056,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
-    parameter TX_COUNTER= 132,//28; //TODO: = SIZE_BUFFER_TO_USER/8
+    parameter SIZE_BUFFER_TO_USER =1056, // Tamaño en bits del buffer a enviar al usuario.
+    parameter TX_COUNTER= 132,  // [INFO]: = SIZE_BUFFER_TO_USER/8
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
     parameter SIZE_TRAMA = 8,
-    parameter SIZE_INDEX = 8 //TODO: 2^SIZE_INDEX DEBE ser mayor a TX_COUNTER
+    parameter SIZE_INDEX = 8  // [INFO]: 2^SIZE_INDEX DEBE ser mayor a TX_COUNTER.
 ) (
     input wire i_clk,
     input wire i_reset,
-    input wire [(SIZE_COMMAND-1):0] i_command, //rx data
-    input wire i_flag_rx_done, //rx done
+    input wire [(SIZE_COMMAND-1):0] i_command,  // rx data
+    input wire i_flag_rx_done,  // rx done
     input wire i_flag_tx_done,
     input wire i_is_halt_flag,
-
-    // input wire [(SIZE_PC-1):0] i_pc,
-    // input wire [(SIZE_RS-1):0] i_rs,
-    // input wire [(SIZE_RT-1):0] i_rt,
-    // input wire [(SIZE_REG-1):0] i_a,
-    // input wire [(SIZE_REG-1):0] i_b,
-
-    // input wire [(SIZE_REG-1):0] i_data_wb;
-    // input wire [(SIZE_REG-1):0] i_addr_wb;
-
-    // input wire [(SIZE_REG-1):0] i_data_mem;
-    // input wire [(SIZE_REG-1):0] i_addr_mem;
-
-    // input wire i_flag_reg_write;
-    // input wire i_flag_mem_write;
-
-
     output wire o_flag_instruction_write,
     output wire o_enable_pc,  
     output wire [(SIZE_REG-1):0] o_instruction_data,
     output wire [(SIZE_TRAMA-1):0] o_trama_tx,
     output wire o_tx_start,
     output wire o_flag_start_program,
-    
-    //TODO: OUTPUT TEST
-    // input wire [SIZE_REG-1:0] i_wire_if_instruction,
+
+    // WIRE TO DEBUG
     input wire [SIZE_BUFFER_TO_USER-1:0] i_buffer_to_send,
     output wire  [3:0] o_wire_state_leds
 
@@ -70,11 +52,6 @@ localparam ST_END = 4'b1111;
 //reguistros
 reg [3:0] state, state_next;
 reg [SIZE_REG-1:0] command, command_next;
-//reg [SIZE_REG-1:0] addr_mem, addr_mem_next;
-//reg [SIZE_REG-1:0] addr_wb, addr_wb_next;
-//reg [SIZE_REG-1:0] pc, pc_next;
-//reg [SIZE_REG-1:0] data_mem, data_mem_next;
-//reg [SIZE_REG-1:0] data_wb, data_wb_next;
 reg flag_instruction_write, flag_instruction_write_next;
 reg [SIZE_REG-1:0] buffer_inst, buffer_inst_next; //buffer de instruccion
 reg [2:0] bytes_counter, bytes_counter_next;
@@ -84,17 +61,12 @@ reg [SIZE_TRAMA-1:0] trama_tx, trama_tx_next;
 reg [SIZE_INDEX-1:0] index, index_next;
 reg tx_start,tx_start_next;
 /************************************************************************************
-                              DEBUGUER STATE MACHINE.
+*                              DEBUGUER STATE MACHINE.
 *************************************************************************************/
 
 always @ (posedge i_clk) begin
     if(i_reset)begin
         state <= ST_IDLE;
-//        addr_mem <= 0;
-//        addr_wb <= 0;
-//        pc <= 0;
-//        data_mem <= 0;
-//        data_wb <= 0;
         flag_instruction_write <= 0;
         bytes_counter <= 0;
         buffer_inst <= 32'b0;
@@ -104,15 +76,10 @@ always @ (posedge i_clk) begin
         index <= 0;
         tx_start <= 0;
         buffer_to_user <= 0;
- 
+
     end
     else begin
         state <= state_next;
-//        addr_mem <= addr_mem_next;
-//        addr_wb <= addr_wb_next;
-//        pc <= pc_next;
-//        data_mem <= data_mem_next;
-//        data_wb <= data_wb_next;
         flag_instruction_write <= flag_instruction_write_next;
         bytes_counter <= bytes_counter_next;
         buffer_inst <= buffer_inst_next;
@@ -122,16 +89,11 @@ always @ (posedge i_clk) begin
         tx_start <= tx_start_next;
         buffer_to_user <= buffer_to_user_next;
         flag_start_program <= flag_start_program_next;
-      end
+    end
 end
 
 always @ (*) begin
-    state_next = state; 
-//    addr_mem_next = addr_mem;
-//    addr_wb_next = addr_wb;
-//    pc_next = pc;
-//    data_mem_next = data_mem;
-//    data_wb_next = data_wb;
+    state_next = state;
     flag_instruction_write_next = flag_instruction_write;
     bytes_counter_next = bytes_counter;
     buffer_inst_next = buffer_inst;
@@ -159,7 +121,6 @@ always @ (*) begin
             enable_pc_next = 0;
             flag_instruction_write_next = 0;
             if(i_flag_rx_done) begin
-                //Ac? ya nos aseguramos que en i_command hay un byte de instrucci?n
                 buffer_inst_next = {i_command, buffer_inst[(SIZE_REG-1):SIZE_COMMAND]};
 
                 if(bytes_counter == BYTES_PER_INSTRUCTION-1) 
@@ -178,17 +139,17 @@ always @ (*) begin
             end 
         end
         ST_SEND_INSTRUCTION: begin
-            //esperando un halt para pasar al siguiente estado 
+            // esperando un halt para pasar al siguiente estado 
             if(buffer_inst == HALT ) begin 
                 state_next = ST_READY;
                 flag_instruction_write_next = 1;
             end
             else begin
-                //enviamos data
+                // enviamos data
                 flag_instruction_write_next = 1;
                 state_next = ST_RECEIVE_INSTRUCTION;
             end
-            
+
         end
         
         ST_READY:
@@ -227,36 +188,12 @@ always @ (*) begin
             enable_pc_next= 0; //reset pc_next
             //shifteando data
             buffer_to_user_next = i_buffer_to_send;
-            // buffer_to_user_next= {
-            //                          i_pc,      //PC
-            //                          {27'b0,i_rs},        //RS
-            //                          {27'b0,i_rt},   //RT
-            //                          i_a,  //A
-            //                          i_b, //B
-            //                          i_addr_mem, //AddrMem
-            //                          i_data_mem //DataMem
-            //                         };
-            
-            // //************************************************
-            // /**
-            //     Prueba
-            // */
-            // buffer_to_user_next = {32'b1111,
-            //                       32'b111111,
-            //                       32'b11111,
-            //                       32'b1111,
-            //                       32'b1111,
-            //                       32'b1111,
-            //                       32'b1111
-            //                       };
-            // //************************************************
             state_next = ST_SEND_DATA_TO_USER;
         end
 
         ST_SEND_DATA_TO_USER:begin
             //    Ir sacando por el output_trama_tx los datos de a 8 bits para que el uart los transmita al usuario desdel buffer_to_user_next
             // Tener en cuenta la flax tx_done para enviar un nuevo byte
-            //TODO: Chequear la flag tx_done antes de volver a enviar mas data.
             if(index == 0) begin
                     trama_tx_next = buffer_to_user_next[index*SIZE_TRAMA+:SIZE_TRAMA];
                     index_next = index + 5'b00001;
@@ -310,7 +247,7 @@ always @ (*) begin
 end
 
 /************************************************************************************
-                              DEBUGUER OUTPUTS.
+*                              DEBUGUER OUTPUTS.
 *************************************************************************************/
 
 assign o_enable_pc = enable_pc;
