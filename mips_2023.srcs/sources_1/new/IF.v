@@ -23,7 +23,7 @@
 module IF #
 (
     parameter SIZE_REG= 32,
-   parameter SIZE_PC= 32
+    parameter SIZE_PC= 32
 )
 (
     //IF INPUTS
@@ -38,16 +38,15 @@ module IF #
     input wire i_enable,
     //IF OUTPUTS
     output wire [(SIZE_REG-1):0] o_instruction_data,
-    // output wire  [(SIZE_PC-1):0] o_pc,
     output wire  [(SIZE_PC-1):0] o_next_pc,
-    output wire [3:0] o_wire_state_program_memory, //todo: borrar
-    output wire o_wire_new_inst_program_memory  //todo: borrar
+    output wire [3:0] o_wire_state_program_memory,
+    output wire o_wire_new_inst_program_memory
 
     );
 
     wire [(SIZE_PC-1):0] wire_pc_to_memory, next_pc;
     wire [(SIZE_REG-1):0] instruction_data;
-    wire [3:0] wire_state_program_memory; //todo: borrar
+    wire [3:0] wire_state_program_memory;
     wire wire_new_inst_program_memory;
 
     PC pc (

@@ -72,7 +72,7 @@ module CTRL_ALU#(
     localparam   SRLV_FUNCTIONCODE = 6'b000110;
     localparam   SRAV_FUNCTIONCODE = 6'b000111;
 
-    reg  [N_BITS_ALUCON - 1 : 0] alu_ctrl ;
+    reg  [N_BITS_ALUCON - 1 : 0] alu_ctrl;
 
     always@(*) begin
         case(i_alu_opcode)

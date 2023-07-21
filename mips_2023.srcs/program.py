@@ -1,4 +1,5 @@
 '''
+Autores: Julieta Prieto y Mateo Merino.
 Este programa sirve para cargar un archivo de instrucciones en el MIPS y ejecutarlo en modo continuo o paso a paso.
 Las instrucciones deben estar en un archivo de texto llamado "instrucciones.txt" en el mismo directorio que este programa.
 Modo de ejecución:

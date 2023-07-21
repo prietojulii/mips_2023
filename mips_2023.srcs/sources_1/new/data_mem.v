@@ -17,8 +17,9 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
-// Additional Comments:
-// Esto direcciona por registro ( por posición) si la direccion es 1, te busca el ELEMENTO (REGISTRO) numero 1.
+// *Additional Comments:
+// Esta Memoria direcciona por registro ( por posición) si la direccion es 1,
+// te busca el ELEMENTO (REGISTRO) numero 1.
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -37,7 +38,7 @@ module DATA_MEM
   input wire [DATA_SIZE-1:0]  i_addr_mem,  //B reg address of the memory
 
   output wire [DATA_SIZE-1:0] o_data_mem, // A register to be read
-  output wire [DATA_MEM_TO_USER_SIZE-1:0] o_data_mem_to_user //! //! Cable para enviar al usuario para debuguear y ver la memoria
+  output wire [DATA_MEM_TO_USER_SIZE-1:0] o_data_mem_to_user //!  Cable para enviar al usuario para debuguear y ver la memoria
 );
 
 localparam WRITE = 1;
@@ -58,8 +59,8 @@ always@(negedge i_clock) begin // first write
     end
 end
 
-
+// Assing data
 assign o_data_mem = dataMEM; 
 assign o_data_mem_to_user = {buffer[0], buffer[1], buffer[2], buffer[3]}; // Solo para debuguear, ilustra los primeros registros de la memoria
-//! Warning : Si la memoria es muy grande se recomineda eliminar estos cables data_mem_to_user y no usarlos para debuguear.
+
 endmodule

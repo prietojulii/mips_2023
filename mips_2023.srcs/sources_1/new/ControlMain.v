@@ -16,7 +16,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+// El nombre de los cables, llevan la siguiente estructira : <etapa destino>_<nombre de la señal>
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -25,24 +25,16 @@ module ControlMain
     localparam REG_SIZE = 32,
     localparam INSTRUCTION_SIZE = 32
 )(
-    //!TODO: el nombre de las grag : <etapa destino>_<nombre de la señal>
-   
+
     input wire [INSTRUCTION_SIZE-1:0] i_instruction,
     input wire i_is_A_B_equal_flag,
     output wire [1:0] o_next_pc_select, // 01 - offset, 00 - PC+4, 10 - branch, 11 - jump data A
     output wire o_ex_alu_src_a,
     output wire [1:0] o_ex_alu_src_b, // 00 - B , 01 - inmediate, 10 - return address, 11 - not used
     output wire [1:0] o_ex_reg_dest_sel, // 01 - rd, 00 - rt, 10 - GPR 31, 11 - not used
-        
-    
     output wire o_mem_write_read_flag, //read o write in memory data
-    //TODO: equivale a output wire o_mem_write_flag,
-    //TODO: equivale a  output wire o_mem_read_flag,
-    
     output wire [2:0] o_mem_load_mask,
     output wire  o_mem_store_mask,
-    //TODO: replazo de output wire [1:0] o_mem_byte_half_or_word, // 00 - word, 01 - byte, 10 - halfword
-
     output wire o_wb_mem_to_reg_sel,//selector of the font to use to write the register
     output wire o_wb_write_back_flag //1- there is wrtieback , 0-there is no writeback
     );
@@ -412,8 +404,6 @@ begin
         default : mem_write_read_flag = MEM_READ; // all the rest instructions use "0" as memory write flag
     endcase
 end
-
-//!TODO: es necario otra flag para leer?
 
 /**-----------------------------------------------------------------------------------------------------------------------
 ** Memory LOAD MASK : byte half or word

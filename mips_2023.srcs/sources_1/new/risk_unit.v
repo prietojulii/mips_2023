@@ -22,31 +22,30 @@
 
 module risk_unit#(
     parameter SIZE_REG = 32,
-    parameter SIZE_MEMORY= 320,                           //320 bits correspondientes a 10 instrucciones de 32 bits.
+    parameter SIZE_MEMORY= 320,  // 320 bits correspondientes a 10 instrucciones de 32 bits.
     parameter SIZE_COMMAND=8
-
-    )(
-    input wire i_clk,                                   //CLOCK
-    input wire  i_reset,                                //RESET
-    input wire i_enable,                                //ENABLE
+)(
+    input wire i_clk,     // CLOCK.
+    input wire  i_reset,  // RESET.
+    input wire i_enable,  // ENABLE.
     input wire i_enable_from_ex,
-    input wire[(SIZE_REG-1):0] i_instruction_id,        //Instruction from the ID stage     
-    input wire [5:0] i_op_ex,                           //OP input from the EX stage
-    input wire [4:0] i_rt_ex,                           //RT input from the EX stage
-    input wire [4:0] i_rd_ex,                           //RD input from the EX stage
+    input wire[(SIZE_REG-1):0] i_instruction_id,  // Instruction from the ID stage.
+    input wire [5:0] i_op_ex,                     // OP input from the EX stage.
+    input wire [4:0] i_rt_ex,                     // RT input from the EX stage.
+    input wire [4:0] i_rd_ex,                     // RD input from the EX stage.
 
-    output wire o_is_halt_flag,                         //Halt Flag to IF Module
-    output wire o_load_flag,                            //Load Flag to Short Circuit Unit
-    output wire o_no_load_pc_flag,                      //No Load PC to IF Module
-    output wire o_arithmetic_risk_flag                  //Aritchmetic Flag to Short Circuit Unit
-    );
-    
+    output wire o_is_halt_flag,         // Halt Flag to IF Module.
+    output wire o_load_flag,            // Load Flag to Short Circuit Unit.
+    output wire o_no_load_pc_flag,      // No Load PC to IF Module.
+    output wire o_arithmetic_risk_flag  // Aritchmetic Flag to Short Circuit Unit.
+);
+
     //States
     localparam ST_IDLE = 4'b0000;
     localparam ST_READ_INSTRUCTION  = 4'b0001;
     localparam ST_RISK_DETECTED  = 4'b0011; 
     localparam ST_PROGRAM_FINISHED  = 4'b0100; 
-    
+
    //Macros
     localparam LB=6'b100000;
     localparam LH=6'b100001;
@@ -71,37 +70,35 @@ module risk_unit#(
     reg [4:0] rs_ex, rd_ex, rt_ex;
     reg [5:0] op_ex;
     reg [4:0] rs_id, rd_id, rt_id;
-//    reg [5:0] op_id;
     reg bne_flag, beq_flag, load_flag, no_load_pc_flag, arithmetic_risk_flag;
 
-     // ***************** Architecture DLX ***********************************************************
+    // ***************** Architecture DLX ***********************************************************
 
     always @(*) rs_id     = i_instruction_id[25:21]; //source register
     always @(*) rt_id     = i_instruction_id[20:16]; //source2 register
     always @(*) rd_id     = i_instruction_id[15:11]; //destination register
-//    always @(*) op_id     = i_instruction_id[31:26];  //select the arithmetic operation
-    
 
+    // Secuential Logic
     always @ (posedge i_clk) begin
-    if(i_reset)begin
-        state <= ST_IDLE;
-//        op_id <= 0;
-    end
-    else begin
-            state <= state_next;
-      end
-    end
-
-always @ (*) begin
-    if (i_reset)begin
-        is_halt_flag = 0;
-        no_load_pc_flag = 0;
-        load_flag = 0;
-        arithmetic_risk_flag = 0;
-        state_next = ST_IDLE;
+        if(i_reset)begin
+            state <= ST_IDLE;
+        end
+        else begin
+                state <= state_next;
+        end
     end
 
-    if(i_enable)begin
+    // Conbinational Logic
+    always @ (*) begin
+        if (i_reset)begin
+            is_halt_flag = 0;
+            no_load_pc_flag = 0;
+            load_flag = 0;
+            arithmetic_risk_flag = 0;
+            state_next = ST_IDLE;
+        end
+
+        if(i_enable)begin
             state_next = state;
             case(state)
             
@@ -120,7 +117,8 @@ always @ (*) begin
                         is_halt_flag = 1;
 
                     end
-                    if((i_op_ex==LB) || (i_op_ex==LH) || (i_op_ex==LW) || (i_op_ex==LBU) || (i_op_ex==LHU) || (i_op_ex==LWU) || (i_op_ex==LUI))begin //LOADS
+                    //LOADS:
+                    if((i_op_ex==LB) || (i_op_ex==LH) || (i_op_ex==LW) || (i_op_ex==LBU) || (i_op_ex==LHU) || (i_op_ex==LWU) || (i_op_ex==LUI))begin
                             if(i_rt_ex==rs_id || i_rt_ex==rd_id)begin
                                 load_flag=1;
                                 no_load_pc_flag=1;
@@ -128,17 +126,17 @@ always @ (*) begin
                             end
                     end
 
-                    // El registro A o B quieren ser leidos antes de estar listos (riesgo de datos)
+                    // El registro A o B quieren ser leidos antes de estar listos (riesgo de datos):
 
-                    if(i_op_ex==SPECIAL)begin //ARITMETICAS
-                            if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin // rd= registro destino
+                    if(i_op_ex==SPECIAL)begin  // ARITMETICAS
+                            if((i_rd_ex==rs_id || i_rd_ex==rt_id ) && (i_rd_ex != 0) )begin  // rd= registro destino.
                                 arithmetic_risk_flag=1;
                                 state_next = ST_RISK_DETECTED;
                             end
                     end
 
-                    if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin //RIESGO ARITMETICA INMEDIATA
-                            if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin//rt = registro destino
+                    if(i_op_ex==ADDI || i_op_ex==ANDI|| i_op_ex==ORI|| i_op_ex==XORI|| i_op_ex==SLTI)begin  // RIESGO ARITMETICA INMEDIATA.
+                            if(i_rt_ex==rs_id || i_rt_ex== rd_id)begin  // rt = registro destino.
                                 arithmetic_risk_flag=1;
                                 state_next = ST_RISK_DETECTED;
                             end
@@ -162,17 +160,16 @@ always @ (*) begin
                     is_halt_flag = 0;
                 end
             endcase
+        end
     end
-
-end
 
 /************************************************************************************
 *                              RISK UNIT OUTPUTS                                    *
 *************************************************************************************/
 
-assign o_no_load_pc_flag = no_load_pc_flag;
-assign o_arithmetic_risk_flag = arithmetic_risk_flag;
-assign o_load_flag = load_flag;
-assign o_is_halt_flag = is_halt_flag;
+    assign o_no_load_pc_flag = no_load_pc_flag;
+    assign o_arithmetic_risk_flag = arithmetic_risk_flag;
+    assign o_load_flag = load_flag;
+    assign o_is_halt_flag = is_halt_flag;
 
 endmodule

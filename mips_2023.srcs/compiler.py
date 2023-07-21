@@ -1,3 +1,5 @@
+# Descripción: Compilador de Assembler a hexadecimal.
+
 Test = "./assembler1.txt"
 
 Inst_R = {"sll": 0, "srl": 2, "sra": 3, "sllv": 4, "srlv": 6, "srav": 7, "addu": 33, "subu": 35, "and": 36, "or": 37, "xor": 38, "nor": 39, "slt": 42}

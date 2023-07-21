@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: julieta prieto
-// 
+// Engineer: Julieta Prieto
+//
 // Create Date: 19.06.2023 19:07:56
 // Design Name: 
 // Module Name: EX
@@ -10,9 +10,9 @@
 // Target Devices: 
 // Tool Versions: 
 // Description: 
-// 
+//
 // Dependencies: 
-// 
+//
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
@@ -21,46 +21,47 @@
 
 
 module EX 
-   #( 
-   parameter SIZE_REG= 32,
-   parameter SIZE_CTRL_CC_OP= 2, // tamaño del selector en bits para las entradas seg�n cortocircuito (mux)
-   parameter SIZE_CTRL_ALU_SRC_B = 2, // tamaño del selector en bits para las entradas candidatas para B (mux)
-   parameter SIZE_CTRL_ALU_SRC_A = 1, // tamaño del selector en bits para las entradas candidatas para A (mux)
-   parameter SIZE_CTRL_REG_DEST = 2 // tamaño del selector en bits para las entradas candidatas para A (mux)
+#( 
+    parameter SIZE_REG= 32,
+    parameter SIZE_CTRL_CC_OP= 2,  // Tamaño del selector en bits para las entradas segun cortocircuito (mux).
+    parameter SIZE_CTRL_ALU_SRC_B = 2,  // Tamaño del selector en bits para las entradas candidatas para B (mux).
+    parameter SIZE_CTRL_ALU_SRC_A = 1,  // Tamaño del selector en bits para las entradas candidatas para A (mux).
+    parameter SIZE_CTRL_REG_DEST = 2  // Tamaño del selector en bits para las entradas candidatas para A (mux).
 
-    )(
-        input wire [(SIZE_REG-1):0] i_cc_data_wb, // data writeback corto circuitada desde la etapa WB.
-        input wire [(SIZE_REG-1):0] i_op_a,
-        input wire [(SIZE_REG-1):0] i_op_b,
-        input wire [(SIZE_REG-1):0] i_inmediate,
-        input wire [(SIZE_REG-1):0] i_shamat,
-        input wire [(SIZE_REG-1):0] i_return_addr,
-        input wire [4:0] i_rt,
-        input wire [4:0] i_rd,
-        input wire [5:0] i_opcode,
-        input wire [(SIZE_CTRL_REG_DEST-1):0] i_ctrl_reg_dest,
-        input wire [(SIZE_CTRL_CC_OP-1):0] i_sel_cc_b, //selector de corto circuito b
-        input wire [(SIZE_CTRL_CC_OP-1):0] i_sel_cc_a, //selector de corto circuito a
-        input wire [(SIZE_CTRL_ALU_SRC_A-1):0] i_ctrl_Alu_src_a, //selector de input A, a la ALU.
-        input wire [(SIZE_CTRL_ALU_SRC_B-1):0] i_ctrl_Alu_src_b, //selector de input B, a la ALU.
-        input wire [(SIZE_REG-1):0] i_alu_result_from_MEM, // resultado de la ALU lacheado, (extarido desde etapa MEM)
+)(
+    input wire [(SIZE_REG-1):0] i_cc_data_wb,  // Data writeback corto circuitada desde la etapa WB.
+    input wire [(SIZE_REG-1):0] i_op_a,
+    input wire [(SIZE_REG-1):0] i_op_b,
+    input wire [(SIZE_REG-1):0] i_inmediate,
+    input wire [(SIZE_REG-1):0] i_shamat,
+    input wire [(SIZE_REG-1):0] i_return_addr,
+    input wire [4:0] i_rt,
+    input wire [4:0] i_rd,
+    input wire [5:0] i_opcode,
+    input wire [(SIZE_CTRL_REG_DEST-1):0] i_ctrl_reg_dest,
+    input wire [(SIZE_CTRL_CC_OP-1):0] i_sel_cc_b,  //selector de corto circuito b.
+    input wire [(SIZE_CTRL_CC_OP-1):0] i_sel_cc_a,  //selector de corto circuito a.
+    input wire [(SIZE_CTRL_ALU_SRC_A-1):0] i_ctrl_Alu_src_a, //selector de input A, a la ALU.
+    input wire [(SIZE_CTRL_ALU_SRC_B-1):0] i_ctrl_Alu_src_b, //selector de input B, a la ALU.
+    input wire [(SIZE_REG-1):0] i_alu_result_from_MEM,  // Resultado de la ALU lacheado, (extarido desde etapa MEM).
 
-        output wire [(SIZE_REG-1):0] o_op_b,
-        output wire [(SIZE_REG-1):0] o_alu_result,
-        output wire [4:0] o_addr_wb
+    output wire [(SIZE_REG-1):0] o_op_b,
+    output wire [(SIZE_REG-1):0] o_alu_result,
+    output wire [4:0] o_addr_wb
 
-    );
+);
+
     /********* WIRES **********/
-    (* dont_touch = "yes" *) wire [3:0]  wire_ctrl_alu; //TODO: salida de "Control ALU", entrada al selector de la ALU.
-    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] reg_alu_result; //TODO: chequear si esto va como wire o reg
-    (* dont_touch = "yes" *) wire [(SIZE_REG-1):0] wire_alu_result; //TODO: chequear si esto va como wire o reg
+    (* dont_touch = "yes" *) wire [3:0] wire_ctrl_alu;
+    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] reg_alu_result;
+    (* dont_touch = "yes" *) wire [(SIZE_REG-1):0] wire_alu_result;
 
     /********* REGISTERS **********/
     (* dont_touch = "yes" *) reg [4:0] reg_addr_wb;
-    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_cc_src_b; // salida del MUX referido al cortocicuito en B
-    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_cc_src_a; // salida del MUX referido al cortocicuito en A
-    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_alu_src_b; // salida del MUX referido al input B de la ALU
-    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_alu_src_a; // salida del MUX referido al input A de la ALU
+    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_cc_src_b;  // Salida del MUX referido al cortocicuito en B.
+    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_cc_src_a;  // Salida del MUX referido al cortocicuito en A.
+    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_alu_src_b;  // Salida del MUX referido al input B de la ALU.
+    (* dont_touch = "yes" *) reg [(SIZE_REG-1):0] out_mux_alu_src_a;  // Salida del MUX referido al input A de la ALU.
 
     /********* LOCAL PARAMETERS **********/
     localparam SELECT_REG_DEST_RD = 2'b01;
@@ -83,15 +84,15 @@ module EX
     localparam SELECT_ALU_SRC_B_RETURN_ADDR = 2'b10;
 
 
-/***********************
- * COMBINATIONAL LOGIC *
- ***********************/
+    /***********************
+    * COMBINATIONAL LOGIC *
+    ***********************/
 
-reg [5:0] opcode, funct;
-always @(*) begin
-    opcode = i_opcode;
-    funct = i_inmediate[5:0];
-end
+    reg [5:0] opcode, funct;
+    always @(*) begin
+        opcode = i_opcode;
+        funct = i_inmediate[5:0];
+    end
 
     /********* CONTROL ALU **********/
     CTRL_ALU ctrl_alu_instance(
@@ -108,8 +109,8 @@ end
         .o_result(wire_alu_result)
     );
 
-     always @(*)
-     begin
+    always @(*)
+    begin
 
         reg_alu_result = wire_alu_result;
     /********* MUX SELECTOR ADDRESS WRITE-BACK **********/
