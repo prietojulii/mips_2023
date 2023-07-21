@@ -48,7 +48,10 @@ module ID
     output wire [PC_SIZE-1:0] o_pc_next, //program counter next value
     output wire [5:0] o_funct, //opcode in ALU
     output wire [5:0] o_op, //opcode in ALU
-    output wire o_is_A_B_equal_flag
+    output wire o_is_A_B_equal_flag,
+    ///////////////////
+    output wire [127:0] o_mem_reg_to_user 
+    ///////////////////
     );
 
     // Define next pc selector
@@ -67,6 +70,9 @@ module ID
 
     wire [REG_SIZE-1:0] data_A, data_B;   //TODO: Se cambio wire por reg por error en assign. No se puede asignar cables a cab
     reg [REG_SIZE-1:0] reg_data_A, reg_data_B;
+    //////////////////
+    wire [127:0] mem_reg_to_user;
+    //////////////////
     reg is_A_B_equal_flag;
     // ***************** Architecture DLX ***********************************************************
      
@@ -91,7 +97,9 @@ module ID
         .i_addr_wr(i_addr_wr),
         .i_data_in( i_data_wb),
         .o_data_A(data_A),
-        .o_data_B(data_B)
+        .o_data_B(data_B),
+        .o_mem_reg_to_user(mem_reg_to_user)
+        
     );
 
     //o_pc_next logic 
@@ -138,6 +146,9 @@ module ID
     assign o_funct = funct;
     assign o_op = op;
     assign o_is_A_B_equal_flag = is_A_B_equal_flag;
+    //////////////////
+    assign o_mem_reg_to_user = mem_reg_to_user;
+    /////////////////
 
 endmodule
 

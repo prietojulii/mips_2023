@@ -45,10 +45,8 @@ instrucciones_opcode_diccionario = {
     "SPECIAL":"000000",
     # Agrega más instrucciones y sus códigos aquí
 }
-
-
-
 # SLTI, BEQ, BNE, J,
+
 
 def generar_instruccion_mips5():
     print("Ingrese la instrucción de MIPS5: ")
@@ -66,9 +64,10 @@ def generar_instruccion_mips5():
 
     # Concatenar los campos en la instrucción completa
     instruccion_completa = opcode + rs + rt + rd + sa + funct
-    instruccion_hex = hex(int(instruccion_completa,2))[2:].zfill(8)
+    instruccion_hex = hex(int(instruccion_completa, 2))[2:].zfill(8)
 
     return instruccion_hex
+
 
 def solicitar_instrucciones():
     instrucciones = []

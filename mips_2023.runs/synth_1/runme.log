@@ -10,7 +10,7 @@
     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 
 source Main.tcl -notrace
-create_project: Time (s): cpu = 00:00:02 ; elapsed = 00:00:08 . Memory (MB): peak = 394.895 ; gain = 58.602
+create_project: Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 393.902 ; gain = 67.789
 Command: read_checkpoint -auto_incremental -incremental C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/utils_1/imports/synth_1/Main.dcp
 INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/utils_1/imports/synth_1/Main.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
@@ -23,12 +23,50 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 11656
+INFO: [Synth 8-7075] Helper process launched with PID 17204
 INFO: [Synth 8-11241] undeclared symbol 'REGCCE', assumed default net type 'wire' [C:/Xilinx/Vivado/2022.2/data/verilog/src/unimacro/BRAM_SINGLE_MACRO.v:2170]
-INFO: [Synth 8-11241] undeclared symbol 'mem_data_to_wb', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:123]
-WARNING: [Synth 8-8895] 'mem_data_to_wb' is already implicitly declared on line 123 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:410]
+INFO: [Synth 8-11241] undeclared symbol 'wire_is_halt_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:107]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ctrl_wb_mem_to_reg_sel', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:134]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ex_ctrl_WB_memToReg_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:134]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ctrl_ex_reg_dest_sel', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:135]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ex_ctrl_EX_regDEST_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:135]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ctrl_wb_write_back_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:136]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ex_ctrl_WB_wr_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:136]
+INFO: [Synth 8-11241] undeclared symbol 'exmem_addr_wb', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:137]
+INFO: [Synth 8-11241] undeclared symbol 'wire_id_pc4', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:140]
+INFO: [Synth 8-11241] undeclared symbol 'wire_id_instruction', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:141]
+INFO: [Synth 8-11241] undeclared symbol 'wire_id_is_A_B_equal_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:142]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ctrl_next_pc_select', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:143]
+INFO: [Synth 8-11241] undeclared symbol 'wire_id_pc_next', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:144]
+INFO: [Synth 8-11241] undeclared symbol 'wire_arithmetic_risk_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:146]
+INFO: [Synth 8-11241] undeclared symbol 'wire_load_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:147]
+INFO: [Synth 8-11241] undeclared symbol 'wire_no_load_pc_flag', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:148]
+INFO: [Synth 8-11241] undeclared symbol 'wire_if_pc4', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:150]
+INFO: [Synth 8-11241] undeclared symbol 'wire_ex_opcode', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:152]
+INFO: [Synth 8-11241] undeclared symbol 'wire_id_opcode', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:153]
+INFO: [Synth 8-11241] undeclared symbol 'data_mem_to_user', assumed default net type 'wire' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:156]
+WARNING: [Synth 8-8895] 'wire_if_pc4' is already implicitly declared on line 150 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:174]
+WARNING: [Synth 8-8895] 'wire_no_load_pc_flag' is already implicitly declared on line 148 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:175]
+WARNING: [Synth 8-8895] 'wire_id_pc_next' is already implicitly declared on line 144 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:176]
+WARNING: [Synth 8-8895] 'wire_is_halt_flag' is already implicitly declared on line 107 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:179]
+WARNING: [Synth 8-8895] 'wire_id_pc4' is already implicitly declared on line 140 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:203]
+WARNING: [Synth 8-8895] 'wire_id_instruction' is already implicitly declared on line 141 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:204]
+WARNING: [Synth 8-8895] 'wire_ctrl_wb_mem_to_reg_sel' is already implicitly declared on line 134 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:232]
+WARNING: [Synth 8-8895] 'wire_ctrl_wb_write_back_flag' is already implicitly declared on line 136 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:233]
+WARNING: [Synth 8-8895] 'wire_id_is_A_B_equal_flag' is already implicitly declared on line 142 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:234]
+WARNING: [Synth 8-8895] 'wire_ctrl_next_pc_select' is already implicitly declared on line 143 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:236]
+WARNING: [Synth 8-8895] 'wire_ctrl_ex_reg_dest_sel' is already implicitly declared on line 135 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:238]
+WARNING: [Synth 8-8895] 'wire_id_opcode' is already implicitly declared on line 153 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:266]
+WARNING: [Synth 8-8895] 'wire_arithmetic_risk_flag' is already implicitly declared on line 146 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:298]
+WARNING: [Synth 8-8895] 'wire_load_flag' is already implicitly declared on line 147 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:299]
+WARNING: [Synth 8-8895] 'wire_ex_opcode' is already implicitly declared on line 152 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:303]
+WARNING: [Synth 8-8895] 'wire_ex_ctrl_EX_regDEST_flag' is already implicitly declared on line 135 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:325]
+WARNING: [Synth 8-8895] 'wire_ex_ctrl_WB_memToReg_flag' is already implicitly declared on line 134 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:331]
+WARNING: [Synth 8-8895] 'wire_ex_ctrl_WB_wr_flag' is already implicitly declared on line 136 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:331]
+WARNING: [Synth 8-8895] 'exmem_addr_wb' is already implicitly declared on line 137 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:406]
+WARNING: [Synth 8-8895] 'data_mem_to_user' is already implicitly declared on line 156 [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:459]
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:07 . Memory (MB): peak = 1207.133 ; gain = 408.598
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 1205.898 ; gain = 408.734
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-6157] synthesizing module 'Main' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:23]
 INFO: [Synth 8-6157] synthesizing module 'UART' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/UART.v:3]
@@ -44,7 +82,7 @@ INFO: [Synth 8-6157] synthesizing module 'Debuguer' [C:/Users/july_/Desktop/mips
 INFO: [Synth 8-6155] done synthesizing module 'Debuguer' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/Debug.v:1]
 INFO: [Synth 8-6157] synthesizing module 'IF' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/IF.v:23]
 INFO: [Synth 8-6157] synthesizing module 'PC' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/pc.v:23]
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/pc.v:66]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/pc.v:67]
 INFO: [Synth 8-6155] done synthesizing module 'PC' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/pc.v:23]
 INFO: [Synth 8-6157] synthesizing module 'PROGRAM_MEMORY' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/program_memory.v:23]
 INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/program_memory.v:96]
@@ -59,10 +97,12 @@ INFO: [Synth 8-6157] synthesizing module 'REG_MEMORY' [C:/Users/july_/Desktop/mi
 INFO: [Synth 8-6155] done synthesizing module 'REG_MEMORY' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:26]
 INFO: [Synth 8-6155] done synthesizing module 'ID' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/ID.v:24]
 INFO: [Synth 8-6157] synthesizing module 'risk_unit' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:23]
-INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:101]
 INFO: [Synth 8-6155] done synthesizing module 'risk_unit' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:23]
 INFO: [Synth 8-6157] synthesizing module 'IDEX' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/IDEX.v:1]
 INFO: [Synth 8-6155] done synthesizing module 'IDEX' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/IDEX.v:1]
+WARNING: [Synth 8-7071] port 'i_flag_first_ex_instruction' of module 'IDEX' is unconnected for instance 'idex_instance' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:333]
+WARNING: [Synth 8-7071] port 'o_flag_first_ex_instruction' of module 'IDEX' is unconnected for instance 'idex_instance' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:333]
+WARNING: [Synth 8-7023] instance 'idex_instance' of module 'IDEX' has 41 connections declared, but only 39 given [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:333]
 INFO: [Synth 8-6157] synthesizing module 'SHORT_CIRCUIT_UNIT' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/short_circuit_unit.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'SHORT_CIRCUIT_UNIT' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/short_circuit_unit.v:23]
 INFO: [Synth 8-6157] synthesizing module 'EX' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EX.v:23]
@@ -70,12 +110,12 @@ INFO: [Synth 8-6157] synthesizing module 'CTRL_ALU' [C:/Users/july_/Desktop/mips
 INFO: [Synth 8-6155] done synthesizing module 'CTRL_ALU' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/CTRL_ALU.v:23]
 INFO: [Synth 8-6157] synthesizing module 'ALU' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/ALU.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'ALU' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/ALU.v:23]
-INFO: [Synth 8-226] default block is never used [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EX.v:141]
+INFO: [Synth 8-226] default block is never used [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EX.v:142]
 INFO: [Synth 8-6155] done synthesizing module 'EX' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EX.v:23]
 INFO: [Synth 8-6157] synthesizing module 'EXMEM' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EXMEM.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'EXMEM' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/EXMEM.v:23]
 INFO: [Synth 8-6157] synthesizing module 'MEM' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEM.v:23]
-INFO: [Synth 8-226] default block is never used [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEM.v:60]
+INFO: [Synth 8-226] default block is never used [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEM.v:63]
 INFO: [Synth 8-6157] synthesizing module 'DATA_MEM' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/data_mem.v:25]
 INFO: [Synth 8-6155] done synthesizing module 'DATA_MEM' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/data_mem.v:25]
 INFO: [Synth 8-6155] done synthesizing module 'MEM' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEM.v:23]
@@ -83,75 +123,9 @@ INFO: [Synth 8-6157] synthesizing module 'MEMWB' [C:/Users/july_/Desktop/mips_20
 INFO: [Synth 8-6155] done synthesizing module 'MEMWB' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEMWB.v:23]
 INFO: [Synth 8-6157] synthesizing module 'WB' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/WB.v:23]
 INFO: [Synth 8-6155] done synthesizing module 'WB' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/WB.v:23]
-WARNING: [Synth 8-689] width (32) of port connection 'o_data_to_wb' does not match port width (1) of module 'WB' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:445]
 INFO: [Synth 8-6155] done synthesizing module 'Main' (0#1) [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/main.v:23]
-WARNING: [Synth 8-6026] Ignoring keep related attribute (keep/mark_debug/dont_touch) applied on memory [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:44]
-WARNING: [Synth 8-6026] Ignoring keep related attribute (keep/mark_debug/dont_touch) applied on memory [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/data_mem.v:45]
-WARNING: [Synth 8-3848] Net o_addr_wb in module/entity MEMWB does not have driver. [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/MEMWB.v:34]
-WARNING: [Synth 8-7129] Port o_addr_wb[4] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port o_addr_wb[3] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port o_addr_wb[2] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port o_addr_wb[1] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port o_addr_wb[0] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_wb[4] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_wb[3] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_wb[2] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_wb[1] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_wb[0] in module MEMWB is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[31] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[30] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[29] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[28] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[27] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[26] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[25] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[24] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[23] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[22] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[21] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[20] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[19] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[18] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[17] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[16] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[15] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[14] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[13] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[12] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[11] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[10] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[9] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[8] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[7] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[6] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[5] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[4] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[3] in module DATA_MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_addr_mem[2] in module DATA_MEM is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_ctrl_mem_store_mask[1] in module MEM is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_ctrl_mem_store_mask[0] in module MEM is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_reg_write_flag in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_reg_write_flag in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rs[4] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rs[3] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rs[2] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rs[1] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rs[0] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rt[4] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rt[3] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rt[2] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rt[1] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_id_ex_rt[0] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_write_addr[4] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_write_addr[3] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_write_addr[2] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_write_addr[1] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_ex_mem_write_addr[0] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_write_addr[4] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_write_addr[3] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_write_addr[2] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_write_addr[1] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
-WARNING: [Synth 8-7129] Port i_mem_wb_write_addr[0] in module SHORT_CIRCUIT_UNIT is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_addr_A[4] in module REG_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_addr_A[3] in module REG_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_addr_A[2] in module REG_MEMORY is either unconnected or has no load
@@ -180,18 +154,18 @@ WARNING: [Synth 8-7129] Port i_instruction[7] in module ControlMain is either un
 WARNING: [Synth 8-7129] Port i_instruction[6] in module ControlMain is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_reset in module UART_ticks is either unconnected or has no load
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 1305.664 ; gain = 507.129
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 1308.207 ; gain = 511.043
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 1305.664 ; gain = 507.129
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 1308.207 ; gain = 511.043
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:11 . Memory (MB): peak = 1305.664 ; gain = 507.129
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:10 . Memory (MB): peak = 1308.207 ; gain = 511.043
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.083 . Memory (MB): peak = 1305.664 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.084 . Memory (MB): peak = 1308.207 ; gain = 0.000
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
@@ -202,34 +176,34 @@ INFO: [Project 1-236] Implementation specific constraints were found while readi
 Resolution: To avoid this warning, move constraints listed in [.Xil/Main_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1420.070 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1390.582 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.015 . Memory (MB): peak = 1420.070 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1390.582 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-11241] undeclared symbol 'REGCCE', assumed default net type 'wire' [C:/Xilinx/Vivado/2022.2/data/verilog/src/unimacro/BRAM_SINGLE_MACRO.v:2170]
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:09 ; elapsed = 00:00:23 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Constraint Validation : Time (s): cpu = 00:00:10 ; elapsed = 00:00:22 . Memory (MB): peak = 1390.582 ; gain = 593.418
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:09 ; elapsed = 00:00:23 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:10 ; elapsed = 00:00:22 . Memory (MB): peak = 1390.582 ; gain = 593.418
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:23 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:10 ; elapsed = 00:00:22 . Memory (MB): peak = 1390.582 ; gain = 593.418
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'UART_rx'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg_reg' in module 'UART_tx'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'Debuguer'
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'PC'
-INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'risk_unit'
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -251,22 +225,35 @@ INFO: [Synth 8-3354] encoded FSM with state register 'state_reg_reg' using encod
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
-                 ST_IDLE |                              001 |                             0001
-         ST_INCREMENT_PC |                              010 |                             0010
-     ST_PROGRAM_FINISHED |                              100 |                             0011
+                 ST_IDLE |                        000000001 |                             0001
+  ST_RECEIVE_INSTRUCTION |                        000000010 |                             0010
+     ST_SEND_INSTRUCTION |                        000000100 |                             0011
+                ST_READY |                        000001000 |                             0100
+             ST_CONTINUE |                        000010000 |                             0111
+         ST_STEP_TO_STEP |                        000100000 |                             0110
+  ST_FILL_BUFFER_TO_USER |                        001000000 |                             1000
+    ST_SEND_DATA_TO_USER |                        010000000 |                             1001
+                  ST_END |                        100000000 |                             1111
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'PC'
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'Debuguer'
+WARNING: [Synth 8-327] inferring latch for variable 'pc_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/pc.v:69]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
                  ST_IDLE |                               00 |                             0001
-     ST_READ_INSTRUCTION |                               01 |                             0010
-     ST_PROGRAM_FINISHED |                               10 |                             0100
-        ST_RISK_DETECTED |                               11 |                             0011
+         ST_INCREMENT_PC |                               01 |                             0010
+     ST_PROGRAM_FINISHED |                               10 |                             0011
+           ST_NO_LOAD_PC |                               11 |                             0111
 ---------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'risk_unit'
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'PC'
+WARNING: [Synth 8-327] inferring latch for variable 'instruction_data_output_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/program_memory.v:124]
+WARNING: [Synth 8-327] inferring latch for variable 'is_halt_flag_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:97]
+WARNING: [Synth 8-327] inferring latch for variable 'no_load_pc_flag_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:98]
+WARNING: [Synth 8-327] inferring latch for variable 'arithmetic_risk_flag_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:100]
+WARNING: [Synth 8-327] inferring latch for variable 'state_next_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/risk_unit.v:101]
+WARNING: [Synth 8-327] inferring latch for variable 'sel_short_circuit_A_reg' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/short_circuit_unit.v:45]
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:25 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:21 ; elapsed = 00:00:46 . Memory (MB): peak = 2871.180 ; gain = 2074.016
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -276,53 +263,57 @@ Detailed RTL Component Info :
 	   2 Input   32 Bit       Adders := 4     
 	   3 Input   32 Bit       Adders := 1     
 	   2 Input   10 Bit       Adders := 1     
+	   2 Input    8 Bit       Adders := 1     
 	   2 Input    6 Bit       Adders := 1     
-	   2 Input    5 Bit       Adders := 1     
 	   2 Input    4 Bit       Adders := 2     
 	   2 Input    3 Bit       Adders := 3     
 +---XORs : 
 	   2 Input     32 Bit         XORs := 1     
 +---Registers : 
 	              320 Bit    Registers := 1     
-	               32 Bit    Registers := 18    
+	              128 Bit    Registers := 1     
+	               32 Bit    Registers := 23    
 	               10 Bit    Registers := 1     
-	                8 Bit    Registers := 3     
+	                8 Bit    Registers := 4     
 	                6 Bit    Registers := 2     
-	                5 Bit    Registers := 6     
+	                5 Bit    Registers := 5     
 	                4 Bit    Registers := 4     
 	                3 Bit    Registers := 5     
 	                2 Bit    Registers := 4     
-	                1 Bit    Registers := 19    
-+---RAMs : 
-	              128 Bit	(4 X 32 bit)          RAMs := 2     
+	                1 Bit    Registers := 21    
 +---Muxes : 
 	   2 Input  320 Bit        Muxes := 1     
-	   2 Input   32 Bit        Muxes := 2     
-	   4 Input   32 Bit        Muxes := 4     
+	   4 Input   32 Bit        Muxes := 8     
+	   2 Input   32 Bit        Muxes := 14    
+	   5 Input   32 Bit        Muxes := 1     
+	   3 Input   32 Bit        Muxes := 1     
+	   9 Input    9 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 5     
 	   4 Input    8 Bit        Muxes := 1     
-	   3 Input    5 Bit        Muxes := 1     
-	   2 Input    5 Bit        Muxes := 2     
+	   3 Input    8 Bit        Muxes := 1     
+	 257 Input    8 Bit        Muxes := 1     
+	 256 Input    8 Bit        Muxes := 1     
 	   4 Input    5 Bit        Muxes := 1     
-	   2 Input    4 Bit        Muxes := 5     
+	   2 Input    4 Bit        Muxes := 23    
 	   4 Input    4 Bit        Muxes := 2     
-	   8 Input    4 Bit        Muxes := 1     
-	   5 Input    4 Bit        Muxes := 1     
+	   9 Input    4 Bit        Muxes := 1     
+	   5 Input    4 Bit        Muxes := 2     
 	  14 Input    4 Bit        Muxes := 1     
 	   4 Input    3 Bit        Muxes := 2     
-	   8 Input    3 Bit        Muxes := 1     
-	   2 Input    3 Bit        Muxes := 3     
+	   2 Input    3 Bit        Muxes := 2     
+	   9 Input    3 Bit        Muxes := 1     
 	   7 Input    3 Bit        Muxes := 1     
 	   4 Input    2 Bit        Muxes := 3     
+	   3 Input    2 Bit        Muxes := 3     
 	   2 Input    2 Bit        Muxes := 9     
 	   6 Input    2 Bit        Muxes := 1     
 	  17 Input    2 Bit        Muxes := 1     
-	   3 Input    2 Bit        Muxes := 1     
-	   2 Input    1 Bit        Muxes := 38    
-	   4 Input    1 Bit        Muxes := 19    
-	   8 Input    1 Bit        Muxes := 10    
-	   3 Input    1 Bit        Muxes := 5     
-	   5 Input    1 Bit        Muxes := 4     
-	   6 Input    1 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 54    
+	   4 Input    1 Bit        Muxes := 17    
+	   3 Input    1 Bit        Muxes := 2     
+	   9 Input    1 Bit        Muxes := 9     
+	   5 Input    1 Bit        Muxes := 9     
+	   6 Input    1 Bit        Muxes := 2     
 	   7 Input    1 Bit        Muxes := 2     
 	  13 Input    1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
@@ -341,7 +332,8 @@ Finished Part Resource Summary
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
-WARNING: [Synth 8-6026] Ignoring keep related attribute (keep/mark_debug/dont_touch) applied on memory
+WARNING: [Synth 8-7129] Port i_ctrl_mem_store_mask[1] in module MEM is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_ctrl_mem_store_mask[0] in module MEM is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_pc[31] in module PROGRAM_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_pc[30] in module PROGRAM_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_pc[29] in module PROGRAM_MEMORY is either unconnected or has no load
@@ -351,222 +343,45 @@ WARNING: [Synth 8-7129] Port i_pc[26] in module PROGRAM_MEMORY is either unconne
 WARNING: [Synth 8-7129] Port i_pc[25] in module PROGRAM_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_pc[24] in module PROGRAM_MEMORY is either unconnected or has no load
 WARNING: [Synth 8-7129] Port i_pc[23] in module PROGRAM_MEMORY is either unconnected or has no load
-INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-WARNING: [Synth 8-3332] Sequential element (if_instance/pc/FSM_onehot_state_reg[2]) is unused and will be removed from module Main.
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[31]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[30]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[29]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[28]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[27]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[26]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[25]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[24]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[23]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[22]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[21]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[20]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[19]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[18]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[17]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[16]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[15]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[14]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[13]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[12]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[11]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[10]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[9]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[8]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[7]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[6]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[5]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[4]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[3]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[2]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[1]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataA_reg[0]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:50]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[31]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[30]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[29]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[28]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[27]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[26]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[25]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[24]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[23]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[22]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[21]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[20]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[19]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[18]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[17]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[16]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[15]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 1st driver pin 'id_instace/REG_MEMORY_instance/dataB_reg[14]/Q' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6859] multi-driven net on pin Q with 2nd driver pin 'GND' [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-INFO: [Common 17-14] Message 'Synth 8-6859' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
-CRITICAL WARNING: [Synth 8-6858] multi-driven net Q is connected to at least one constant driver which has been preserved, other driver is ignored [C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.srcs/sources_1/new/RegisterMemory.v:51]
+WARNING: [Synth 8-7129] Port i_pc[22] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[21] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[20] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[19] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[18] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[17] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[16] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[15] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[14] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[13] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[12] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[11] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[10] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_pc[9] in module PROGRAM_MEMORY is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_next_pc[31] in module IF is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_next_pc[30] in module IF is either unconnected or has no load
+WARNING: [Synth 8-7129] Port i_next_pc[29] in module IF is either unconnected or has no load
+WARNING: [Synth 8-3332] Sequential element (if_instance/pc/pc_reg[0]) is unused and will be removed from module Main.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:50 . Memory (MB): peak = 1420.070 ; gain = 621.535
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Preliminary Mapping Report (see note below)
-+------------+----------------------------------------+-----------+----------------------+----------------+
-|Module Name | RTL Object                             | Inference | Size (Depth x Width) | Primitives     | 
-+------------+----------------------------------------+-----------+----------------------+----------------+
-|Main        | MEM_instance/nolabel_line69/buffer_reg | Implied   | 4 x 32               | RAM16X1S x 32  | 
-+------------+----------------------------------------+-----------+----------------------+----------------+
-
-Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:47 ; elapsed = 00:01:44 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:24 ; elapsed = 00:01:00 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:51 ; elapsed = 00:01:52 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:01:01 . Memory (MB): peak = 1420.070 ; gain = 621.535
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start ROM, RAM, DSP, Shift Register and Retiming Reporting
----------------------------------------------------------------------------------
-
-Distributed RAM: Final Mapping Report
-+------------+----------------------------------------+-----------+----------------------+----------------+
-|Module Name | RTL Object                             | Inference | Size (Depth x Width) | Primitives     | 
-+------------+----------------------------------------+-----------+----------------------+----------------+
-|Main        | MEM_instance/nolabel_line69/buffer_reg | Implied   | 4 x 32               | RAM16X1S x 32  | 
-+------------+----------------------------------------+-----------+----------------------+----------------+
-
----------------------------------------------------------------------------------
-Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+Finished Timing Optimization : Time (s): cpu = 00:00:54 ; elapsed = 00:02:00 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-3332] Sequential element (risk_unit_instance/state_next_reg[3]) is unused and will be removed from module Main.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:25 ; elapsed = 00:01:02 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Technology Mapping : Time (s): cpu = 00:00:55 ; elapsed = 00:02:02 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -584,37 +399,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:29 ; elapsed = 00:01:10 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished IO Insertion : Time (s): cpu = 00:00:58 ; elapsed = 00:02:09 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:29 ; elapsed = 00:01:10 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:58 ; elapsed = 00:02:09 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:58 ; elapsed = 00:02:09 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:58 ; elapsed = 00:02:09 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:58 ; elapsed = 00:02:10 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:58 ; elapsed = 00:02:10 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -627,47 +442,52 @@ Report BlackBoxes:
 +-+--------------+----------+
 
 Report Cell Usage: 
-+------+---------+------+
-|      |Cell     |Count |
-+------+---------+------+
-|1     |BUFG     |     1|
-|2     |CARRY4   |    37|
-|3     |LUT1     |   104|
-|4     |LUT2     |   172|
-|5     |LUT3     |    69|
-|6     |LUT4     |   233|
-|7     |LUT5     |   347|
-|8     |LUT6     |   905|
-|9     |MUXF7    |    16|
-|10    |RAM16X1S |    32|
-|11    |FDRE     |   827|
-|12    |FDSE     |     6|
-|13    |IBUF     |     3|
-|14    |OBUF     |    10|
-+------+---------+------+
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     2|
+|2     |CARRY4 |    41|
+|3     |LUT1   |    41|
+|4     |LUT2   |   219|
+|5     |LUT3   |   293|
+|6     |LUT4   |   257|
+|7     |LUT5   |   652|
+|8     |LUT6   |  1225|
+|9     |MUXF7  |    24|
+|10    |FDE    |   128|
+|11    |FDRE   |  1556|
+|12    |FDSE   |     9|
+|13    |FD     |   192|
+|14    |LD     |    67|
+|15    |LDCP   |     2|
+|16    |IBUF   |     3|
+|17    |OBUF   |    10|
++------+-------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:58 ; elapsed = 00:02:10 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 192 critical warnings and 26 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:01:08 . Memory (MB): peak = 1420.070 ; gain = 507.129
-Synthesis Optimization Complete : Time (s): cpu = 00:00:29 ; elapsed = 00:01:11 . Memory (MB): peak = 1420.070 ; gain = 621.535
+Synthesis finished with 0 errors, 0 critical warnings and 38 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:53 ; elapsed = 00:02:07 . Memory (MB): peak = 2918.227 ; gain = 2038.688
+Synthesis Optimization Complete : Time (s): cpu = 00:00:59 ; elapsed = 00:02:10 . Memory (MB): peak = 2918.227 ; gain = 2121.062
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.049 . Memory (MB): peak = 1420.070 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 85 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.107 . Memory (MB): peak = 2918.227 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 454 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
-INFO: [Opt 31-138] Pushed 1 inverter(s) to 32 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.002 . Memory (MB): peak = 1420.070 ; gain = 0.000
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 2918.227 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
-  A total of 32 instances were transformed.
-  RAM16X1S => RAM32X1S (inverted pins: WCLK) (RAMS32): 32 instances
+  A total of 389 instances were transformed.
+  FDE_1 => FDRE (inverted pins: C): 128 instances
+  FD_1 => FDRE (inverted pins: C): 192 instances
+  LD => LDCE: 67 instances
+  LDCP => LDCP (GND, LDCE, LUT3(x2), VCC): 2 instances
 
-Synth Design complete, checksum: 759d4dee
+Synth Design complete, checksum: 2d1285f4
 INFO: [Common 17-83] Releasing license: Synthesis
-88 Infos, 108 Warnings, 164 Critical Warnings and 0 Errors encountered.
+104 Infos, 90 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:32 ; elapsed = 00:01:19 . Memory (MB): peak = 1420.070 ; gain = 1000.047
-INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+synth_design: Time (s): cpu = 00:01:02 ; elapsed = 00:02:19 . Memory (MB): peak = 2918.227 ; gain = 2499.191
 INFO: [Common 17-1381] The checkpoint 'C:/Users/july_/Desktop/mips_2023/mips_2023/mips_2023.runs/synth_1/Main.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file Main_utilization_synth.rpt -pb Main_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Tue Jun 27 19:34:34 2023...
+INFO: [Common 17-206] Exiting Vivado at Thu Jul 20 22:27:40 2023...

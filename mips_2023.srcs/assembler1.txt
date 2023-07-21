@@ -1,0 +1,16 @@
+lw R1, 0(0)
+lw R2, 1(0)
+sll R3, R1, R2
+srl R4, R1, R2
+sra R5, R1, R2
+sllv R6, R1, R2
+srlv R7, R1, R2
+srav R8, R1, R2
+addu R9, R1, R2
+subu R10, R1, R2
+and R11, R1, R2
+or R12, R1, R2
+xor R13, R1, R2
+nor R14, R1, R2
+slt R15, R1, R2
+halt

@@ -1,0 +1,15 @@
+lw R1, 0(0)
+lh R2, 0(0)
+lb R3, 0(0)
+lhu R4, 0(0)
+lbu R5, 0(0)
+sw R1, 0(0)
+sh R1, 1(0) 
+sb R1, 2(0)
+addi R6, R1, 4  
+andi R7, R1, 4
+ori R8, R1, 4
+xori R9, R1, 4 
+lui R10, 4
+slti R11, R1, 4
+halt

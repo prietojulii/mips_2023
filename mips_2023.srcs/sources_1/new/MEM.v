@@ -21,7 +21,9 @@
 
 
 module MEM # (
-        parameter REG_SIZE= 32
+        parameter REG_SIZE= 32,
+        parameter DATA_MEM_TO_USER_SIZE = 128
+
 )
 (
     input wire i_clock,
@@ -31,7 +33,8 @@ module MEM # (
     input wire [1:0] i_ctrl_mem_store_mask,
     input wire [2:0] i_ctrl_mem_load_mask,
     input wire i_ctrl_mem_write_or_read_flag,
-    output wire [REG_SIZE-1:0] o_data_mem
+    output wire [REG_SIZE-1:0] o_data_mem,
+    output wire [DATA_MEM_TO_USER_SIZE-1:0] o_data_mem_to_user
 );
 
 
@@ -54,7 +57,7 @@ localparam MASK_LOAD_UNSIGNED_WORD = 3'b110;
 // Registers
 reg [REG_SIZE-1:0] data_to_mem, data_to_wb, reg_data_from_mem;
 wire  [REG_SIZE-1:0] data_from_mem;
-
+wire [DATA_MEM_TO_USER_SIZE-1:0] data_mem_to_user;
 // Mascara STORE
 always @(*) begin
 case (i_ctrl_mem_store_mask)
@@ -72,7 +75,8 @@ DATA_MEM(
   .i_ctrl_mem_rd_or_wr(i_ctrl_mem_write_or_read_flag),
   .i_data_mem(i_data_mem),
   .i_addr_mem(i_addr_mem),
-  .o_data_mem(data_from_mem)
+  .o_data_mem(data_from_mem),
+  .o_data_mem_to_user(data_mem_to_user)
 );
 // Mascara LOAD
 always @(*) begin
@@ -95,5 +99,5 @@ end
 //Assigns
 
 assign o_data_mem = data_to_wb;
-
+assign o_data_mem_to_user = data_mem_to_user;
 endmodule

@@ -27,7 +27,8 @@ module REG_MEMORY
 #(
    parameter ADDR_SIZE = 5, //instruction memory address size 
    parameter DATA_SIZE = 32, //data size in bits (INSTRUCTION_SIZE)
-   parameter BUFFER_SIZE = 4 //number of register
+   parameter BUFFER_SIZE = 4, //number of register
+   parameter MEM_REG_TO_USER = 128 //data size * 4
 )
 (
   input wire i_clock,
@@ -38,12 +39,20 @@ module REG_MEMORY
   input wire [ADDR_SIZE-1:0]  i_addr_wr, //address to be written in the memory
   input wire [DATA_SIZE-1:0]  i_data_in, // data to be written in A register
   output wire [DATA_SIZE-1:0] o_data_A, // A register to be read
-  output wire [DATA_SIZE-1:0] o_data_B // B register to be read
+  output wire [DATA_SIZE-1:0] o_data_B, // B register to be read
+
+  ///////////////////////////
+   output wire [MEM_REG_TO_USER-1:0] o_mem_reg_to_user
+  ///////////////////////////
 );
 
 (* dont_touch = "yes" *) reg [DATA_SIZE-1:0] buffer [BUFFER_SIZE-1:0]; //buffer of the memory 
 (* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataA;
 (* dont_touch = "yes" *) reg [DATA_SIZE-1:0] dataB;
+
+///////////////////////////
+(* dont_touch = "yes" *) reg [MEM_REG_TO_USER-1:0] mem_to_user_reg;
+///////////////////////////
 
 //ESCRITURA
 always@(posedge i_clock) begin // first write
@@ -51,7 +60,7 @@ always@(posedge i_clock) begin // first write
          buffer[1]=2;//TODO
          buffer[2]=3;
          buffer[3]=4;
-         buffer[4]=5;
+         // buffer[4]=5;
       end
     else  if (i_wr_flag ) begin //write in the first cicle-time
        //R0, always is 0
@@ -63,7 +72,13 @@ end
 always@(negedge i_clock) begin // read in the second cicle-time
       dataA = buffer[i_addr_A];
       dataB = buffer[i_addr_B];
-      // dataB =  {i_addr_A,3'b000,i_addr_B,3'b000,i_addr_wr,7'b0,i_wr_flag};
+
+      //////////////////////////////
+      mem_to_user_reg[31:0]= buffer[0];
+      mem_to_user_reg[63:32] = buffer[1];
+      mem_to_user_reg[95:64] = buffer[2];
+      mem_to_user_reg[127:96] = buffer[3];
+      //////////////////////////////
 end
 
 
@@ -71,4 +86,7 @@ end
 //TODO: assign o_data_A = {32{1'b1}}; //dynamic index (ADDR-A POSITION)
 assign o_data_B = dataB; //dynamic index (ADDR-B POSITION)
 assign o_data_A = dataA; //dynamic index (ADDR-A POSITION)
+//////////////////////////////
+assign o_mem_reg_to_user = mem_to_user_reg;
+//////////////////////////////
 endmodule
