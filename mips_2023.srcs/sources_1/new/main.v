@@ -89,6 +89,9 @@ Debuguer WIRES
 wire [REG_SIZE -1:0] wire_if_instruction;                               //Cable que sale del m�dulo IF con la instrucci�n correspondiente a ejecutar.
 wire [REG_SIZE-1:0] wire_id_dataA;                                          //Cable que sale de la etapa ID con el registro DATA_A 
 wire [REG_SIZE-1:0] wire_id_dataB;                                          //Cable que sale de la etapa ID con el registro DATA_B 
+////////////////////
+wire [127:0] wire_id_mem_reg_to_user;
+////////////////////
 wire [4:0] wire_id_rs;                                                      //Cable que sale de la etapa ID con el registro RS                                          
 wire [4:0] wire_id_rt;                                                      //Cable que sale de la etapa ID con el registro RT
  wire wire_flag_start_program, wire_flag_instruction_write;
@@ -148,7 +151,9 @@ wire [4:0] wire_id_rt;                                                      //Ca
             {31'b0, wire_flag_start_program},
             {26'b0,wire_ex_opcode},
             {26'b0,wire_id_opcode},
-            wire_mem_data_B
+            wire_mem_data_B,
+            wire_id_mem_reg_to_user, //128 bits!!!!!!!!!!!
+            data_mem_to_user //128 bits!!!!!!!!!!!
         }
 
         // wb_wire_mem_data_to_wb
@@ -281,7 +286,10 @@ ID id_instace (
     .o_pc_next(wire_id_pc_next),
     .o_funct(wire_id_function),
     .o_op(wire_id_opcode),
-    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag)                         //Cable que controla si A es igual a B en la etapa ID para los Branch; viene de la CONTROL UNIT.                         
+    .o_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),                         //Cable que controla si A es igual a B en la etapa ID para los Branch; viene de la CONTROL UNIT.  
+    //////////////////////////
+    .o_mem_reg_to_user(wire_id_mem_reg_to_user)
+    //////////////////////////                       
 );
 
 /*
@@ -446,7 +454,9 @@ EXMEM EXMEM_instance(
     .o_ctrl_WB_wr_flag(wire_mem_ctrl_WB_wr_flag)//TODO:
 );
 
+localparam DATA_MEM_TO_USER_SIZE = 128;
 wire [REG_SIZE-1:0] mem_data_to_wb;
+wire [DATA_MEM_TO_USER_SIZE-1:0] data_mem_to_user;
 
 MEM MEM_instance(
     .i_clock(i_clock),
@@ -456,7 +466,8 @@ MEM MEM_instance(
     .i_ctrl_mem_store_mask(wire_mem_MEM_store_mask),
     .i_ctrl_mem_load_mask(wire_mem_MEM_load_mask),
     .i_ctrl_mem_write_or_read_flag(wire_mem_MEM_mem_write_or_read_flag),
-    .o_data_mem(mem_data_to_wb)//TODO:
+    .o_data_mem(mem_data_to_wb),//TODO:
+    .o_data_mem_to_user(data_mem_to_user)
 );
 
 

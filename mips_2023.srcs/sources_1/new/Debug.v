@@ -3,12 +3,12 @@ module Debuguer #(
     parameter SIZE_REG = 32,
     parameter SIZE_COMMAND = 8,
     parameter SIZE_PC = 32,
-    parameter SIZE_BUFFER_TO_USER =800,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
-    parameter TX_COUNTER= 100,//28; //TODO: = SIZE_BUFFER_TO_USER/8
+    parameter SIZE_BUFFER_TO_USER =1056,//TODO:224,             // PC + Rs + Rt + A + B + AddrMem + DataMem
+    parameter TX_COUNTER= 132,//28; //TODO: = SIZE_BUFFER_TO_USER/8
     parameter SIZE_RS = 5,
     parameter SIZE_RT = 5,
     parameter SIZE_TRAMA = 8,
-    parameter SIZE_INDEX = 8 //TODO
+    parameter SIZE_INDEX = 8 //TODO: 2^SIZE_INDEX DEBE ser mayor a TX_COUNTER
 ) (
     input wire i_clk,
     input wire i_reset,
@@ -199,7 +199,6 @@ always @ (*) begin
                 if(i_command == C)
                 begin
                     state_next = ST_CONTINUE;
-                    enable_pc_next = 1; 
                 end
                 else if(i_command == S)
                 begin
@@ -264,7 +263,7 @@ always @ (*) begin
                     tx_start_next = 1;
 
             end
-            else if(i_flag_tx_done ) begin
+            else if(i_flag_tx_done) begin
                     trama_tx_next = buffer_to_user_next[index*SIZE_TRAMA+:SIZE_TRAMA];
                     if( index == TX_COUNTER ) // se envio todo el buffer
                     begin
