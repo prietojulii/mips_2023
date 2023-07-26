@@ -187,6 +187,7 @@ always @ (*) begin
             end
         end
         ST_FILL_BUFFER_TO_USER: begin
+            end_program=0;
             flag_start_program_next = 0;
             enable_pc_next= 0; //reset pc_next
             //shifteando data
@@ -242,7 +243,6 @@ always @ (*) begin
         ST_END:
         begin
             end_program = 1;
-            state_next = ST_END;
             state_next = ST_FILL_BUFFER_TO_USER;
         end
         default: begin
