@@ -69,6 +69,7 @@ wire wire_flag_start_program, wire_flag_instruction_write;
 wire wire_debuguer_latch_enable_pc;  
 wire [REG_SIZE-1:0] wire_debuguer_instruction_data;
 wire [3:0] wire_state_leds;
+wire end_program;
 
 /********
 WIRES IF
@@ -200,13 +201,13 @@ Debuguer debug_instace (
     .i_flag_rx_done(wire_flag_rx_done),
     .i_flag_tx_done(wire_uart_debug_tx_done),
     .i_is_halt_flag(wire_is_halt_flag),
+    .o_end_program(end_program),
     .o_flag_instruction_write(wire_flag_instruction_write),
     .o_enable_pc(wire_debuguer_latch_enable_pc),
     .o_instruction_data(wire_debuguer_instruction_data),
     .o_trama_tx(wire_debuguer_uart_tx),
     .o_tx_start(wire_debuger_uart_tx_start),
-    .o_flag_start_program(wire_flag_start_program),  /* ESTE CABLE SE ENVIA A TODAS LAS UNIDADES LATCH (y pc)
-                                                        PARA HABILITARLAS O DESHABILITARLAS.*/
+    .o_flag_start_program(wire_flag_start_program),
     //Wires con salida al usuario:
     .o_wire_state_leds(wire_state_leds),
     .i_buffer_to_send(  // Buffer para enviar por UART al usuario.
@@ -258,7 +259,7 @@ IF if_instance(
     .o_wire_new_inst_program_memory(wire_if_new_inst_ready_prueba)
 );
 
- IFID ifid_instance (
+IFID ifid_instance (
     .i_clock(i_clock),
     .i_reset(i_reset),
     .i_enable(wire_debuguer_latch_enable_pc),
@@ -273,8 +274,7 @@ IF if_instance(
 
 );
 
-ControlMain control_main_instance( 
- 
+ControlMain control_main_instance(
     .i_instruction(wire_id_instruction),
     .i_is_A_B_equal_flag(wire_id_is_A_B_equal_flag),
     .o_next_pc_select(wire_ctrl_next_pc_select),
@@ -334,7 +334,7 @@ risk_unit risk_unit_instance(
 IDEX idex_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
-    .i_enable(wire_debuguer_latch_enable_pc),
+    .i_enable(wire_debuguer_latch_enable_pc || end_program),
 
     //* Signals from ID to EX
     .i_enable_risk_unit(wire_id_ex_debuguer_latch_enable_pc),
@@ -417,7 +417,7 @@ EX ex_instance(
 EXMEM EXMEM_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
-    .i_enable(wire_debuguer_latch_enable_pc),
+    .i_enable(wire_debuguer_latch_enable_pc || end_program),
 
     .i_alu_result(exmem_alu_result),
     .i_data_B(exmem_op_b),
@@ -456,7 +456,7 @@ MEM MEM_instance(
 MEMWB MEMWB_instance(
     .i_clock(i_clock),
     .i_reset(i_reset),
-    .i_enable(wire_debuguer_latch_enable_pc),
+    .i_enable(wire_debuguer_latch_enable_pc || end_program),
 
     .i_addr_wb(wire_mem_addr_wb),
     .i_data_mem(mem_data_to_wb),

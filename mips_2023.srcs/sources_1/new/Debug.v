@@ -22,6 +22,7 @@ module Debuguer #(
     output wire [(SIZE_TRAMA-1):0] o_trama_tx,
     output wire o_tx_start,
     output wire o_flag_start_program,
+    output wire o_end_program,
 
     // WIRE TO DEBUG
     input wire [SIZE_BUFFER_TO_USER-1:0] i_buffer_to_send,
@@ -60,6 +61,7 @@ reg flag_start_program,flag_start_program_next, enable_pc,enable_pc_next;
 reg [SIZE_TRAMA-1:0] trama_tx, trama_tx_next;
 reg [SIZE_INDEX-1:0] index, index_next;
 reg tx_start,tx_start_next;
+reg end_program;
 /************************************************************************************
 *                              DEBUGUER STATE MACHINE.
 *************************************************************************************/
@@ -93,6 +95,7 @@ always @ (posedge i_clk) begin
 end
 
 always @ (*) begin
+    end_program = 0;
     state_next = state;
     flag_instruction_write_next = flag_instruction_write;
     bytes_counter_next = bytes_counter;
@@ -238,7 +241,9 @@ always @ (*) begin
         end
         ST_END:
         begin
+            end_program = 1;
             state_next = ST_END;
+            state_next = ST_FILL_BUFFER_TO_USER;
         end
         default: begin
             state_next = ST_IDLE; 
@@ -257,5 +262,6 @@ assign o_flag_start_program = flag_start_program;
 assign o_trama_tx = trama_tx;
 assign o_tx_start = tx_start;
 assign o_wire_state_leds = state;
+assign o_end_program = end_program;
 
 endmodule

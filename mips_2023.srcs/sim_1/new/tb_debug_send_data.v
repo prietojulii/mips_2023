@@ -47,7 +47,7 @@ module tb_debug_send_data#(
     localparam BYTES_PER_INSTRUCTION=4;
     localparam HALT = 32'b0;
     localparam TX_COUNTER= 21;
-     
+
 Debuguer my_debug(
     .i_clock(i_clock),
     .i_reset(i_reset),

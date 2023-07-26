@@ -1,4 +1,3 @@
-
 # Descripción: Compilador de Assembler a hexadecimal.
 
 Test = "./assembler1.txt"

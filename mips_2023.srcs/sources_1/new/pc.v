@@ -83,6 +83,7 @@ module PC
                 end
                 ST_PROGRAM_FINISHED: 
                 begin
+                    state_next = ST_PROGRAM_FINISHED;
                     // Me quedo aqui por siempre.
                 end
         endcase
