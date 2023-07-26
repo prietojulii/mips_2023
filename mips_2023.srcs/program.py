@@ -16,7 +16,8 @@ import serial
 
 global ser
 
-#SEÑALES
+
+# SEÑALES
 # Función de manejo de la señal de interrupción
 def signal_handler(signal, frame):
     print("\nPrograma terminado por Ctrl+C")
@@ -24,45 +25,8 @@ def signal_handler(signal, frame):
     ser.close()
     sys.exit(0)
 
-# Asociar la función de manejo de señal al evento de Ctrl+C
-signal.signal(signal.SIGINT, signal_handler)
 
-#PROGRAMA
-# Configuración del puerto serial
-uart_port = "COM8"  #TODO: Reemplaza esto con el puerto UART correspondiente en tu sistema
-baud_rate = 9600  # Velocidad de transmisión en baudios
-
-# Abrir la conexión del puerto serial
-ser = serial.Serial(uart_port, baud_rate)
-
-# Paso 1: Cargar instrucciones
-print("Para empezar, presione 'L' para cargar las instrucciones.")
-user_input = input("Ingrese su opción: ")
-
-if user_input.upper() == "L":
-    # Enviar comando de carga de instrucciones (0x01)
-    ser.write(b'\x01')
-
-    # Leer el archivo de instrucciones
-    filename = "intruction.txt"  # Reemplaza esto con el nombre de tu archivo de instrucciones
-    with open(filename, 'r') as file:
-        for line in file:
-            # Obtener la instrucción de la línea y convertirla a una cadena de bytes de 4 bytes (32 bits)
-            instruction = bytes.fromhex(line.strip())
-            instruction_bigendian = instruction[::-1]
-            instruction_bytes = instruction_bigendian
-            
-            # Enviar la instrucción por UART
-            ser.write(instruction_bytes)
-
-# Paso 2: Modo continuo o paso a paso
-print("Presione 'C' para modo continuo o 'S' para modo step-by-step.")
-user_input = input("Ingrese su opción: ")
-
-if user_input.upper() == "C":
-    # Enviar comando de modo continuo (0x02)
-    ser.write(b'\x02')
-    print("Modo continuo activado.")
+def imprimir_datos():
     response_bytes = ser.read(132) #TODO: cambiar cuando agregas cosas para leer
     response_reorder = response_bytes[::-1] # ordenar los bytes big-endian
     response_hex =  response_reorder.hex()
@@ -109,17 +73,61 @@ if user_input.upper() == "C":
     response_bin = bin(int(response_reorder.hex(), 16))[2:].zfill(160) # convertir a binario
     # print("Respuesta del MIPS:",  response_reorder.hex())
     print("########################################", )
+
+# Asociar la función de manejo de señal al evento de Ctrl+C
+signal.signal(signal.SIGINT, signal_handler)
+
+#PROGRAMA
+# Configuración del puerto serial
+uart_port = "COM8"  #TODO: Reemplaza esto con el puerto UART correspondiente en tu sistema
+baud_rate = 9600  # Velocidad de transmisión en baudios
+
+# Abrir la conexión del puerto serial
+ser = serial.Serial(uart_port, baud_rate)
+
+# Paso 1: Cargar instrucciones
+print("Para empezar, presione 'L' para cargar las instrucciones.")
+user_input = input("Ingrese su opción: ")
+
+if user_input.upper() == "L":
+    # Enviar comando de carga de instrucciones (0x01)
+    ser.write(b'\x01')
+
+    # Leer el archivo de instrucciones
+    filename = "intruction.txt"  # Reemplaza esto con el nombre de tu archivo de instrucciones
+    with open(filename, 'r') as file:
+        for line in file:
+            # Obtener la instrucción de la línea y convertirla a una cadena de bytes de 4 bytes (32 bits)
+            instruction = bytes.fromhex(line.strip())
+            instruction_bigendian = instruction[::-1]
+            instruction_bytes = instruction_bigendian
+            
+            # Enviar la instrucción por UART
+            ser.write(instruction_bytes)
+
+# Paso 2: Modo continuo o paso a paso
+print("Presione 'C' para modo continuo o 'S' para modo step-by-step.")
+user_input = input("Ingrese su opción: ")
+
+if user_input.upper() == "C":
+    # Enviar comando de modo continuo (0x02)
+    ser.write(b'\x02')
+    print("Modo continuo activado.")
+    imprimir_datos()
     
     print("Presione 'E' para salir.")
+    print("Presione 'U' para ver actualizar.")
     
     # Esperar hasta que se presione 'E' para salir
     while True:
         user_input = input("Ingrese su opción: ")
         
         if user_input.upper() == "E":
-            # Enviar comando de salida (0x05)
-            # ser.write(b'\x05')
             break
+        if user_input.upper() == "U":
+            # Enviar comando de ejecutar próxima instrucción (0x04)
+            ser.write(b'\x04')
+            imprimir_datos()
             
 elif user_input.upper() == "S":
     # Enviar comando de modo paso a paso (0x03)
@@ -136,56 +144,9 @@ elif user_input.upper() == "S":
             ser.write(b'\x04')
             
             # Esperar y leer la respuesta del MIPS
-            response_bytes = ser.read(132) #TODO: cambiar cuando agregas cosas para leer
-            response_reorder = response_bytes[::-1] # ordenar los bytes big-endian
-            response_hex =  response_reorder.hex()
-            print("#################################################", )
-            print("DATA A (ID): ", response_hex[0:8])
-            print("DATA B (ID): ", response_hex[8:16])
-            # print("ALU Result (MEM): ", response_hex[16:24])
-            print("WB data (WB): ", response_hex[24:32])
-            # print("MEM to REG: ", response_hex[32:40])
-            # print("Selector ADDR WRITEBACK(CONTROL)(IDEX): ",response_hex[40:48] )
-            print("FLAGS HAY WB: ",response_hex[48:56] )
-            # print("Addr WB (mux):  ",response_hex[56:64] )
-            # print("Addr WB (1er latch):  ",response_hex[64:72] )
-            print("Addr WB (en MEM reg):  ",response_hex[72:80] )
-            pc_mas_4_id = str(response_hex[80:88])
-            pc_id = int(pc_mas_4_id, 16) - 4
-            print("PC ID:  ",pc_id)
-            print("INSTRUCCION (ID):  ",response_hex[88:96] )
-            print("A==B? (ID):  ",response_hex[96:104] )
-            print("Selector Next PC(control unit):  ",response_hex[104:112] )
-            print("PC NEXT (desde ID  hasta IF sin latch):  ",response_hex[112:120] )
-            print("is_halt (Risk unit):  ",response_hex[120:128] )
-            print("ARITHMETIK RISK (Risk unit):  ",response_hex[128:136] )
-            print("load_flag (Risk unit):  ",response_hex[136:144] )
-            print("NO load_flag (Risk unit):  ",response_hex[144:152] )
-
-            print("INSTRUCTION IF:  ",response_hex[152:160] )
-            pc_mas_4_if = str(response_hex[160:168])
-            pc_if = int(pc_mas_4_if, 16) - 4
-            print("PC IF:  ", pc_if)
-            print("FLAG START PROGRAM:  ",response_hex[168:176] )
-            # print("OPCODE (EX): ", response_hex[176:184])
-            # print("OPCODE (ID): ", response_hex[184:192])
-            # print("INPUT DATA MEM: ", response_hex[192:200])
-            print("GPR3: ", response_hex[200:208])
-            print("GPR2: ", response_hex[208:216])
-            print("GPR1: ", response_hex[216:224])
-            print("GPR0: ", response_hex[224:232])
-            print("MEM(3): ", response_hex[232:240])
-            print("MEM(2): ", response_hex[240:248])
-            print("MEM(1): ", response_hex[248:256])
-            print("MEM(0): ", response_hex[256:264])
-            print("________________________________________" )
-            response_bin = bin(int(response_reorder.hex(), 16))[2:].zfill(160) # convertir a binario
-            # print("Respuesta del MIPS:",  response_reorder.hex())
-            print("########################################", )
+            imprimir_datos()
             
         elif user_input.upper() == "E":
-            # Enviar comando de salida (0x05)
-            # ser.write(b'\x05')
             break
 
 # Cerrar la conexión del puerto serial
