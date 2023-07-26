@@ -229,7 +229,7 @@ always @ (*) begin
         ST_CONTINUE:
         begin
             if (i_is_halt_flag == 1) begin
-                state_next = ST_FILL_BUFFER_TO_USER;
+                state_next = ST_END;
                 flag_start_program_next=0;
                 enable_pc_next =0;
             end
