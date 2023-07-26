@@ -52,9 +52,9 @@ module REG_MEMORY
    //ESCRITURA
    always@(posedge i_clock) begin  // First write.
          if (i_reset) begin
-            buffer[1]=2;
-            buffer[2]=3;
-            buffer[3]=4;
+            // buffer[1]=2;
+            // buffer[2]=3;
+            // buffer[3]=4;
          end
       else  if (i_wr_flag ) begin  // Write in the first cicle-time.
          //R0, always is 0

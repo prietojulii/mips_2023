@@ -49,7 +49,7 @@ reg [DATA_SIZE-1:0] dataMEM;
 
 always@(negedge i_clock) begin // first write
    if (i_reset) begin
-      dataMEM = 0;
+      // dataMEM = 0;
     end
     else  if (i_ctrl_mem_rd_or_wr == WRITE) begin 
        buffer[i_addr_mem] =  i_data_mem;  
