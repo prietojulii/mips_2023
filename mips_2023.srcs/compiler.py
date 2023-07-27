@@ -130,9 +130,11 @@ for item in programa:
 			initial.write_file(initial.bin_to_hex(inst_ass), file)
 
 	if (inst[0] in Inst_HALT):
-		op = initial.dec_to_bin(Inst_HALT[inst[0]], 6)
-		inm = "0000000000000000"
-		inst_ass = initial.assemble_instructionI(op, "00000", "00000", inm)
+		# op = initial.dec_to_bin(Inst_HALT[inst[0]], 6)
+		
+		# inm = "0000000000000000"
+		# inst_ass = initial.assemble_instructionI(op, "00000", "00000", inm)
+		inst_ass="00000000000000000000000000000000"
 		initial.write_file(initial.bin_to_hex(inst_ass), file)
 
 
