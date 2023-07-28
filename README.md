@@ -25,6 +25,7 @@
     ```
 
 # Ejecución
+- Revise las variables de configuración en cada módulo y setee los valores que necesite para obtener los tamaños de buffer adecuados a su programa.
 - Cargue el programa que desee en lenguaje ensamblador en el archivo [assembler1.txt](./MIPS_2023.srcs/compiler.py) y luego ejecute el compilador:
     ```bash
     python compiler.py
